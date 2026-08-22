@@ -8,8 +8,13 @@ disciples made in Los Angeles who look more and more like Jesus, held in light o
 ## Features
 
 - Scripture banner (Proverbs 29:18) at the top
+- **The Center of It All** — remaining in Jesus (John 15), from which everything flows
 - Editable vision statement — click any text to edit it in place
-- A list of **pursuits** — the things being run after — that you can add, edit, and remove
+- Tiered pursuits: **Central** (primary focus) and **Ancillary** (secondary), with
+  one-click moves between tiers
+- **My Gifts** — name how God has wired you, so pursuits can be traced back to gifting
+- **Decision Filter** — write out a decision and test it against remaining in Jesus,
+  each central pursuit, and your gifts; get an alignment read-out
 - Everything saves automatically to your browser (localStorage); no server, no build step
 
 ## Running it

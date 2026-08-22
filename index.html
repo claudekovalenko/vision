@@ -15,6 +15,7 @@
     --gold-soft: rgba(201, 162, 94, 0.15);
     --line: #2a2e38;
     --accent: #7fa8c9;
+    --green: #8fbf8f;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -51,11 +52,6 @@
     text-transform: uppercase;
   }
 
-  /* Vision statement */
-  .vision {
-    margin-top: 3rem;
-    text-align: center;
-  }
   .label {
     font-size: 0.75rem;
     letter-spacing: 0.25em;
@@ -63,35 +59,50 @@
     color: var(--muted);
     font-family: 'Helvetica Neue', Arial, sans-serif;
   }
-  .vision h1 {
-    margin-top: 0.75rem;
-    font-size: 1.9rem;
-    font-weight: normal;
-    line-height: 1.4;
-  }
-  .vision h1[contenteditable]:focus,
   [contenteditable]:focus {
     outline: 1px dashed var(--accent);
     outline-offset: 6px;
     border-radius: 4px;
   }
-  .vision .eternity {
-    margin-top: 1rem;
-    color: var(--muted);
-    font-style: italic;
-  }
 
-  /* Pursuits */
-  .pursuits { margin-top: 3.5rem; }
-  .pursuits-head {
+  /* Abide — the deepest center */
+  .abide {
+    margin-top: 3rem;
+    text-align: center;
+    padding: 2rem 1.5rem;
+    border: 1px solid var(--gold);
+    border-radius: 6px;
+    background: var(--gold-soft);
+  }
+  .abide h1 {
+    margin-top: 0.75rem;
+    font-size: 1.7rem;
+    font-weight: normal;
+    line-height: 1.4;
+  }
+  .abide .verse { margin-top: 0.75rem; color: var(--muted); font-style: italic; font-size: 0.95rem; }
+
+  /* Vision statement */
+  .vision { margin-top: 2.5rem; text-align: center; }
+  .vision h2 {
+    margin-top: 0.75rem;
+    font-size: 1.5rem;
+    font-weight: normal;
+    line-height: 1.45;
+  }
+  .vision .eternity { margin-top: 1rem; color: var(--muted); font-style: italic; }
+
+  /* Tier sections */
+  section.tier { margin-top: 3.25rem; }
+  .tier-head {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
     border-bottom: 1px solid var(--line);
     padding-bottom: 0.75rem;
   }
-  .pursuits-head p { color: var(--muted); font-size: 0.9rem; font-style: italic; }
-  ul#pursuitList { list-style: none; margin-top: 1.25rem; display: grid; gap: 0.85rem; }
+  .tier-head p { color: var(--muted); font-size: 0.9rem; font-style: italic; }
+  ul.plist { list-style: none; margin-top: 1.25rem; display: grid; gap: 0.85rem; }
   .pursuit {
     background: var(--panel);
     border: 1px solid var(--line);
@@ -102,6 +113,7 @@
     gap: 0.9rem;
     align-items: flex-start;
   }
+  .pursuit.secondary { border-left-color: var(--accent); opacity: 0.92; }
   .pursuit .num {
     color: var(--gold);
     font-size: 0.85rem;
@@ -109,16 +121,19 @@
     padding-top: 0.2rem;
     min-width: 1.4rem;
   }
+  .pursuit.secondary .num { color: var(--accent); }
   .pursuit .body { flex: 1; }
   .pursuit .title { font-size: 1.05rem; }
   .pursuit .note { color: var(--muted); font-size: 0.9rem; margin-top: 0.25rem; }
-  .pursuit button.del {
+  .pursuit .ctrls { display: flex; flex-direction: column; gap: 0.1rem; }
+  .pursuit .ctrls button {
     background: none; border: none; color: var(--muted);
-    cursor: pointer; font-size: 1rem; padding: 0.2rem 0.4rem;
-    opacity: 0.4; transition: opacity 0.15s;
+    cursor: pointer; font-size: 0.9rem; padding: 0.15rem 0.35rem;
+    opacity: 0.35; transition: opacity 0.15s;
   }
-  .pursuit:hover button.del { opacity: 1; }
-  .pursuit button.del:hover { color: #c97f7f; }
+  .pursuit:hover .ctrls button { opacity: 1; }
+  .pursuit .ctrls button.del:hover { color: #c97f7f; }
+  .pursuit .ctrls button.move:hover { color: var(--gold); }
 
   .add-row { margin-top: 1.25rem; display: flex; gap: 0.6rem; }
   .add-row input {
@@ -144,6 +159,57 @@
   }
   .add-row button:hover { background: var(--gold); color: var(--bg); }
 
+  /* Gifts */
+  .gifts-list { margin-top: 1.25rem; display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .gift {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 0.35rem 0.9rem;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .gift span[contenteditable] { min-width: 2ch; }
+  .gift button {
+    background: none; border: none; color: var(--muted);
+    cursor: pointer; font-size: 0.8rem; opacity: 0.4;
+  }
+  .gift:hover button { opacity: 1; }
+  .gift button:hover { color: #c97f7f; }
+
+  /* Decision filter */
+  .decision-box {
+    margin-top: 1.25rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 1.25rem;
+  }
+  .decision-box textarea {
+    width: 100%;
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    color: var(--ink);
+    padding: 0.7rem 0.9rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+    resize: vertical;
+    min-height: 3.2rem;
+  }
+  .decision-box textarea:focus { outline: 1px solid var(--accent); }
+  .decision-qs { margin-top: 1rem; display: grid; gap: 0.55rem; }
+  .decision-qs label {
+    display: flex; gap: 0.6rem; align-items: flex-start;
+    font-size: 0.95rem; cursor: pointer;
+  }
+  .decision-qs input { margin-top: 0.35rem; accent-color: var(--gold); }
+  .verdict { margin-top: 1.1rem; font-style: italic; font-size: 0.95rem; color: var(--muted); }
+  .verdict.strong { color: var(--green); }
+  .verdict.weak { color: #c9a25e; }
+
   .hint {
     margin-top: 2.5rem;
     text-align: center;
@@ -155,7 +221,8 @@
 
   @media (max-width: 480px) {
     .scripture blockquote { font-size: 1.25rem; }
-    .vision h1 { font-size: 1.4rem; }
+    .abide h1 { font-size: 1.3rem; }
+    .vision h2 { font-size: 1.25rem; }
   }
 </style>
 </head>
@@ -167,63 +234,127 @@
     <cite>Proverbs 29:18</cite>
   </header>
 
+  <section class="abide">
+    <span class="label">The Center of It All</span>
+    <h1 id="abideText" contenteditable="true" spellcheck="false">Remain in Jesus. Everything else flows from abiding in Him.</h1>
+    <p class="verse">&ldquo;Remain in me, as I also remain in you&hellip; apart from me you can do nothing.&rdquo; &mdash; John 15:4&ndash;5</p>
+  </section>
+
   <section class="vision">
     <span class="label">The Vision I Am Running After</span>
-    <h1 id="visionText" contenteditable="true" spellcheck="false">To see disciples made in Los Angeles who look more and more like Jesus &mdash; lives shaped in cycles of following Him, and multiplying into others.</h1>
+    <h2 id="visionText" contenteditable="true" spellcheck="false">To see disciples made in Los Angeles who look more and more like Jesus &mdash; raised up as leaders and sent out to the ends of the earth.</h2>
     <p class="eternity" id="eternityText" contenteditable="true" spellcheck="false">Held in light of eternity.</p>
   </section>
 
-  <section class="pursuits">
-    <div class="pursuits-head">
-      <span class="label">What God Is Putting in Front of Me</span>
-      <p>the things I am pursuing</p>
+  <section class="tier">
+    <div class="tier-head">
+      <span class="label">Central &mdash; Primary Focus</span>
+      <p>what the Lord has made central</p>
     </div>
-    <ul id="pursuitList"></ul>
+    <ul class="plist" id="centralList"></ul>
     <div class="add-row">
-      <input id="newPursuit" type="text" placeholder="Add a pursuit God is putting before you&hellip;" />
-      <button id="addBtn">Add</button>
+      <input id="newCentral" type="text" placeholder="Add a central pursuit&hellip;" />
+      <button data-add="central">Add</button>
     </div>
   </section>
 
-  <p class="hint">Click any text to edit it &mdash; everything saves automatically in this browser.</p>
+  <section class="tier">
+    <div class="tier-head">
+      <span class="label">Ancillary &mdash; Secondary</span>
+      <p>good, but not the center</p>
+    </div>
+    <ul class="plist" id="secondaryList"></ul>
+    <div class="add-row">
+      <input id="newSecondary" type="text" placeholder="Add a secondary pursuit&hellip;" />
+      <button data-add="secondary">Add</button>
+    </div>
+  </section>
+
+  <section class="tier">
+    <div class="tier-head">
+      <span class="label">My Gifts</span>
+      <p>how God has wired me toward this</p>
+    </div>
+    <div class="gifts-list" id="giftsList"></div>
+    <div class="add-row">
+      <input id="newGift" type="text" placeholder="Add a gift&hellip;" />
+      <button id="addGiftBtn">Add</button>
+    </div>
+  </section>
+
+  <section class="tier">
+    <div class="tier-head">
+      <span class="label">Decision Filter</span>
+      <p>test a decision against the vision</p>
+    </div>
+    <div class="decision-box">
+      <textarea id="decisionText" placeholder="What are you deciding? (an opportunity, a commitment, a role&hellip;)"></textarea>
+      <div class="decision-qs" id="decisionQs"></div>
+      <p class="verdict" id="verdict"></p>
+    </div>
+  </section>
+
+  <p class="hint">Click any text to edit it &mdash; everything saves automatically in this browser. Use &uarr;/&darr; on a pursuit to move it between Central and Secondary.</p>
 
 </div>
 
 <script>
 (function () {
-  var KEY = 'vision-app-v1';
+  var KEY = 'vision-app-v2';
+  var OLD_KEY = 'vision-app-v1';
+
   var defaults = {
+    abide: null,
     vision: null,
     eternity: null,
-    pursuits: [
-      { title: 'Make disciples in LA who look more and more like Jesus', note: 'Cycles of discipleship — people following Jesus who then lead others to follow Him.' },
-      { title: 'Live and decide in light of eternity', note: 'Consolidate what matters by asking what will still matter forever.' },
-      { title: 'Keep commitments before God', note: 'Eventually tie this together with the commitment app.' }
-    ]
+    central: [
+      { title: 'Reaching Gen Z on university and college campuses', note: 'The Lord has given a focus of centrality here — this is primary.' },
+      { title: 'Raising up leaders who look more and more like Jesus', note: 'Leadership development as a primary lens — disciples who make disciples.' },
+      { title: 'Sending them out to the ends of the earth', note: 'California is not the end goal — raised up here, sent from here.' }
+    ],
+    secondary: [
+      { title: 'Tying vision to commitments', note: 'Eventually connect this with the commitment app.' }
+    ],
+    gifts: ['Leadership', 'Vision-casting', 'Discipleship'],
+    decision: { text: '', checks: {} }
   };
 
   var state;
-  try { state = JSON.parse(localStorage.getItem(KEY)) || defaults; }
-  catch (e) { state = defaults; }
-
-  var listEl = document.getElementById('pursuitList');
-  var visionEl = document.getElementById('visionText');
-  var eternityEl = document.getElementById('eternityText');
-
-  if (state.vision) visionEl.textContent = state.vision;
-  if (state.eternity) eternityEl.textContent = state.eternity;
+  try {
+    state = JSON.parse(localStorage.getItem(KEY));
+    if (!state) {
+      // migrate v1 pursuits into central tier
+      var old = JSON.parse(localStorage.getItem(OLD_KEY));
+      state = JSON.parse(JSON.stringify(defaults));
+      if (old) {
+        if (old.vision) state.vision = old.vision;
+        if (old.eternity) state.eternity = old.eternity;
+        if (old.pursuits && old.pursuits.length) state.central = old.pursuits;
+      }
+    }
+  } catch (e) { state = JSON.parse(JSON.stringify(defaults)); }
+  state.gifts = state.gifts || [];
+  state.decision = state.decision || { text: '', checks: {} };
 
   function save() {
-    state.vision = visionEl.textContent;
-    state.eternity = eternityEl.textContent;
     try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
   }
 
-  function render() {
+  function bindText(id, field) {
+    var el = document.getElementById(id);
+    if (state[field]) el.textContent = state[field];
+    el.addEventListener('input', function () { state[field] = el.textContent; save(); });
+  }
+  bindText('abideText', 'abide');
+  bindText('visionText', 'vision');
+  bindText('eternityText', 'eternity');
+
+  function renderTier(tier, listId) {
+    var listEl = document.getElementById(listId);
     listEl.innerHTML = '';
-    state.pursuits.forEach(function (p, i) {
+    state[tier].forEach(function (p, i) {
       var li = document.createElement('li');
-      li.className = 'pursuit';
+      li.className = 'pursuit' + (tier === 'secondary' ? ' secondary' : '');
 
       var num = document.createElement('span');
       num.className = 'num';
@@ -237,7 +368,7 @@
       title.contentEditable = 'true';
       title.spellcheck = false;
       title.textContent = p.title;
-      title.addEventListener('input', function () { p.title = title.textContent; save(); });
+      title.addEventListener('input', function () { p.title = title.textContent; save(); renderDecision(); });
 
       var note = document.createElement('div');
       note.className = 'note';
@@ -245,46 +376,165 @@
       note.spellcheck = false;
       note.textContent = p.note || '';
       note.addEventListener('input', function () { p.note = note.textContent; save(); });
-      note.addEventListener('focus', function () {
-        if (!note.textContent) note.textContent = '';
-      });
 
       body.appendChild(title);
       body.appendChild(note);
+
+      var ctrls = document.createElement('div');
+      ctrls.className = 'ctrls';
+
+      var move = document.createElement('button');
+      move.className = 'move';
+      var toTier = tier === 'central' ? 'secondary' : 'central';
+      move.title = tier === 'central' ? 'Move to Secondary' : 'Move to Central';
+      move.textContent = tier === 'central' ? '↓' : '↑';
+      move.addEventListener('click', function () {
+        state[tier].splice(i, 1);
+        state[toTier].push(p);
+        save();
+        renderAll();
+      });
 
       var del = document.createElement('button');
       del.className = 'del';
       del.title = 'Remove';
       del.textContent = '✕';
       del.addEventListener('click', function () {
-        state.pursuits.splice(i, 1);
+        state[tier].splice(i, 1);
         save();
-        render();
+        renderAll();
       });
+
+      ctrls.appendChild(move);
+      ctrls.appendChild(del);
 
       li.appendChild(num);
       li.appendChild(body);
-      li.appendChild(del);
+      li.appendChild(ctrls);
       listEl.appendChild(li);
     });
   }
 
-  var input = document.getElementById('newPursuit');
-  function add() {
+  function renderGifts() {
+    var el = document.getElementById('giftsList');
+    el.innerHTML = '';
+    state.gifts.forEach(function (g, i) {
+      var chip = document.createElement('div');
+      chip.className = 'gift';
+      var span = document.createElement('span');
+      span.contentEditable = 'true';
+      span.spellcheck = false;
+      span.textContent = g;
+      span.addEventListener('input', function () { state.gifts[i] = span.textContent; save(); });
+      var del = document.createElement('button');
+      del.textContent = '✕';
+      del.title = 'Remove';
+      del.addEventListener('click', function () {
+        state.gifts.splice(i, 1);
+        save();
+        renderGifts();
+      });
+      chip.appendChild(span);
+      chip.appendChild(del);
+      el.appendChild(chip);
+    });
+  }
+
+  function renderDecision() {
+    var qs = document.getElementById('decisionQs');
+    qs.innerHTML = '';
+    var questions = [{ key: '_abide', text: 'Does this flow from — and protect — remaining in Jesus?' }]
+      .concat(state.central.map(function (p, i) {
+        return { key: 'c' + i, text: 'Does this advance: ' + p.title + '?' };
+      }))
+      .concat([{ key: '_gifts', text: 'Does this fit the gifts God has given me?' }]);
+
+    questions.forEach(function (q) {
+      var label = document.createElement('label');
+      var cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.checked = !!state.decision.checks[q.key];
+      cb.addEventListener('change', function () {
+        state.decision.checks[q.key] = cb.checked;
+        save();
+        updateVerdict(questions);
+      });
+      var span = document.createElement('span');
+      span.textContent = q.text;
+      label.appendChild(cb);
+      label.appendChild(span);
+      qs.appendChild(label);
+    });
+    updateVerdict(questions);
+  }
+
+  function updateVerdict(questions) {
+    var v = document.getElementById('verdict');
+    var total = questions.length;
+    var yes = questions.filter(function (q) { return state.decision.checks[q.key]; }).length;
+    if (!document.getElementById('decisionText').value.trim() && yes === 0) {
+      v.textContent = '';
+      v.className = 'verdict';
+      return;
+    }
+    if (yes >= Math.ceil(total * 0.75)) {
+      v.textContent = 'This aligns strongly with what is central (' + yes + ' of ' + total + '). It may be a faithful yes.';
+      v.className = 'verdict strong';
+    } else if (yes >= Math.ceil(total * 0.4)) {
+      v.textContent = 'Partial alignment (' + yes + ' of ' + total + '). Good — but is it central, or ancillary?';
+      v.className = 'verdict weak';
+    } else {
+      v.textContent = 'Low alignment (' + yes + ' of ' + total + '). A good opportunity is not the same as the vision.';
+      v.className = 'verdict';
+    }
+  }
+
+  var decisionInput = document.getElementById('decisionText');
+  decisionInput.value = state.decision.text || '';
+  decisionInput.addEventListener('input', function () {
+    state.decision.text = decisionInput.value;
+    save();
+  });
+
+  function addPursuit(tier, inputId) {
+    var input = document.getElementById(inputId);
     var v = input.value.trim();
     if (!v) return;
-    state.pursuits.push({ title: v, note: '' });
+    state[tier].push({ title: v, note: '' });
     input.value = '';
     save();
-    render();
+    renderAll();
   }
-  document.getElementById('addBtn').addEventListener('click', add);
-  input.addEventListener('keydown', function (e) { if (e.key === 'Enter') add(); });
+  document.querySelectorAll('button[data-add]').forEach(function (btn) {
+    var tier = btn.getAttribute('data-add');
+    var inputId = tier === 'central' ? 'newCentral' : 'newSecondary';
+    btn.addEventListener('click', function () { addPursuit(tier, inputId); });
+    document.getElementById(inputId).addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') addPursuit(tier, inputId);
+    });
+  });
 
-  visionEl.addEventListener('input', save);
-  eternityEl.addEventListener('input', save);
+  function addGift() {
+    var input = document.getElementById('newGift');
+    var v = input.value.trim();
+    if (!v) return;
+    state.gifts.push(v);
+    input.value = '';
+    save();
+    renderGifts();
+  }
+  document.getElementById('addGiftBtn').addEventListener('click', addGift);
+  document.getElementById('newGift').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') addGift();
+  });
 
-  render();
+  function renderAll() {
+    renderTier('central', 'centralList');
+    renderTier('secondary', 'secondaryList');
+    renderGifts();
+    renderDecision();
+  }
+  renderAll();
 })();
 </script>
 </body>
