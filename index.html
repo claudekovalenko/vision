@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vision</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --panel: #181b22;
+    --panel-2: #1e222b;
+    --ink: #e8e6e1;
+    --muted: #9a978f;
+    --gold: #c9a25e;
+    --gold-soft: rgba(201, 162, 94, 0.15);
+    --line: #2a2e38;
+    --accent: #7fa8c9;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: Georgia, 'Times New Roman', serif;
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 3rem 1.25rem 5rem; }
+
+  /* Scripture banner */
+  .scripture {
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--gold);
+    background: var(--panel);
+    border-radius: 6px;
+  }
+  .scripture blockquote {
+    font-size: 1.6rem;
+    font-style: italic;
+    color: var(--gold);
+    letter-spacing: 0.01em;
+  }
+  .scripture cite {
+    display: block;
+    margin-top: 0.75rem;
+    font-style: normal;
+    font-size: 0.9rem;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* Vision statement */
+  .vision {
+    margin-top: 3rem;
+    text-align: center;
+  }
+  .label {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .vision h1 {
+    margin-top: 0.75rem;
+    font-size: 1.9rem;
+    font-weight: normal;
+    line-height: 1.4;
+  }
+  .vision h1[contenteditable]:focus,
+  [contenteditable]:focus {
+    outline: 1px dashed var(--accent);
+    outline-offset: 6px;
+    border-radius: 4px;
+  }
+  .vision .eternity {
+    margin-top: 1rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* Pursuits */
+  .pursuits { margin-top: 3.5rem; }
+  .pursuits-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 0.75rem;
+  }
+  .pursuits-head p { color: var(--muted); font-size: 0.9rem; font-style: italic; }
+  ul#pursuitList { list-style: none; margin-top: 1.25rem; display: grid; gap: 0.85rem; }
+  .pursuit {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--gold);
+    border-radius: 6px;
+    padding: 1rem 1.1rem;
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+  }
+  .pursuit .num {
+    color: var(--gold);
+    font-size: 0.85rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    padding-top: 0.2rem;
+    min-width: 1.4rem;
+  }
+  .pursuit .body { flex: 1; }
+  .pursuit .title { font-size: 1.05rem; }
+  .pursuit .note { color: var(--muted); font-size: 0.9rem; margin-top: 0.25rem; }
+  .pursuit button.del {
+    background: none; border: none; color: var(--muted);
+    cursor: pointer; font-size: 1rem; padding: 0.2rem 0.4rem;
+    opacity: 0.4; transition: opacity 0.15s;
+  }
+  .pursuit:hover button.del { opacity: 1; }
+  .pursuit button.del:hover { color: #c97f7f; }
+
+  .add-row { margin-top: 1.25rem; display: flex; gap: 0.6rem; }
+  .add-row input {
+    flex: 1;
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    color: var(--ink);
+    padding: 0.7rem 0.9rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+  }
+  .add-row input:focus { outline: 1px solid var(--accent); }
+  .add-row button {
+    background: var(--gold-soft);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    border-radius: 6px;
+    padding: 0 1.2rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+  .add-row button:hover { background: var(--gold); color: var(--bg); }
+
+  .hint {
+    margin-top: 2.5rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 480px) {
+    .scripture blockquote { font-size: 1.25rem; }
+    .vision h1 { font-size: 1.4rem; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="scripture">
+    <blockquote>&ldquo;Where there is no vision, the people perish.&rdquo;</blockquote>
+    <cite>Proverbs 29:18</cite>
+  </header>
+
+  <section class="vision">
+    <span class="label">The Vision I Am Running After</span>
+    <h1 id="visionText" contenteditable="true" spellcheck="false">To see disciples made in Los Angeles who look more and more like Jesus &mdash; lives shaped in cycles of following Him, and multiplying into others.</h1>
+    <p class="eternity" id="eternityText" contenteditable="true" spellcheck="false">Held in light of eternity.</p>
+  </section>
+
+  <section class="pursuits">
+    <div class="pursuits-head">
+      <span class="label">What God Is Putting in Front of Me</span>
+      <p>the things I am pursuing</p>
+    </div>
+    <ul id="pursuitList"></ul>
+    <div class="add-row">
+      <input id="newPursuit" type="text" placeholder="Add a pursuit God is putting before you&hellip;" />
+      <button id="addBtn">Add</button>
+    </div>
+  </section>
+
+  <p class="hint">Click any text to edit it &mdash; everything saves automatically in this browser.</p>
+
+</div>
+
+<script>
+(function () {
+  var KEY = 'vision-app-v1';
+  var defaults = {
+    vision: null,
+    eternity: null,
+    pursuits: [
+      { title: 'Make disciples in LA who look more and more like Jesus', note: 'Cycles of discipleship — people following Jesus who then lead others to follow Him.' },
+      { title: 'Live and decide in light of eternity', note: 'Consolidate what matters by asking what will still matter forever.' },
+      { title: 'Keep commitments before God', note: 'Eventually tie this together with the commitment app.' }
+    ]
+  };
+
+  var state;
+  try { state = JSON.parse(localStorage.getItem(KEY)) || defaults; }
+  catch (e) { state = defaults; }
+
+  var listEl = document.getElementById('pursuitList');
+  var visionEl = document.getElementById('visionText');
+  var eternityEl = document.getElementById('eternityText');
+
+  if (state.vision) visionEl.textContent = state.vision;
+  if (state.eternity) eternityEl.textContent = state.eternity;
+
+  function save() {
+    state.vision = visionEl.textContent;
+    state.eternity = eternityEl.textContent;
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  function render() {
+    listEl.innerHTML = '';
+    state.pursuits.forEach(function (p, i) {
+      var li = document.createElement('li');
+      li.className = 'pursuit';
+
+      var num = document.createElement('span');
+      num.className = 'num';
+      num.textContent = String(i + 1).padStart(2, '0');
+
+      var body = document.createElement('div');
+      body.className = 'body';
+
+      var title = document.createElement('div');
+      title.className = 'title';
+      title.contentEditable = 'true';
+      title.spellcheck = false;
+      title.textContent = p.title;
+      title.addEventListener('input', function () { p.title = title.textContent; save(); });
+
+      var note = document.createElement('div');
+      note.className = 'note';
+      note.contentEditable = 'true';
+      note.spellcheck = false;
+      note.textContent = p.note || '';
+      note.addEventListener('input', function () { p.note = note.textContent; save(); });
+      note.addEventListener('focus', function () {
+        if (!note.textContent) note.textContent = '';
+      });
+
+      body.appendChild(title);
+      body.appendChild(note);
+
+      var del = document.createElement('button');
+      del.className = 'del';
+      del.title = 'Remove';
+      del.textContent = '✕';
+      del.addEventListener('click', function () {
+        state.pursuits.splice(i, 1);
+        save();
+        render();
+      });
+
+      li.appendChild(num);
+      li.appendChild(body);
+      li.appendChild(del);
+      listEl.appendChild(li);
+    });
+  }
+
+  var input = document.getElementById('newPursuit');
+  function add() {
+    var v = input.value.trim();
+    if (!v) return;
+    state.pursuits.push({ title: v, note: '' });
+    input.value = '';
+    save();
+    render();
+  }
+  document.getElementById('addBtn').addEventListener('click', add);
+  input.addEventListener('keydown', function (e) { if (e.key === 'Enter') add(); });
+
+  visionEl.addEventListener('input', save);
+  eternityEl.addEventListener('input', save);
+
+  render();
+})();
+</script>
+</body>
+</html>
