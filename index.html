@@ -114,6 +114,11 @@
     align-items: flex-start;
   }
   .pursuit.secondary { border-left-color: var(--accent); opacity: 0.92; }
+  .pursuit.vehicle { border-left-color: var(--green); }
+  .pursuit.vehicle .num { color: var(--green); }
+  .pursuit.dream { border-left-style: dashed; border-left-color: var(--muted); opacity: 0.9; }
+  .pursuit.dream .num { color: var(--muted); }
+  .pursuit.dream .title { font-style: italic; }
   .pursuit .num {
     color: var(--gold);
     font-size: 0.85rem;
@@ -272,6 +277,30 @@
 
   <section class="tier">
     <div class="tier-head">
+      <span class="label">Vehicles</span>
+      <p>the means I&rsquo;ll set out through</p>
+    </div>
+    <ul class="plist" id="vehiclesList"></ul>
+    <div class="add-row">
+      <input id="newVehicle" type="text" placeholder="Add a vehicle &mdash; a structure, platform, or means&hellip;" />
+      <button data-add="vehicles">Add</button>
+    </div>
+  </section>
+
+  <section class="tier">
+    <div class="tier-head">
+      <span class="label">Dreams Held Lightly</span>
+      <p>senses and impressions &mdash; with open hands</p>
+    </div>
+    <ul class="plist" id="dreamsList"></ul>
+    <div class="add-row">
+      <input id="newDream" type="text" placeholder="Add a dream or sense to hold lightly&hellip;" />
+      <button data-add="dreams">Add</button>
+    </div>
+  </section>
+
+  <section class="tier">
+    <div class="tier-head">
       <span class="label">My Gifts</span>
       <p>how God has wired me toward this</p>
     </div>
@@ -315,6 +344,15 @@
     secondary: [
       { title: 'Tying vision to commitments', note: 'Eventually connect this with the commitment app.' }
     ],
+    vehicles: [
+      { title: 'Campus ministry presence', note: 'A consistent, embedded presence where Gen Z already is.' },
+      { title: 'Discipleship cycles', note: 'A repeatable rhythm: reached, raised up, releasing others.' },
+      { title: 'The commitment app', note: 'A tool for keeping commitments visible and accountable.' }
+    ],
+    dreams: [
+      { title: 'Married by thirty-three', note: 'Someone alongside this vision — a dream to carry lightly, with open hands.' },
+      { title: 'Settled into the right org by 2026', note: 'A clear sense of place and role to work the vision from.' }
+    ],
     gifts: ['Leadership', 'Vision-casting', 'Discipleship'],
     decision: { text: '', checks: {} }
   };
@@ -334,6 +372,8 @@
     }
   } catch (e) { state = JSON.parse(JSON.stringify(defaults)); }
   state.gifts = state.gifts || [];
+  state.vehicles = state.vehicles || JSON.parse(JSON.stringify(defaults.vehicles));
+  state.dreams = state.dreams || JSON.parse(JSON.stringify(defaults.dreams));
   state.decision = state.decision || { text: '', checks: {} };
 
   function save() {
@@ -354,7 +394,8 @@
     listEl.innerHTML = '';
     state[tier].forEach(function (p, i) {
       var li = document.createElement('li');
-      li.className = 'pursuit' + (tier === 'secondary' ? ' secondary' : '');
+      var tierClass = { secondary: ' secondary', vehicles: ' vehicle', dreams: ' dream' };
+      li.className = 'pursuit' + (tierClass[tier] || '');
 
       var num = document.createElement('span');
       num.className = 'num';
@@ -383,17 +424,20 @@
       var ctrls = document.createElement('div');
       ctrls.className = 'ctrls';
 
-      var move = document.createElement('button');
-      move.className = 'move';
-      var toTier = tier === 'central' ? 'secondary' : 'central';
-      move.title = tier === 'central' ? 'Move to Secondary' : 'Move to Central';
-      move.textContent = tier === 'central' ? '↓' : '↑';
-      move.addEventListener('click', function () {
-        state[tier].splice(i, 1);
-        state[toTier].push(p);
-        save();
-        renderAll();
-      });
+      if (tier === 'central' || tier === 'secondary') {
+        var move = document.createElement('button');
+        move.className = 'move';
+        var toTier = tier === 'central' ? 'secondary' : 'central';
+        move.title = tier === 'central' ? 'Move to Secondary' : 'Move to Central';
+        move.textContent = tier === 'central' ? '↓' : '↑';
+        move.addEventListener('click', function () {
+          state[tier].splice(i, 1);
+          state[toTier].push(p);
+          save();
+          renderAll();
+        });
+        ctrls.appendChild(move);
+      }
 
       var del = document.createElement('button');
       del.className = 'del';
@@ -405,7 +449,6 @@
         renderAll();
       });
 
-      ctrls.appendChild(move);
       ctrls.appendChild(del);
 
       li.appendChild(num);
@@ -505,9 +548,10 @@
     save();
     renderAll();
   }
+  var addInputs = { central: 'newCentral', secondary: 'newSecondary', vehicles: 'newVehicle', dreams: 'newDream' };
   document.querySelectorAll('button[data-add]').forEach(function (btn) {
     var tier = btn.getAttribute('data-add');
-    var inputId = tier === 'central' ? 'newCentral' : 'newSecondary';
+    var inputId = addInputs[tier];
     btn.addEventListener('click', function () { addPursuit(tier, inputId); });
     document.getElementById(inputId).addEventListener('keydown', function (e) {
       if (e.key === 'Enter') addPursuit(tier, inputId);
@@ -531,6 +575,8 @@
   function renderAll() {
     renderTier('central', 'centralList');
     renderTier('secondary', 'secondaryList');
+    renderTier('vehicles', 'vehiclesList');
+    renderTier('dreams', 'dreamsList');
     renderGifts();
     renderDecision();
   }

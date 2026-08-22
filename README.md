@@ -12,6 +12,8 @@ disciples made in Los Angeles who look more and more like Jesus, held in light o
 - Editable vision statement — click any text to edit it in place
 - Tiered pursuits: **Central** (primary focus) and **Ancillary** (secondary), with
   one-click moves between tiers
+- **Vehicles** — the concrete means and structures the vision moves through
+- **Dreams Held Lightly** — personal senses and impressions, carried with open hands
 - **My Gifts** — name how God has wired you, so pursuits can be traced back to gifting
 - **Decision Filter** — write out a decision and test it against remaining in Jesus,
   each central pursuit, and your gifts; get an alignment read-out
