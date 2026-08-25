@@ -3,6 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f1115">
+<meta name="description" content="Vision — the hub where the vision, its targets, and the goals in pursuit of them are held together in one view.">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 <title>Vision</title>
 <style>
   :root {
@@ -16,6 +21,10 @@
     --line: #2a2e38;
     --accent: #7fa8c9;
     --green: #8fbf8f;
+    --goalc: #dcb87f;
+    --rose: #c98a9a;
+    --danger: #c97f7f;
+    --sans: 'Helvetica Neue', Arial, sans-serif;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -24,20 +33,21 @@
     font-family: Georgia, 'Times New Roman', serif;
     min-height: 100vh;
     line-height: 1.6;
+    -webkit-text-size-adjust: 100%;
   }
-  .wrap { max-width: 760px; margin: 0 auto; padding: 3rem 1.25rem 5rem; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
 
   /* Scripture banner */
   .scripture {
     text-align: center;
-    padding: 2.5rem 1.5rem;
+    padding: 2.25rem 1.5rem;
     border: 1px solid var(--line);
     border-top: 3px solid var(--gold);
     background: var(--panel);
     border-radius: 6px;
   }
   .scripture blockquote {
-    font-size: 1.6rem;
+    font-size: 1.55rem;
     font-style: italic;
     color: var(--gold);
     letter-spacing: 0.01em;
@@ -57,7 +67,7 @@
     letter-spacing: 0.25em;
     text-transform: uppercase;
     color: var(--muted);
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-family: var(--sans);
   }
   [contenteditable]:focus {
     outline: 1px dashed var(--accent);
@@ -67,7 +77,7 @@
 
   /* Abide — the deepest center */
   .abide {
-    margin-top: 3rem;
+    margin-top: 2.75rem;
     text-align: center;
     padding: 2rem 1.5rem;
     border: 1px solid var(--gold);
@@ -92,16 +102,154 @@
   }
   .vision .eternity { margin-top: 1rem; color: var(--muted); font-style: italic; }
 
+  /* ─── THE HUB ─────────────────────────────────────────── */
+  .hub {
+    margin-top: 3rem;
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--gold);
+    border-radius: 8px;
+    background: linear-gradient(180deg, var(--panel) 0%, var(--bg) 100%);
+    padding: 1.75rem 1.25rem 1.5rem;
+  }
+  .hub-head { text-align: center; }
+  .hub-head h3 {
+    margin-top: 0.6rem;
+    font-size: 1.35rem;
+    font-weight: normal;
+    color: var(--gold);
+  }
+  .hub-stats {
+    margin-top: 0.5rem;
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .hub-stats b { color: var(--ink); font-weight: 600; }
+  #hubCanvas {
+    position: relative;
+    margin-top: 1rem;
+    background: radial-gradient(circle at 50% 50%, rgba(201,162,94,0.06) 0%, transparent 62%);
+  }
+  #hubSvg { display: block; width: 100%; height: auto; max-height: 78vh; }
+  .ring-guide { fill: none; stroke-width: 1; }
+  .link { stroke-linecap: round; }
+  .node { cursor: pointer; }
+  .node:hover .node-shape { filter: brightness(1.3); }
+  .node-text { text-anchor: middle; pointer-events: none; font-family: Georgia, serif; }
+  .node-badge { text-anchor: middle; pointer-events: none; font-family: var(--sans); letter-spacing: 0.18em; }
+  .node.sel .node-shape { stroke-width: 3.5; }
+  .node.dim { opacity: 0.28; }
+
+  #hubTip {
+    position: absolute;
+    pointer-events: none;
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    max-width: 250px;
+    display: none;
+    z-index: 5;
+    box-shadow: 0 8px 24px rgba(0,0,0,.55);
+    line-height: 1.45;
+  }
+  #hubTip .tip-name { color: var(--ink); }
+  #hubTip .tip-sub { color: var(--muted); font-size: 0.78rem; font-family: var(--sans); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 0.15rem; }
+
+  .hub-legend {
+    margin-top: 0.9rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.35rem 1.1rem;
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+  .hub-legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+  .hub-legend i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .hub-legend i.gold { background: var(--gold); }
+  .hub-legend i.goal { background: var(--goalc); }
+  .hub-legend i.accent { background: var(--accent); }
+  .hub-legend i.muted { background: transparent; border: 1px dashed var(--muted); }
+
+  /* target chips — "this is what we're going after" */
+  .chips { margin-top: 1.25rem; display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+  .chip {
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--gold);
+    border-radius: 5px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    text-align: left;
+    color: inherit;
+    font-family: inherit;
+  }
+  .chip:hover { border-color: var(--gold); }
+  .chip.sel { background: var(--gold-soft); border-color: var(--gold); }
+  .chip .cnum { color: var(--gold); font-family: var(--sans); font-size: 0.75rem; }
+  .chip .ccount { color: var(--muted); font-family: var(--sans); font-size: 0.72rem; white-space: nowrap; }
+
+  /* hub detail card */
+  .detail {
+    margin-top: 1.25rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--gold);
+    border-radius: 6px;
+    padding: 1.1rem 1.2rem;
+  }
+  .detail.is-goal { border-left-color: var(--goalc); }
+  .detail.is-anc { border-left-color: var(--accent); }
+  .detail.is-abide { border-left-color: var(--gold); background: var(--gold-soft); }
+  .detail .d-title { font-size: 1.15rem; margin-top: 0.45rem; }
+  .detail .d-note { color: var(--muted); font-size: 0.92rem; margin-top: 0.3rem; }
+  .detail .d-actions { margin-top: 0.9rem; display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+  .detail .d-empty { color: var(--muted); font-style: italic; font-size: 0.9rem; margin-top: 0.5rem; }
+  .btn {
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    border-radius: 5px;
+    padding: 0.35rem 0.7rem;
+    cursor: pointer;
+  }
+  .btn:hover { border-color: var(--gold); color: var(--gold); }
+  .btn.danger:hover { border-color: var(--danger); color: var(--danger); }
+  select.anchor-pick {
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    padding: 0.35rem 0.5rem;
+    max-width: 100%;
+  }
+  select.anchor-pick:focus { outline: 1px solid var(--accent); }
+
   /* Tier sections */
   section.tier { margin-top: 3.25rem; }
+  section.tier[hidden] { display: none; }
   .tier-head {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
+    gap: 1rem;
     border-bottom: 1px solid var(--line);
     padding-bottom: 0.75rem;
   }
-  .tier-head p { color: var(--muted); font-size: 0.9rem; font-style: italic; }
+  .tier-head p { color: var(--muted); font-size: 0.9rem; font-style: italic; text-align: right; }
   ul.plist { list-style: none; margin-top: 1.25rem; display: grid; gap: 0.85rem; }
   .pursuit {
     background: var(--panel);
@@ -112,10 +260,12 @@
     display: flex;
     gap: 0.9rem;
     align-items: flex-start;
+    scroll-margin-top: 1rem;
   }
-  .pursuit.secondary { border-left-color: var(--accent); opacity: 0.92; }
-  .pursuit.value { border-left-color: #c98a9a; }
-  .pursuit.value .num { color: #c98a9a; }
+  .pursuit.sel { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold-soft); }
+  .pursuit.secondary { border-left-color: var(--accent); opacity: 0.94; }
+  .pursuit.value { border-left-color: var(--rose); }
+  .pursuit.value .num { color: var(--rose); }
   .pursuit.vehicle { border-left-color: var(--green); }
   .pursuit.vehicle .num { color: var(--green); }
   .pursuit.dream { border-left-style: dashed; border-left-color: var(--muted); opacity: 0.9; }
@@ -124,12 +274,12 @@
   .pursuit .num {
     color: var(--gold);
     font-size: 0.85rem;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-family: var(--sans);
     padding-top: 0.2rem;
     min-width: 1.4rem;
   }
   .pursuit.secondary .num { color: var(--accent); }
-  .pursuit .body { flex: 1; }
+  .pursuit .body { flex: 1; min-width: 0; }
   .pursuit .title { font-size: 1.05rem; }
   .pursuit .note { color: var(--muted); font-size: 0.9rem; margin-top: 0.25rem; }
   .pursuit .ctrls { display: flex; flex-direction: column; gap: 0.1rem; }
@@ -138,13 +288,80 @@
     cursor: pointer; font-size: 0.9rem; padding: 0.15rem 0.35rem;
     opacity: 0.35; transition: opacity 0.15s;
   }
-  .pursuit:hover .ctrls button { opacity: 1; }
-  .pursuit .ctrls button.del:hover { color: #c97f7f; }
+  .pursuit:hover .ctrls button, .pursuit:focus-within .ctrls button { opacity: 1; }
+  .pursuit .ctrls button.del:hover { color: var(--danger); }
   .pursuit .ctrls button.move:hover { color: var(--gold); }
+
+  /* goals nested under a pursuit */
+  .goals {
+    margin-top: 0.8rem;
+    padding-top: 0.65rem;
+    border-top: 1px dashed var(--line);
+    display: grid;
+    gap: 0.35rem;
+  }
+  .goals .g-label {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0.85;
+  }
+  .goal-row { display: flex; align-items: flex-start; gap: 0.55rem; font-size: 0.94rem; }
+  .goal-row .tick {
+    background: none;
+    border: 1px solid var(--goalc);
+    color: var(--goalc);
+    border-radius: 50%;
+    width: 1.05rem; height: 1.05rem;
+    flex: none;
+    margin-top: 0.35rem;
+    cursor: pointer;
+    font-size: 0.65rem;
+    line-height: 1;
+    padding: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .goal-row .tick:hover { background: var(--gold-soft); }
+  .goal-row.done .tick { background: var(--green); border-color: var(--green); color: var(--bg); }
+  .goal-row .gname { flex: 1; min-width: 0; }
+  .goal-row.done .gname { text-decoration: line-through; opacity: 0.5; }
+  .goal-row .gnote { color: var(--muted); font-size: 0.85rem; }
+  .goal-row .grm {
+    background: none; border: none; color: var(--muted);
+    cursor: pointer; font-size: 0.8rem; opacity: 0.3; padding: 0 0.2rem;
+  }
+  .goal-row:hover .grm { opacity: 1; }
+  .goal-row .grm:hover { color: var(--danger); }
+  .goal-add { display: flex; gap: 0.4rem; margin-top: 0.35rem; }
+  .goal-add input {
+    flex: 1; min-width: 0;
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    color: var(--ink);
+    padding: 0.4rem 0.6rem;
+    font-family: inherit;
+    font-size: 0.88rem;
+  }
+  .goal-add input:focus { outline: 1px solid var(--accent); }
+  .goal-add button {
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    border-radius: 5px;
+    padding: 0 0.7rem;
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    cursor: pointer;
+  }
+  .goal-add button:hover { border-color: var(--goalc); color: var(--goalc); }
 
   .add-row { margin-top: 1.25rem; display: flex; gap: 0.6rem; }
   .add-row input {
     flex: 1;
+    min-width: 0;
     background: var(--panel-2);
     border: 1px solid var(--line);
     border-radius: 6px;
@@ -163,8 +380,23 @@
     font-family: inherit;
     font-size: 0.95rem;
     cursor: pointer;
+    white-space: nowrap;
   }
   .add-row button:hover { background: var(--gold); color: var(--bg); }
+
+  /* unanchored goals */
+  .drift {
+    background: var(--panel);
+    border: 1px dashed var(--line);
+    border-radius: 6px;
+    padding: 0.8rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .drift .dname { flex: 1; min-width: 8rem; }
+  .drift .dnote { color: var(--muted); font-size: 0.85rem; }
 
   /* Gifts */
   .gifts-list { margin-top: 1.25rem; display: flex; flex-wrap: wrap; gap: 0.6rem; }
@@ -184,7 +416,7 @@
     cursor: pointer; font-size: 0.8rem; opacity: 0.4;
   }
   .gift:hover button { opacity: 1; }
-  .gift button:hover { color: #c97f7f; }
+  .gift button:hover { color: var(--danger); }
 
   /* Decision filter */
   .decision-box {
@@ -215,21 +447,51 @@
   .decision-qs input { margin-top: 0.35rem; accent-color: var(--gold); }
   .verdict { margin-top: 1.1rem; font-style: italic; font-size: 0.95rem; color: var(--muted); }
   .verdict.strong { color: var(--green); }
-  .verdict.weak { color: #c9a25e; }
+  .verdict.weak { color: var(--gold); }
 
+  .notice {
+    margin-top: 1.5rem;
+    background: var(--panel);
+    border: 1px solid var(--gold);
+    border-radius: 6px;
+    padding: 0.85rem 1.1rem;
+    font-size: 0.92rem;
+    display: flex;
+    gap: 0.9rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .notice p { flex: 1; min-width: 12rem; }
+
+  footer.tools {
+    margin-top: 3.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    display: flex;
+    gap: 0.6rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
   .hint {
-    margin-top: 2.5rem;
+    margin-top: 1.25rem;
     text-align: center;
     color: var(--muted);
     font-size: 0.8rem;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-family: var(--sans);
     opacity: 0.7;
+    line-height: 1.7;
   }
 
-  @media (max-width: 480px) {
-    .scripture blockquote { font-size: 1.25rem; }
+  @media (max-width: 560px) {
+    .wrap { padding-top: 1.75rem; }
+    .scripture blockquote { font-size: 1.2rem; }
     .abide h1 { font-size: 1.3rem; }
     .vision h2 { font-size: 1.25rem; }
+    .hub { padding-left: 0.6rem; padding-right: 0.6rem; }
+    .hub-head h3 { font-size: 1.15rem; }
+    .tier-head { flex-direction: column; gap: 0.3rem; }
+    .tier-head p { text-align: left; }
+    #hubSvg { max-height: none; }
   }
 </style>
 </head>
@@ -253,26 +515,39 @@
     <p class="eternity" id="eternityText" contenteditable="true" spellcheck="false">Held in light of eternity.</p>
   </section>
 
-  <section class="tier">
-    <div class="tier-head">
-      <span class="label">Values</span>
-      <p>the culture I am building toward</p>
+  <!-- ─────────── THE HUB ─────────── -->
+  <section class="hub" id="hub">
+    <div class="hub-head">
+      <span class="label">The Hub</span>
+      <h3>These are the vision targets. This is what we are going after.</h3>
+      <p class="hub-stats" id="hubStats"></p>
     </div>
-    <ul class="plist" id="valuesList"></ul>
-    <div class="add-row">
-      <input id="newValue" type="text" placeholder="Add a value&hellip;" />
-      <button data-add="values">Add</button>
+
+    <div id="hubCanvas">
+      <svg id="hubSvg" role="img" aria-label="Orbit map: abiding in Jesus at the center, vision targets around it, and the goals in pursuit of each target."></svg>
+      <div id="hubTip"></div>
     </div>
+
+    <div class="hub-legend">
+      <span><i class="gold"></i>Vision target</span>
+      <span><i class="goal"></i>Goal in pursuit</span>
+      <span><i class="accent"></i>Ancillary</span>
+      <span><i class="muted"></i>Unanchored goal</span>
+    </div>
+
+    <div class="chips" id="targetChips"></div>
+    <div id="hubDetail"></div>
+    <div id="hubNotice"></div>
   </section>
 
   <section class="tier">
     <div class="tier-head">
-      <span class="label">Central &mdash; Primary Focus</span>
-      <p>what the Lord has made central</p>
+      <span class="label">Vision Targets &mdash; Central</span>
+      <p>what the Lord has made central &mdash; and the goals in pursuit of each</p>
     </div>
     <ul class="plist" id="centralList"></ul>
     <div class="add-row">
-      <input id="newCentral" type="text" placeholder="Add a central pursuit&hellip;" />
+      <input id="newCentral" type="text" placeholder="Add a vision target&hellip;" />
       <button data-add="central">Add</button>
     </div>
   </section>
@@ -286,6 +561,30 @@
     <div class="add-row">
       <input id="newSecondary" type="text" placeholder="Add a secondary pursuit&hellip;" />
       <button data-add="secondary">Add</button>
+    </div>
+  </section>
+
+  <section class="tier" id="driftSection" hidden>
+    <div class="tier-head">
+      <span class="label">Unanchored Goals</span>
+      <p>not yet tied to anything central &mdash; anchor it, or let it go</p>
+    </div>
+    <ul class="plist" id="driftList"></ul>
+    <div class="add-row">
+      <input id="newDrift" type="text" placeholder="Add a goal to sort out later&hellip;" />
+      <button id="addDriftBtn">Add</button>
+    </div>
+  </section>
+
+  <section class="tier">
+    <div class="tier-head">
+      <span class="label">Values</span>
+      <p>the culture I am building toward</p>
+    </div>
+    <ul class="plist" id="valuesList"></ul>
+    <div class="add-row">
+      <input id="newValue" type="text" placeholder="Add a value&hellip;" />
+      <button data-add="values">Add</button>
     </div>
   </section>
 
@@ -337,19 +636,35 @@
     </div>
   </section>
 
-  <p class="hint">Click any text to edit it &mdash; everything saves automatically in this browser. Use &uarr;/&darr; on a pursuit to move it between Central and Secondary.</p>
+  <footer class="tools">
+    <button class="btn" id="exportBtn">Export everything</button>
+    <button class="btn" id="importBtn">Import a backup</button>
+    <input type="file" id="importFile" accept="application/json,.json" hidden />
+  </footer>
+
+  <p class="hint">
+    Click any text to edit it &mdash; everything saves automatically in this browser.<br />
+    Click a circle in the hub to work on it. Use &uarr;/&darr; to move a pursuit between Central and Ancillary.
+  </p>
 
 </div>
 
 <script>
 (function () {
-  var KEY = 'vision-app-v2';
-  var OLD_KEY = 'vision-app-v1';
+  'use strict';
+
+  var KEY = 'vision-hub-v1';
+  var OLD_V2 = 'vision-app-v2';
+  var OLD_V1 = 'vision-app-v1';
+  var ORBIT_KEY = 'orbit-goals-v1';
+  var ORBIT_PLACEHOLDERS = ['Your big goal'];
+
+  var SVGNS = 'http://www.w3.org/2000/svg';
 
   var defaults = {
-    abide: null,
-    vision: null,
-    eternity: null,
+    abide: 'Remain in Jesus. Everything else flows from abiding in Him.',
+    vision: 'To see disciples made in Los Angeles who look more and more like Jesus — raised up as leaders and sent out to the ends of the earth.',
+    eternity: 'Held in light of eternity.',
     values: [
       { title: 'A culture so good and strong my children can grow almost unsupervised', note: 'The environment itself disciples — safety and formation come from the strength of the culture around them.' },
       { title: 'A marriage where my wife grows really well and healthy', note: 'She flourishes in that same culture — it is good for her, not just built by her.' }
@@ -360,173 +675,864 @@
       { title: 'Sending them out to the ends of the earth', note: 'California is not the end goal — raised up here, sent from here.' }
     ],
     secondary: [
-      { title: 'Tying vision to commitments', note: 'Eventually connect this with the commitment app.' },
       { title: 'Getting fit and increasing my health', note: 'A strong body to sustain the vision for the long haul.' },
       { title: 'Growing my financial capacities', note: 'Resources that fund and free the pursuit of what is central.' }
     ],
     vehicles: [
       { title: 'Campus ministry presence', note: 'A consistent, embedded presence where Gen Z already is.' },
       { title: 'Discipleship cycles', note: 'A repeatable rhythm: reached, raised up, releasing others.' },
-      { title: 'The commitment app', note: 'A tool for keeping commitments visible and accountable.' }
+      { title: 'Commitments and goals', note: 'Kept visible in this hub, each one anchored to a target.' }
     ],
     dreams: [
       { title: 'Married by thirty-three', note: 'Someone alongside this vision — a dream to carry lightly, with open hands.' },
       { title: 'Settled into the right org by 2026', note: 'A clear sense of place and role to work the vision from.' }
     ],
     gifts: ['Leadership', 'Vision-casting', 'Discipleship'],
+    goals: [],
     decision: { text: '', checks: {} }
   };
 
-  var state;
-  try {
-    state = JSON.parse(localStorage.getItem(KEY));
-    if (!state) {
-      // migrate v1 pursuits into central tier
-      var old = JSON.parse(localStorage.getItem(OLD_KEY));
-      state = JSON.parse(JSON.stringify(defaults));
-      if (old) {
-        if (old.vision) state.vision = old.vision;
-        if (old.eternity) state.eternity = old.eternity;
-        if (old.pursuits && old.pursuits.length) state.central = old.pursuits;
+  var GOAL_SEEDS = [
+    ['Reaching Gen Z on university and college campuses', 'On one campus every week by October', ''],
+    ['Reaching Gen Z on university and college campuses', 'Ten first conversations a month', 'Not programmes — people.'],
+    ['Raising up leaders who look more and more like Jesus', 'Three emerging leaders, weekly', 'Named, not vague.'],
+    ['Sending them out to the ends of the earth', 'One team sent by next summer', ''],
+    ['Getting fit and increasing my health', 'Train four mornings a week', '']
+  ];
+
+  function uid(p) { return (p || 'x') + Math.random().toString(36).slice(2, 9); }
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
+  function readLS(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }
+
+  /* ─────────── load & migrate ─────────── */
+
+  function loadState() {
+    var s = readLS(KEY);
+    if (s && typeof s === 'object') return s;
+
+    s = clone(defaults);
+
+    // Carry over the standalone Vision app.
+    var v2 = readLS(OLD_V2);
+    if (!v2) {
+      var v1 = readLS(OLD_V1);
+      if (v1) v2 = { vision: v1.vision, eternity: v1.eternity, central: v1.pursuits };
+    }
+    if (v2) {
+      ['abide', 'vision', 'eternity'].forEach(function (k) { if (v2[k]) s[k] = v2[k]; });
+      ['values', 'central', 'secondary', 'vehicles', 'dreams'].forEach(function (k) {
+        if (Array.isArray(v2[k]) && v2[k].length) s[k] = v2[k];
+      });
+      if (Array.isArray(v2.gifts)) s.gifts = v2.gifts;
+      if (v2.decision) s.decision = v2.decision;
+      s.cameFromVision = true;
+    }
+
+    // Carry over Orbit. Same origin on Pages, so its goals are readable here.
+    var orbit = readLS(ORBIT_KEY);
+    if (Array.isArray(orbit) && orbit.length) {
+      var carried = orbit
+        .filter(function (g) { return g && g.name && ORBIT_PLACEHOLDERS.indexOf(g.name) === -1; })
+        .map(function (g) {
+          return { id: uid('g'), name: String(g.name), note: String(g.notes || ''), targetId: null, done: false };
+        });
+      if (carried.length) {
+        s.goals = carried;
+        s.orbitCarried = carried.length;
       }
     }
-  } catch (e) { state = JSON.parse(JSON.stringify(defaults)); }
-  state.gifts = state.gifts || [];
-  state.values = state.values || JSON.parse(JSON.stringify(defaults.values));
-  if (!state.seededHealthFinance) {
-    state.secondary = state.secondary || [];
-    ['Getting fit and increasing my health', 'Growing my financial capacities'].forEach(function (t) {
-      var exists = state.secondary.concat(state.central || []).some(function (p) { return p.title === t; });
-      if (!exists) {
-        var d = defaults.secondary.filter(function (p) { return p.title === t; })[0];
-        if (d) state.secondary.push(JSON.parse(JSON.stringify(d)));
-      }
-    });
-    state.seededHealthFinance = true;
-  }
-  state.vehicles = state.vehicles || JSON.parse(JSON.stringify(defaults.vehicles));
-  state.dreams = state.dreams || JSON.parse(JSON.stringify(defaults.dreams));
-  state.decision = state.decision || { text: '', checks: {} };
-
-  function save() {
-    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+    return s;
   }
 
-  function bindText(id, field) {
-    var el = document.getElementById(id);
-    if (state[field]) el.textContent = state[field];
-    el.addEventListener('input', function () { state[field] = el.textContent; save(); });
-  }
-  bindText('abideText', 'abide');
-  bindText('visionText', 'vision');
-  bindText('eternityText', 'eternity');
-
-  function renderTier(tier, listId) {
-    var listEl = document.getElementById(listId);
-    listEl.innerHTML = '';
-    state[tier].forEach(function (p, i) {
-      var li = document.createElement('li');
-      var tierClass = { secondary: ' secondary', vehicles: ' vehicle', dreams: ' dream', values: ' value' };
-      li.className = 'pursuit' + (tierClass[tier] || '');
-
-      var num = document.createElement('span');
-      num.className = 'num';
-      num.textContent = String(i + 1).padStart(2, '0');
-
-      var body = document.createElement('div');
-      body.className = 'body';
-
-      var title = document.createElement('div');
-      title.className = 'title';
-      title.contentEditable = 'true';
-      title.spellcheck = false;
-      title.textContent = p.title;
-      title.addEventListener('input', function () { p.title = title.textContent; save(); renderDecision(); });
-
-      var note = document.createElement('div');
-      note.className = 'note';
-      note.contentEditable = 'true';
-      note.spellcheck = false;
-      note.textContent = p.note || '';
-      note.addEventListener('input', function () { p.note = note.textContent; save(); });
-
-      body.appendChild(title);
-      body.appendChild(note);
-
-      var ctrls = document.createElement('div');
-      ctrls.className = 'ctrls';
-
-      if (tier === 'central' || tier === 'secondary') {
-        var move = document.createElement('button');
-        move.className = 'move';
-        var toTier = tier === 'central' ? 'secondary' : 'central';
-        move.title = tier === 'central' ? 'Move to Secondary' : 'Move to Central';
-        move.textContent = tier === 'central' ? '↓' : '↑';
-        move.addEventListener('click', function () {
-          state[tier].splice(i, 1);
-          state[toTier].push(p);
-          save();
-          renderAll();
-        });
-        ctrls.appendChild(move);
-      }
-
-      var del = document.createElement('button');
-      del.className = 'del';
-      del.title = 'Remove';
-      del.textContent = '✕';
-      del.addEventListener('click', function () {
-        state[tier].splice(i, 1);
-        save();
-        renderAll();
+  function normalize() {
+    ['values', 'central', 'secondary', 'vehicles', 'dreams'].forEach(function (k) {
+      if (!Array.isArray(state[k])) state[k] = clone(defaults[k]);
+      state[k].forEach(function (p) {
+        if (!p.id) p.id = uid('p');
+        if (typeof p.title !== 'string') p.title = '';
+        if (typeof p.note !== 'string') p.note = '';
       });
+    });
+    if (!Array.isArray(state.gifts)) state.gifts = defaults.gifts.slice();
+    if (!Array.isArray(state.goals)) state.goals = [];
+    state.goals.forEach(function (g) {
+      if (!g.id) g.id = uid('g');
+      if (typeof g.name !== 'string') g.name = '';
+      if (typeof g.note !== 'string') g.note = '';
+      if (!('targetId' in g)) g.targetId = null;
+      g.done = !!g.done;
+    });
+    if (!state.decision || typeof state.decision !== 'object') state.decision = { text: '', checks: {} };
+    if (!state.decision.checks) state.decision.checks = {};
+    ['abide', 'vision', 'eternity'].forEach(function (k) {
+      if (typeof state[k] !== 'string' || !state[k]) state[k] = defaults[k];
+    });
 
-      ctrls.appendChild(del);
+    // First run with no goals at all: show what an anchored goal looks like.
+    if (!state.seededGoals && !state.goals.length && !state.orbitCarried) {
+      GOAL_SEEDS.forEach(function (row) {
+        var host = state.central.concat(state.secondary).filter(function (p) { return p.title === row[0]; })[0];
+        if (host) state.goals.push({ id: uid('g'), name: row[1], note: row[2], targetId: host.id, done: false });
+      });
+      state.seededGoals = true;
+    }
+  }
 
-      li.appendChild(num);
-      li.appendChild(body);
-      li.appendChild(ctrls);
-      listEl.appendChild(li);
+  var state = loadState();
+  normalize();
+
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+  save();
+
+  /* ─────────── helpers ─────────── */
+
+  var sel = null;          // { kind: 'abide'|'target'|'anc'|'goal', id }
+  var flashMsg = null;
+  var pendingFocus = null;
+
+  function pursuits() { return state.central.concat(state.secondary); }
+  function pursuitById(id) {
+    var all = pursuits();
+    for (var i = 0; i < all.length; i++) if (all[i].id === id) return all[i];
+    return null;
+  }
+  function goalById(id) {
+    for (var i = 0; i < state.goals.length; i++) if (state.goals[i].id === id) return state.goals[i];
+    return null;
+  }
+  function goalsFor(id) {
+    return state.goals.filter(function (g) { return g.targetId === id; });
+  }
+  function driftGoals() {
+    return state.goals.filter(function (g) { return !g.targetId || !pursuitById(g.targetId); });
+  }
+  function tierOf(id) {
+    return state.central.some(function (p) { return p.id === id; }) ? 'central' : 'secondary';
+  }
+
+  function svgEl(name, attrs) {
+    var n = document.createElementNS(SVGNS, name);
+    for (var k in attrs) if (attrs[k] !== undefined && attrs[k] !== null) n.setAttribute(k, attrs[k]);
+    return n;
+  }
+  function elem(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined) n.textContent = text;
+    return n;
+  }
+  function editable(tag, cls, text, onInput) {
+    var n = elem(tag, cls, text);
+    n.contentEditable = 'true';
+    n.spellcheck = false;
+    n.addEventListener('input', function () { onInput(n.textContent); });
+    return n;
+  }
+
+  function fitLines(str, maxChars, maxLines) {
+    var words = String(str || '').split(/\s+/).filter(Boolean);
+    var lines = [], line = '', truncated = false;
+    for (var i = 0; i < words.length; i++) {
+      var w = words[i];
+      if (w.length > maxChars) w = w.slice(0, Math.max(1, maxChars - 1)) + '…';
+      if (!line) line = w;
+      else if ((line + ' ' + w).length <= maxChars) line += ' ' + w;
+      else {
+        lines.push(line);
+        if (lines.length === maxLines) { line = ''; truncated = i < words.length; break; }
+        line = w;
+      }
+    }
+    if (line && lines.length < maxLines) lines.push(line);
+    else if (line) truncated = true;
+    if (truncated && lines.length) {
+      var last = lines[lines.length - 1];
+      if (last.length > maxChars - 1) last = last.slice(0, maxChars - 1);
+      lines[lines.length - 1] = last + '…';
+    }
+    return lines.length ? lines : [''];
+  }
+
+  function fillText(textEl, x, lines) {
+    lines.forEach(function (l, i) {
+      var ts = svgEl('tspan', { x: x, dy: i === 0 ? (-(lines.length - 1) * 0.55 + 0.33) + 'em' : '1.1em' });
+      ts.textContent = l;
+      textEl.appendChild(ts);
     });
   }
+
+  /* ─────────── the hub: layout ─────────── */
+
+  // Goals fan out around their own target, in rows if there are many —
+  // "moons" around the thing they serve.
+  function fanAround(cx, cy, baseAngle, count, hostR, moonR) {
+    var out = [], placed = 0, row = 0;
+    while (placed < count && row < 6) {
+      var d = hostR + moonR + 16 + row * (2 * moonR + 10);
+      var minStep = 2 * Math.asin(Math.min(0.9, (moonR + 6) / d));
+      var perRow = Math.max(1, Math.floor(2.5 / minStep) + 1);
+      var take = Math.min(perRow, count - placed);
+      var step = take > 1 ? Math.max(minStep, Math.min(0.62, 2.5 / (take - 1))) : 0;
+      for (var j = 0; j < take; j++) {
+        var a = baseAngle + (j - (take - 1) / 2) * step;
+        out.push({ x: cx + d * Math.cos(a), y: cy + d * Math.sin(a) });
+      }
+      placed += take;
+      row++;
+    }
+    return out;
+  }
+
+  // The centre circle carries only the first sentence — the whole line is
+  // one click away in the detail card.
+  function shortAbide() {
+    var t = String(state.abide || '').trim();
+    var cut = t.indexOf('. ');
+    return cut > 6 ? t.slice(0, cut + 1) : t;
+  }
+
+  // Smallest radius along `angle` at which a disc of radius r clears everything
+  // already drawn. Keeps the outer rings tight instead of clearing the single
+  // widest goal fan on the whole map.
+  function clearRadius(angle, r, startR, placed) {
+    var R = startR, cos = Math.cos(angle), sin = Math.sin(angle);
+    for (var step = 0; step < 60; step++) {
+      var x = R * cos, y = R * sin, clash = false;
+      for (var i = 0; i < placed.length; i++) {
+        var q = placed[i];
+        if (Math.hypot(q.x - x, q.y - y) < q.r + r + 12) { clash = true; break; }
+      }
+      if (!clash) return R;
+      R += 12;
+    }
+    return R;
+  }
+
+  // Rotate an evenly spaced set so it falls in the gaps between the angles
+  // already taken. Without this an ancillary node can land directly behind a
+  // target and shove the whole map outward.
+  function gapOffset(count, taken) {
+    if (!count || !taken.length) return 0;
+    var best = 0, bestScore = -1;
+    for (var t = 0; t < 72; t++) {
+      var off = t * 2 * Math.PI / 72, score = Infinity;
+      for (var i = 0; i < count; i++) {
+        var a = -Math.PI / 2 + i * 2 * Math.PI / count + off;
+        for (var j = 0; j < taken.length; j++) {
+          var d = Math.abs(((a - taken[j] + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI);
+          if (d < score) score = d;
+        }
+      }
+      if (score > bestScore) { bestScore = score; best = off; }
+    }
+    return best;
+  }
+
+  function layoutHub() {
+    var nodes = [], links = [], rings = [];
+    var placed = [];
+    var abideR = 62;
+    var ext = abideR + 16;
+
+    nodes.push({
+      kind: 'abide', id: 'abide', x: 0, y: 0, r: abideR, sw: 2.5,
+      fill: 'rgba(201,162,94,0.16)', stroke: 'var(--gold)',
+      text: shortAbide(), fs: 16, chars: 11, lines: 3, halo: true
+    });
+    placed.push({ x: 0, y: 0, r: abideR });
+
+    function addMoons(host, hostX, hostY, hostR, baseAngle, moonR, fs) {
+      var gs = goalsFor(host.id);
+      if (!gs.length) return;
+      var pts = fanAround(hostX, hostY, baseAngle, gs.length, hostR, moonR);
+      gs.forEach(function (g, j) {
+        var pt = pts[j];
+        if (!pt) return;
+        nodes.push({
+          kind: 'goal', id: g.id, x: pt.x, y: pt.y, r: moonR, sw: g.done ? 2 : 1.8,
+          fill: g.done ? 'rgba(143,191,143,0.16)' : 'var(--panel)',
+          stroke: g.done ? 'var(--green)' : 'var(--goalc)',
+          text: g.name, fs: fs, chars: moonR >= 24 ? 9 : 8, lines: 3,
+          textFill: g.done ? 'var(--muted)' : 'var(--ink)',
+          badge: g.done ? '✓' : null, hostId: host.id
+        });
+        links.push({ x1: hostX, y1: hostY, x2: pt.x, y2: pt.y, stroke: g.done ? 'var(--green)' : 'var(--goalc)', op: 0.4, w: 1 });
+        placed.push({ x: pt.x, y: pt.y, r: moonR });
+        ext = Math.max(ext, Math.hypot(pt.x, pt.y) + moonR);
+      });
+    }
+
+    // Layer 1 — the vision targets, with their goals as moons.
+    var targets = state.central;
+    var n = targets.length;
+    var takenAngles = [];
+    var tR = n <= 3 ? 64 : n <= 5 ? 52 : n <= 7 ? 44 : 38;
+    var R1 = n === 1 ? 165 : 180;
+    if (n > 1) R1 = Math.max(R1, (tR + 26) / Math.sin(Math.PI / n));
+    targets.forEach(function (p, i) {
+      var a = -Math.PI / 2 + i * 2 * Math.PI / n;
+      takenAngles.push(a);
+      var x = R1 * Math.cos(a), y = R1 * Math.sin(a);
+      nodes.push({
+        kind: 'target', id: p.id, x: x, y: y, r: tR, sw: 2.5,
+        fill: 'var(--panel)', stroke: 'var(--gold)',
+        text: p.title, fs: n <= 5 ? 14 : 12, chars: 12, lines: 4, idx: i
+      });
+      links.push({ x1: 0, y1: 0, x2: x, y2: y, stroke: 'var(--gold)', op: 0.25, w: 1.4 });
+      placed.push({ x: x, y: y, r: tR });
+      ext = Math.max(ext, R1 + tR);
+      addMoons(p, x, y, tR, a, 27, 10);
+    });
+    if (n) rings.push({ r: R1, stroke: 'var(--gold)', op: 0.16 });
+
+    // Layer 2 — ancillary pursuits, offset so they read as a second circle.
+    var sec = state.secondary, m = sec.length;
+    var aR = 34;
+    var off2 = gapOffset(m, takenAngles);
+    var angles2 = sec.map(function (p, i) {
+      return -Math.PI / 2 + i * 2 * Math.PI / m + off2;
+    });
+    takenAngles = takenAngles.concat(angles2);
+    var R2 = R1 + tR + aR + 20;
+    if (m > 1) R2 = Math.max(R2, (aR + 22) / Math.sin(Math.PI / m));
+    angles2.forEach(function (a) { R2 = Math.max(R2, clearRadius(a, aR, R2, placed)); });
+    if (m) {
+      sec.forEach(function (p, i) {
+        var a = angles2[i];
+        var x = R2 * Math.cos(a), y = R2 * Math.sin(a);
+        nodes.push({
+          kind: 'anc', id: p.id, x: x, y: y, r: aR, sw: 1.8,
+          fill: 'var(--panel)', stroke: 'var(--accent)',
+          text: p.title, fs: 11, chars: 9, lines: 3, idx: i
+        });
+        links.push({ x1: 0, y1: 0, x2: x, y2: y, stroke: 'var(--accent)', op: 0.14, w: 1, dash: '3 7' });
+        placed.push({ x: x, y: y, r: aR });
+        ext = Math.max(ext, R2 + aR);
+        addMoons(p, x, y, aR, a, 19, 9);
+      });
+      rings.push({ r: R2, stroke: 'var(--accent)', op: 0.13 });
+    }
+
+    // Layer 3 — goals tied to nothing. No line back to the center: that is the point.
+    var drift = driftGoals(), k = drift.length;
+    var dR = 21;
+    if (k) {
+      var off3 = gapOffset(k, takenAngles);
+      var angles3 = drift.map(function (g, i) { return -Math.PI / 2 + i * 2 * Math.PI / k + off3; });
+      var R3 = (m ? R2 + aR : R1 + tR) + dR + 20;
+      if (k > 1) R3 = Math.max(R3, (dR + 14) / Math.sin(Math.PI / k));
+      angles3.forEach(function (a) { R3 = Math.max(R3, clearRadius(a, dR, R3, placed)); });
+      drift.forEach(function (g, i) {
+        var a = angles3[i];
+        var x = R3 * Math.cos(a), y = R3 * Math.sin(a);
+        nodes.push({
+          kind: 'goal', id: g.id, x: x, y: y, r: dR, sw: 1.4,
+          fill: 'transparent', stroke: 'var(--muted)', dash: '5 5',
+          text: g.name, fs: 9, chars: 9, lines: 3, textFill: 'var(--muted)', hostId: null
+        });
+      });
+      ext = Math.max(ext, R3 + dR);
+      rings.push({ r: R3, stroke: 'var(--muted)', op: 0.12, dash: '4 8' });
+    }
+
+    return { nodes: nodes, links: links, rings: rings, M: ext + 20 };
+  }
+
+  /* ─────────── the hub: render ─────────── */
+
+  var svg = document.getElementById('hubSvg');
+  var tip = document.getElementById('hubTip');
+  var canvas = document.getElementById('hubCanvas');
+
+  function related(nd) {
+    if (!sel || sel.kind === 'abide') return true;
+    if (nd.kind === 'abide') return true;
+    if (nd.id === sel.id) return true;
+    if (sel.kind === 'target' || sel.kind === 'anc') return nd.kind === 'goal' && nd.hostId === sel.id;
+    if (sel.kind === 'goal') {
+      var g = goalById(sel.id);
+      return !!(g && g.targetId && nd.id === g.targetId);
+    }
+    return true;
+  }
+
+  function renderHub() {
+    var L = layoutHub();
+    svg.setAttribute('viewBox', (-L.M) + ' ' + (-L.M) + ' ' + (2 * L.M) + ' ' + (2 * L.M));
+    svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+    L.rings.forEach(function (r) {
+      svg.appendChild(svgEl('circle', {
+        cx: 0, cy: 0, r: r.r, class: 'ring-guide',
+        stroke: r.stroke, opacity: r.op, 'stroke-dasharray': r.dash
+      }));
+    });
+
+    L.links.forEach(function (ln) {
+      svg.appendChild(svgEl('line', {
+        class: 'link', x1: ln.x1, y1: ln.y1, x2: ln.x2, y2: ln.y2,
+        stroke: ln.stroke, opacity: ln.op, 'stroke-width': ln.w, 'stroke-dasharray': ln.dash
+      }));
+    });
+
+    L.nodes.forEach(function (nd) {
+      var g = svgEl('g', { class: 'node' + (sel && sel.id === nd.id ? ' sel' : '') + (related(nd) ? '' : ' dim') });
+
+      if (nd.halo) {
+        g.appendChild(svgEl('circle', {
+          cx: nd.x, cy: nd.y, r: nd.r + 9, fill: 'none',
+          stroke: nd.stroke, 'stroke-width': 1, opacity: 0.4, 'stroke-dasharray': '3 7'
+        }));
+      }
+      g.appendChild(svgEl('circle', {
+        class: 'node-shape', cx: nd.x, cy: nd.y, r: nd.r,
+        fill: nd.fill, stroke: nd.stroke, 'stroke-width': nd.sw, 'stroke-dasharray': nd.dash
+      }));
+
+      var t = svgEl('text', { class: 'node-text', x: nd.x, y: nd.y, 'font-size': nd.fs, fill: nd.textFill || 'var(--ink)' });
+      fillText(t, nd.x, fitLines(nd.text, nd.chars, nd.lines));
+      g.appendChild(t);
+
+      if (nd.badge) {
+        var b = svgEl('text', { class: 'node-badge', x: nd.x, y: nd.y + nd.r - 6, 'font-size': 9, fill: 'var(--green)' });
+        b.textContent = nd.badge;
+        g.appendChild(b);
+      }
+
+      g.addEventListener('click', function () { select(nd.kind, nd.id); });
+      g.addEventListener('mousemove', function (e) { showTip(e, nd); });
+      g.addEventListener('mouseleave', hideTip);
+      svg.appendChild(g);
+    });
+  }
+
+  function tipSub(nd) {
+    if (nd.kind === 'abide') return 'The center of it all';
+    if (nd.kind === 'target') return 'Vision target';
+    if (nd.kind === 'anc') return 'Ancillary';
+    var g = goalById(nd.id);
+    if (!g) return 'Goal';
+    if (!g.targetId || !pursuitById(g.targetId)) return 'Unanchored goal';
+    return (g.done ? 'Done — ' : 'Goal — ') + pursuitById(g.targetId).title;
+  }
+
+  function showTip(e, nd) {
+    var box = canvas.getBoundingClientRect();
+    tip.style.display = 'block';
+    while (tip.firstChild) tip.removeChild(tip.firstChild);
+    tip.appendChild(elem('div', 'tip-name', nd.text));
+    tip.appendChild(elem('div', 'tip-sub', tipSub(nd)));
+    var w = tip.offsetWidth || 220;
+    tip.style.left = Math.max(4, Math.min(e.clientX - box.left + 14, box.width - w - 6)) + 'px';
+    tip.style.top = (e.clientY - box.top + 14) + 'px';
+  }
+  function hideTip() { tip.style.display = 'none'; }
+
+  function select(kind, id) {
+    if (sel && sel.id === id) sel = null;
+    else sel = { kind: kind, id: id };
+    hideTip();
+    renderHub();
+    renderChips();
+    renderDetail();
+    renderCentral();
+    renderSecondary();
+  }
+
+  /* ─────────── stats, chips, notices ─────────── */
+
+  function clear(node) { while (node.firstChild) node.removeChild(node.firstChild); }
+
+  function statPart(n, word) {
+    var frag = document.createDocumentFragment();
+    var b = elem('b', null, String(n));
+    frag.appendChild(b);
+    frag.appendChild(document.createTextNode(' ' + word));
+    return frag;
+  }
+
+  function renderStats() {
+    var box = document.getElementById('hubStats');
+    clear(box);
+    var anchored = state.goals.filter(function (g) { return g.targetId && pursuitById(g.targetId); });
+    var done = anchored.filter(function (g) { return g.done; }).length;
+    var parts = [
+      statPart(state.central.length, state.central.length === 1 ? 'vision target' : 'vision targets'),
+      statPart(anchored.length - done, 'in pursuit')
+    ];
+    if (done) parts.push(statPart(done, 'finished'));
+    var drift = driftGoals().length;
+    if (drift) parts.push(statPart(drift, 'unanchored'));
+    parts.forEach(function (p, i) {
+      if (i) box.appendChild(document.createTextNode('  ·  '));
+      box.appendChild(p);
+    });
+  }
+
+  function renderChips() {
+    var box = document.getElementById('targetChips');
+    clear(box);
+    state.central.forEach(function (p, i) {
+      var gs = goalsFor(p.id);
+      var openCount = gs.filter(function (g) { return !g.done; }).length;
+      var chip = elem('button', 'chip' + (sel && sel.id === p.id ? ' sel' : ''));
+      chip.type = 'button';
+      chip.appendChild(elem('span', 'cnum', String(i + 1).padStart(2, '0')));
+      chip.appendChild(elem('span', 'cname', p.title));
+      chip.appendChild(elem('span', 'ccount', gs.length ? openCount + '/' + gs.length + ' goals' : 'no goals yet'));
+      chip.addEventListener('click', function () { select('target', p.id); });
+      box.appendChild(chip);
+    });
+  }
+
+  function renderNotice() {
+    var box = document.getElementById('hubNotice');
+    clear(box);
+    var msg = null, action = null;
+
+    if (flashMsg) {
+      msg = flashMsg;
+    } else if (state.orbitCarried && !state.orbitNoticeSeen) {
+      msg = state.orbitCarried + ' goal' + (state.orbitCarried === 1 ? '' : 's') +
+        ' came over from Orbit. Nothing is lost — but nothing is anchored yet either. Tie each one to a vision target.';
+      action = 'Show them';
+    }
+    if (!msg) return;
+
+    var n = elem('div', 'notice');
+    n.appendChild(elem('p', null, msg));
+    if (action) {
+      var go = elem('button', 'btn', action);
+      go.addEventListener('click', function () {
+        var s = document.getElementById('driftSection');
+        if (s && !s.hidden) s.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      n.appendChild(go);
+    }
+    var dismiss = elem('button', 'btn', 'Dismiss');
+    dismiss.addEventListener('click', function () {
+      if (flashMsg) flashMsg = null;
+      else { state.orbitNoticeSeen = true; save(); }
+      renderNotice();
+    });
+    n.appendChild(dismiss);
+    box.appendChild(n);
+  }
+
+  function flash(msg) {
+    flashMsg = msg;
+    renderNotice();
+  }
+
+  /* ─────────── goals ─────────── */
+
+  function toggleGoal(id) {
+    var g = goalById(id);
+    if (!g) return;
+    g.done = !g.done;
+    save();
+    renderAll();
+  }
+  function removeGoal(id) {
+    state.goals = state.goals.filter(function (g) { return g.id !== id; });
+    if (sel && sel.id === id) sel = null;
+    save();
+    renderAll();
+  }
+  function addGoal(targetId, name) {
+    name = String(name || '').trim();
+    if (!name) return null;
+    var g = { id: uid('g'), name: name, note: '', targetId: targetId || null, done: false };
+    state.goals.push(g);
+    save();
+    return g;
+  }
+
+  function goalRow(g, compact) {
+    var row = elem('div', 'goal-row' + (g.done ? ' done' : ''));
+
+    var tick = elem('button', 'tick', g.done ? '✓' : '');
+    tick.type = 'button';
+    tick.title = g.done ? 'Mark as still in pursuit' : 'Mark as done';
+    tick.addEventListener('click', function () { toggleGoal(g.id); });
+    row.appendChild(tick);
+
+    var body = elem('div', 'gname');
+    body.appendChild(editable('div', null, g.name, function (v) {
+      g.name = v; save(); refreshHub();
+    }));
+    if (!compact) {
+      body.appendChild(editable('div', 'gnote', g.note, function (v) { g.note = v; save(); }));
+      body.appendChild(anchorPicker(g));
+    }
+    row.appendChild(body);
+
+    var rm = elem('button', 'grm', '✕');
+    rm.type = 'button';
+    rm.title = 'Remove goal';
+    rm.addEventListener('click', function () { removeGoal(g.id); });
+    row.appendChild(rm);
+    return row;
+  }
+
+  function anchorPicker(g) {
+    var wrap = elem('div', null);
+    wrap.style.marginTop = '0.45rem';
+    var s = elem('select', 'anchor-pick');
+    var none = elem('option', null, '— not anchored to anything —');
+    none.value = '';
+    s.appendChild(none);
+    [['Central', state.central], ['Ancillary', state.secondary]].forEach(function (pair) {
+      pair[1].forEach(function (p) {
+        var o = elem('option', null, pair[0] + ' · ' + p.title);
+        o.value = p.id;
+        s.appendChild(o);
+      });
+    });
+    s.value = g.targetId && pursuitById(g.targetId) ? g.targetId : '';
+    s.addEventListener('change', function () {
+      g.targetId = s.value || null;
+      save();
+      renderAll();
+    });
+    wrap.appendChild(s);
+    return wrap;
+  }
+
+  function goalsBlock(p, prefix) {
+    var box = elem('div', 'goals');
+    var gs = goalsFor(p.id);
+    var head = elem('div', 'g-label', gs.length ? 'Goals in pursuit of this' : 'No goals yet');
+    box.appendChild(head);
+    gs.forEach(function (g) { box.appendChild(goalRow(g, true)); });
+
+    var add = elem('div', 'goal-add');
+    var input = elem('input');
+    input.type = 'text';
+    input.id = (prefix || 'ga-') + p.id;
+    input.placeholder = 'Add a goal toward this…';
+    var btn = elem('button', null, 'Add goal');
+    btn.type = 'button';
+    function commit() {
+      if (!addGoal(p.id, input.value)) return;
+      pendingFocus = input.id;
+      renderAll();
+    }
+    btn.addEventListener('click', commit);
+    input.addEventListener('keydown', function (e) { if (e.key === 'Enter') commit(); });
+    add.appendChild(input);
+    add.appendChild(btn);
+    box.appendChild(add);
+    return box;
+  }
+
+  /* ─────────── pursuit lists ─────────── */
+
+  var TIER_CLASS = { secondary: ' secondary', vehicles: ' vehicle', dreams: ' dream', values: ' value' };
+
+  function pursuitLi(tier, p, i, withGoals) {
+    var li = elem('li', 'pursuit' + (TIER_CLASS[tier] || '') + (sel && sel.id === p.id ? ' sel' : ''));
+    li.id = 'p-' + p.id;
+
+    li.appendChild(elem('span', 'num', String(i + 1).padStart(2, '0')));
+
+    var body = elem('div', 'body');
+    body.appendChild(editable('div', 'title', p.title, function (v) {
+      p.title = v; save(); refreshHub(); renderDecision();
+    }));
+    body.appendChild(editable('div', 'note', p.note, function (v) { p.note = v; save(); }));
+    if (withGoals) body.appendChild(goalsBlock(p));
+    li.appendChild(body);
+
+    var ctrls = elem('div', 'ctrls');
+    if (tier === 'central' || tier === 'secondary') {
+      var to = tier === 'central' ? 'secondary' : 'central';
+      var move = elem('button', 'move', tier === 'central' ? '↓' : '↑');
+      move.type = 'button';
+      move.title = tier === 'central' ? 'Move to Ancillary' : 'Move to Central';
+      move.addEventListener('click', function () { movePursuit(tier, to, p.id); });
+      ctrls.appendChild(move);
+    }
+    var del = elem('button', 'del', '✕');
+    del.type = 'button';
+    del.title = 'Remove';
+    del.addEventListener('click', function () { removePursuit(tier, p.id); });
+    ctrls.appendChild(del);
+    li.appendChild(ctrls);
+    return li;
+  }
+
+  function movePursuit(from, to, id) {
+    var idx = -1;
+    state[from].forEach(function (p, i) { if (p.id === id) idx = i; });
+    if (idx < 0) return;
+    var p = state[from].splice(idx, 1)[0];
+    state[to].push(p);
+    save();
+    renderAll();
+  }
+
+  function removePursuit(tier, id) {
+    var gs = goalsFor(id);
+    if (gs.length && !confirm(gs.length + ' goal' + (gs.length === 1 ? ' is' : 's are') +
+        ' anchored to this. Remove it and set them adrift?')) return;
+    state[tier] = state[tier].filter(function (p) { return p.id !== id; });
+    gs.forEach(function (g) { g.targetId = null; });
+    if (sel && sel.id === id) sel = null;
+    save();
+    renderAll();
+    if (gs.length) flash(gs.length + ' goal' + (gs.length === 1 ? '' : 's') + ' now unanchored — re-anchor or let go.');
+  }
+
+  function renderList(tier, listId, withGoals) {
+    var el = document.getElementById(listId);
+    clear(el);
+    state[tier].forEach(function (p, i) { el.appendChild(pursuitLi(tier, p, i, withGoals)); });
+  }
+  function renderCentral() { renderList('central', 'centralList', true); }
+  function renderSecondary() { renderList('secondary', 'secondaryList', true); }
+
+  function renderDrift() {
+    var section = document.getElementById('driftSection');
+    var el = document.getElementById('driftList');
+    var gs = driftGoals();
+    clear(el);
+    gs.forEach(function (g) {
+      var li = elem('li', 'drift');
+      li.id = 'p-' + g.id;
+      var body = elem('div', 'dname');
+      body.appendChild(editable('div', null, g.name, function (v) { g.name = v; save(); refreshHub(); }));
+      if (g.note) body.appendChild(elem('div', 'dnote', g.note));
+      li.appendChild(body);
+      li.appendChild(anchorPicker(g));
+      var rm = elem('button', 'grm', '✕');
+      rm.type = 'button';
+      rm.title = 'Let this one go';
+      rm.addEventListener('click', function () { removeGoal(g.id); });
+      li.appendChild(rm);
+      el.appendChild(li);
+    });
+    section.hidden = false;
+    if (!gs.length && !state.orbitCarried) section.hidden = true;
+  }
+
+  /* ─────────── hub detail card ─────────── */
+
+  function detailHead(box, labelText, titleGet, titleSet) {
+    box.appendChild(elem('span', 'label', labelText));
+    box.appendChild(editable('div', 'd-title', titleGet(), function (v) {
+      titleSet(v); save(); refreshHub(); renderDecision();
+    }));
+  }
+
+  function renderDetail() {
+    var box = document.getElementById('hubDetail');
+    clear(box);
+
+    if (!sel) {
+      var hint = elem('div', 'detail');
+      hint.appendChild(elem('span', 'label', 'Reading the map'));
+      hint.appendChild(elem('div', 'd-note',
+        'The center is what everything flows from. The gold ring is what we are going after — the vision targets. ' +
+        'The small circles are the goals in pursuit of each one. Click any circle to work on it.'));
+      box.appendChild(hint);
+      return;
+    }
+
+    if (sel.kind === 'abide') {
+      var a = elem('div', 'detail is-abide');
+      detailHead(a, 'The Center of It All', function () { return state.abide; }, function (v) { state.abide = v; abideEl.textContent = v; });
+      a.appendChild(elem('div', 'd-note', '“Remain in me, as I also remain in you… apart from me you can do nothing.” — John 15:4–5'));
+      box.appendChild(a);
+      return;
+    }
+
+    if (sel.kind === 'goal') {
+      var g = goalById(sel.id);
+      if (!g) { sel = null; return renderDetail(); }
+      var d = elem('div', 'detail is-goal');
+      var host = g.targetId ? pursuitById(g.targetId) : null;
+      detailHead(d, host ? 'Goal · toward ' + host.title : 'Goal · not anchored to anything',
+        function () { return g.name; }, function (v) { g.name = v; });
+      d.appendChild(editable('div', 'd-note', g.note, function (v) { g.note = v; save(); }));
+      var acts = elem('div', 'd-actions');
+      var t = elem('button', 'btn', g.done ? 'Put it back in pursuit' : 'Mark it done');
+      t.addEventListener('click', function () { toggleGoal(g.id); });
+      acts.appendChild(t);
+      acts.appendChild(anchorPicker(g).firstChild);
+      var rm = elem('button', 'btn danger', 'Remove goal');
+      rm.addEventListener('click', function () { removeGoal(g.id); });
+      acts.appendChild(rm);
+      d.appendChild(acts);
+      box.appendChild(d);
+      return;
+    }
+
+    var p = pursuitById(sel.id);
+    if (!p) { sel = null; return renderDetail(); }
+    var tier = tierOf(p.id);
+    var idx = state[tier].indexOf(p);
+    var card = elem('div', 'detail' + (tier === 'secondary' ? ' is-anc' : ''));
+    detailHead(card,
+      (tier === 'central' ? 'Vision Target' : 'Ancillary') + ' · ' + String(idx + 1).padStart(2, '0'),
+      function () { return p.title; }, function (v) { p.title = v; });
+    card.appendChild(editable('div', 'd-note', p.note, function (v) { p.note = v; save(); }));
+    card.appendChild(goalsBlock(p, 'gad-'));
+
+    var actions = elem('div', 'd-actions');
+    var mv = elem('button', 'btn', tier === 'central' ? 'Move to Ancillary' : 'Make it central');
+    mv.addEventListener('click', function () { movePursuit(tier, tier === 'central' ? 'secondary' : 'central', p.id); });
+    actions.appendChild(mv);
+    var jump = elem('button', 'btn', 'Show it in the list');
+    jump.addEventListener('click', function () {
+      var target = document.getElementById('p-' + p.id);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+    actions.appendChild(jump);
+    var del = elem('button', 'btn danger', 'Remove');
+    del.addEventListener('click', function () { removePursuit(tier, p.id); });
+    actions.appendChild(del);
+    card.appendChild(actions);
+    box.appendChild(card);
+  }
+
+  /* ─────────── gifts & decision filter ─────────── */
 
   function renderGifts() {
     var el = document.getElementById('giftsList');
-    el.innerHTML = '';
-    state.gifts.forEach(function (g, i) {
-      var chip = document.createElement('div');
-      chip.className = 'gift';
-      var span = document.createElement('span');
-      span.contentEditable = 'true';
-      span.spellcheck = false;
-      span.textContent = g;
-      span.addEventListener('input', function () { state.gifts[i] = span.textContent; save(); });
-      var del = document.createElement('button');
-      del.textContent = '✕';
+    clear(el);
+    state.gifts.forEach(function (giftText, i) {
+      var chip = elem('div', 'gift');
+      chip.appendChild(editable('span', null, giftText, function (v) { state.gifts[i] = v; save(); }));
+      var del = elem('button', null, '✕');
+      del.type = 'button';
       del.title = 'Remove';
       del.addEventListener('click', function () {
         state.gifts.splice(i, 1);
         save();
         renderGifts();
       });
-      chip.appendChild(span);
       chip.appendChild(del);
       el.appendChild(chip);
     });
   }
 
-  function renderDecision() {
-    var qs = document.getElementById('decisionQs');
-    qs.innerHTML = '';
-    var questions = [{ key: '_abide', text: 'Does this flow from — and protect — remaining in Jesus?' }]
+  function decisionQuestions() {
+    return [{ key: '_abide', text: 'Does this flow from — and protect — remaining in Jesus?' }]
       .concat(state.central.map(function (p, i) {
         return { key: 'c' + i, text: 'Does this advance: ' + p.title + '?' };
       }))
       .concat([{ key: '_gifts', text: 'Does this fit the gifts God has given me?' }]);
+  }
 
+  function renderDecision() {
+    var qs = document.getElementById('decisionQs');
+    clear(qs);
+    var questions = decisionQuestions();
     questions.forEach(function (q) {
-      var label = document.createElement('label');
-      var cb = document.createElement('input');
+      var label = elem('label');
+      var cb = elem('input');
       cb.type = 'checkbox';
       cb.checked = !!state.decision.checks[q.key];
       cb.addEventListener('change', function () {
@@ -534,10 +1540,8 @@
         save();
         updateVerdict(questions);
       });
-      var span = document.createElement('span');
-      span.textContent = q.text;
       label.appendChild(cb);
-      label.appendChild(span);
+      label.appendChild(elem('span', null, q.text));
       qs.appendChild(label);
     });
     updateVerdict(questions);
@@ -547,7 +1551,7 @@
     var v = document.getElementById('verdict');
     var total = questions.length;
     var yes = questions.filter(function (q) { return state.decision.checks[q.key]; }).length;
-    if (!document.getElementById('decisionText').value.trim() && yes === 0) {
+    if (!decisionInput.value.trim() && yes === 0) {
       v.textContent = '';
       v.className = 'verdict';
       return;
@@ -564,33 +1568,101 @@
     }
   }
 
+  /* ─────────── refresh orchestration ─────────── */
+
+  function holdsFocus(id) {
+    var el = document.getElementById(id);
+    return !!(el && el.contains(document.activeElement));
+  }
+
+  // Live-typing refresh: redraw everything the edit affects, except whatever
+  // currently holds the caret.
+  function refreshHub() {
+    renderHub();
+    renderChips();
+    renderStats();
+    if (!holdsFocus('hubDetail')) renderDetail();
+    if (!holdsFocus('centralList') && !holdsFocus('secondaryList') && !holdsFocus('driftList')) {
+      renderCentral();
+      renderSecondary();
+      renderDrift();
+    }
+  }
+
+  function applyPendingFocus() {
+    if (!pendingFocus) return;
+    var el = document.getElementById(pendingFocus);
+    pendingFocus = null;
+    if (el) el.focus();
+  }
+
+  function renderAll() {
+    renderHub();
+    renderChips();
+    renderStats();
+    renderDetail();
+    renderCentral();
+    renderSecondary();
+    renderDrift();
+    renderList('values', 'valuesList', false);
+    renderList('vehicles', 'vehiclesList', false);
+    renderList('dreams', 'dreamsList', false);
+    renderGifts();
+    renderDecision();
+    renderNotice();
+    applyPendingFocus();
+  }
+
+  /* ─────────── wiring ─────────── */
+
+  var abideEl = document.getElementById('abideText');
+  var visionEl = document.getElementById('visionText');
+  var eternityEl = document.getElementById('eternityText');
   var decisionInput = document.getElementById('decisionText');
+
+  function bindText(el, field, redrawHub) {
+    if (state[field]) el.textContent = state[field];
+    el.addEventListener('input', function () {
+      state[field] = el.textContent;
+      save();
+      if (redrawHub) refreshHub();
+    });
+  }
+  bindText(abideEl, 'abide', true);
+  bindText(visionEl, 'vision', false);
+  bindText(eternityEl, 'eternity', false);
+
   decisionInput.value = state.decision.text || '';
   decisionInput.addEventListener('input', function () {
     state.decision.text = decisionInput.value;
     save();
+    updateVerdict(decisionQuestions());
   });
 
+  var ADD_INPUTS = {
+    central: 'newCentral', secondary: 'newSecondary',
+    vehicles: 'newVehicle', dreams: 'newDream', values: 'newValue'
+  };
   function addPursuit(tier, inputId) {
     var input = document.getElementById(inputId);
     var v = input.value.trim();
     if (!v) return;
-    state[tier].push({ title: v, note: '' });
+    state[tier].push({ id: uid('p'), title: v, note: '' });
     input.value = '';
     save();
+    pendingFocus = inputId;
     renderAll();
   }
-  var addInputs = { central: 'newCentral', secondary: 'newSecondary', vehicles: 'newVehicle', dreams: 'newDream', values: 'newValue' };
-  document.querySelectorAll('button[data-add]').forEach(function (btn) {
+  Array.prototype.forEach.call(document.querySelectorAll('button[data-add]'), function (btn) {
     var tier = btn.getAttribute('data-add');
-    var inputId = addInputs[tier];
+    var inputId = ADD_INPUTS[tier];
     btn.addEventListener('click', function () { addPursuit(tier, inputId); });
     document.getElementById(inputId).addEventListener('keydown', function (e) {
       if (e.key === 'Enter') addPursuit(tier, inputId);
     });
   });
 
-  function addGift() {
+  function addGiftFromInput() {
     var input = document.getElementById('newGift');
     var v = input.value.trim();
     if (!v) return;
@@ -599,21 +1671,88 @@
     save();
     renderGifts();
   }
-  document.getElementById('addGiftBtn').addEventListener('click', addGift);
+  document.getElementById('addGiftBtn').addEventListener('click', addGiftFromInput);
   document.getElementById('newGift').addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') addGift();
+    if (e.key === 'Enter') addGiftFromInput();
   });
 
-  function renderAll() {
-    renderTier('values', 'valuesList');
-    renderTier('central', 'centralList');
-    renderTier('secondary', 'secondaryList');
-    renderTier('vehicles', 'vehiclesList');
-    renderTier('dreams', 'dreamsList');
-    renderGifts();
-    renderDecision();
+  function addDriftFromInput() {
+    var input = document.getElementById('newDrift');
+    if (!addGoal(null, input.value)) return;
+    input.value = '';
+    pendingFocus = 'newDrift';
+    renderAll();
   }
+  document.getElementById('addDriftBtn').addEventListener('click', addDriftFromInput);
+  document.getElementById('newDrift').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') addDriftFromInput();
+  });
+
+  /* ─────────── export / import ─────────── */
+
+  document.getElementById('exportBtn').addEventListener('click', function () {
+    var blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'vision-hub-' + new Date().toISOString().slice(0, 10) + '.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+  });
+
+  var importFile = document.getElementById('importFile');
+  document.getElementById('importBtn').addEventListener('click', function () { importFile.click(); });
+  importFile.addEventListener('change', function () {
+    var f = importFile.files && importFile.files[0];
+    if (!f) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      var data;
+      try { data = JSON.parse(reader.result); }
+      catch (e) { alert('That file is not valid JSON.'); return; }
+      applyImport(data);
+    };
+    reader.readAsText(f);
+    importFile.value = '';
+  });
+
+  function applyImport(data) {
+    // A bare array is an Orbit goals export — fold it in as unanchored goals.
+    if (Array.isArray(data)) {
+      var added = data
+        .filter(function (g) { return g && g.name && ORBIT_PLACEHOLDERS.indexOf(g.name) === -1; })
+        .map(function (g) {
+          return { id: uid('g'), name: String(g.name), note: String(g.notes || g.note || ''), targetId: null, done: !!g.done };
+        });
+      if (!added.length) { alert('No goals found in that file.'); return; }
+      state.goals = state.goals.concat(added);
+      save();
+      renderAll();
+      flash(added.length + ' goal' + (added.length === 1 ? '' : 's') + ' imported. Anchor each one to a vision target.');
+      return;
+    }
+    if (data && typeof data === 'object' && (data.central || data.goals || data.vision)) {
+      if (!confirm('Replace everything currently saved in this browser with the imported backup?')) return;
+      state = data;
+      normalize();
+      sel = null;
+      save();
+      renderAll();
+      flash('Backup restored.');
+      return;
+    }
+    alert('That did not look like a Vision backup or an Orbit goals export.');
+  }
+
+  /* ─────────── go ─────────── */
+
   renderAll();
+
+  if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+    navigator.serviceWorker.register('sw.js').catch(function () {});
+  }
 })();
 </script>
 </body>

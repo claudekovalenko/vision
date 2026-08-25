@@ -2,7 +2,9 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [claude/vision-discipleship-app-bgy4fm]
+    branches:
+      - claude/vision-app-consolidation-hub-oqztvi
+      - claude/vision-discipleship-app-bgy4fm
   workflow_dispatch:
 
 permissions:
