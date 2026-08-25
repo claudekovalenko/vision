@@ -370,8 +370,8 @@
       { title: 'The commitment app', note: 'A tool for keeping commitments visible and accountable.' }
     ],
     dreams: [
-      { title: 'Married by thirty-three', note: 'Someone alongside this vision — a dream to carry lightly, with open hands.' },
-      { title: 'Settled into the right org by 2026', note: 'A clear sense of place and role to work the vision from.' }
+      { title: 'Growing in marriage', note: 'A marriage that deepens — growing together inside the vision, not beside it.' },
+      { title: 'Settled with a people to do life with completely', note: 'Not just co-laborers — a people to belong to, all the way in.' }
     ],
     gifts: ['Leadership', 'Vision-casting', 'Discipleship'],
     decision: { text: '', checks: {} }
@@ -403,6 +403,14 @@
       }
     });
     state.seededHealthFinance = true;
+  }
+  if (!state.replacedGuessedDreams) {
+    var oldTitles = { 'Married by thirty-three': 0, 'Settled into the right org by 2026': 1 };
+    state.dreams = (state.dreams || []).map(function (d) {
+      return d.title in oldTitles ? JSON.parse(JSON.stringify(defaults.dreams[oldTitles[d.title]])) : d;
+    });
+    if (!state.dreams.length) state.dreams = JSON.parse(JSON.stringify(defaults.dreams));
+    state.replacedGuessedDreams = true;
   }
   state.vehicles = state.vehicles || JSON.parse(JSON.stringify(defaults.vehicles));
   state.dreams = state.dreams || JSON.parse(JSON.stringify(defaults.dreams));
