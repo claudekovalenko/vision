@@ -360,7 +360,9 @@
       { title: 'Sending them out to the ends of the earth', note: 'California is not the end goal — raised up here, sent from here.' }
     ],
     secondary: [
-      { title: 'Tying vision to commitments', note: 'Eventually connect this with the commitment app.' }
+      { title: 'Tying vision to commitments', note: 'Eventually connect this with the commitment app.' },
+      { title: 'Getting fit and increasing my health', note: 'A strong body to sustain the vision for the long haul.' },
+      { title: 'Growing my financial capacities', note: 'Resources that fund and free the pursuit of what is central.' }
     ],
     vehicles: [
       { title: 'Campus ministry presence', note: 'A consistent, embedded presence where Gen Z already is.' },
@@ -391,6 +393,17 @@
   } catch (e) { state = JSON.parse(JSON.stringify(defaults)); }
   state.gifts = state.gifts || [];
   state.values = state.values || JSON.parse(JSON.stringify(defaults.values));
+  if (!state.seededHealthFinance) {
+    state.secondary = state.secondary || [];
+    ['Getting fit and increasing my health', 'Growing my financial capacities'].forEach(function (t) {
+      var exists = state.secondary.concat(state.central || []).some(function (p) { return p.title === t; });
+      if (!exists) {
+        var d = defaults.secondary.filter(function (p) { return p.title === t; })[0];
+        if (d) state.secondary.push(JSON.parse(JSON.stringify(d)));
+      }
+    });
+    state.seededHealthFinance = true;
+  }
   state.vehicles = state.vehicles || JSON.parse(JSON.stringify(defaults.vehicles));
   state.dreams = state.dreams || JSON.parse(JSON.stringify(defaults.dreams));
   state.decision = state.decision || { text: '', checks: {} };
