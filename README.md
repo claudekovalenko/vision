@@ -10,6 +10,7 @@ disciples made in Los Angeles who look more and more like Jesus, held in light o
 - Scripture banner (Proverbs 29:18) at the top
 - **The Center of It All** — remaining in Jesus (John 15), from which everything flows
 - Editable vision statement — click any text to edit it in place
+- **Values** — the marks of the culture being built (family flourishing within it)
 - Tiered pursuits: **Central** (primary focus) and **Ancillary** (secondary), with
   one-click moves between tiers
 - **Vehicles** — the concrete means and structures the vision moves through

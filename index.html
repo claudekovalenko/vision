@@ -114,6 +114,8 @@
     align-items: flex-start;
   }
   .pursuit.secondary { border-left-color: var(--accent); opacity: 0.92; }
+  .pursuit.value { border-left-color: #c98a9a; }
+  .pursuit.value .num { color: #c98a9a; }
   .pursuit.vehicle { border-left-color: var(--green); }
   .pursuit.vehicle .num { color: var(--green); }
   .pursuit.dream { border-left-style: dashed; border-left-color: var(--muted); opacity: 0.9; }
@@ -253,6 +255,18 @@
 
   <section class="tier">
     <div class="tier-head">
+      <span class="label">Values</span>
+      <p>the culture I am building toward</p>
+    </div>
+    <ul class="plist" id="valuesList"></ul>
+    <div class="add-row">
+      <input id="newValue" type="text" placeholder="Add a value&hellip;" />
+      <button data-add="values">Add</button>
+    </div>
+  </section>
+
+  <section class="tier">
+    <div class="tier-head">
       <span class="label">Central &mdash; Primary Focus</span>
       <p>what the Lord has made central</p>
     </div>
@@ -336,6 +350,10 @@
     abide: null,
     vision: null,
     eternity: null,
+    values: [
+      { title: 'A culture so good and strong my children can grow almost unsupervised', note: 'The environment itself disciples — safety and formation come from the strength of the culture around them.' },
+      { title: 'A marriage where my wife grows really well and healthy', note: 'She flourishes in that same culture — it is good for her, not just built by her.' }
+    ],
     central: [
       { title: 'Reaching Gen Z on university and college campuses', note: 'The Lord has given a focus of centrality here — this is primary.' },
       { title: 'Raising up leaders who look more and more like Jesus', note: 'Leadership development as a primary lens — disciples who make disciples.' },
@@ -372,6 +390,7 @@
     }
   } catch (e) { state = JSON.parse(JSON.stringify(defaults)); }
   state.gifts = state.gifts || [];
+  state.values = state.values || JSON.parse(JSON.stringify(defaults.values));
   state.vehicles = state.vehicles || JSON.parse(JSON.stringify(defaults.vehicles));
   state.dreams = state.dreams || JSON.parse(JSON.stringify(defaults.dreams));
   state.decision = state.decision || { text: '', checks: {} };
@@ -394,7 +413,7 @@
     listEl.innerHTML = '';
     state[tier].forEach(function (p, i) {
       var li = document.createElement('li');
-      var tierClass = { secondary: ' secondary', vehicles: ' vehicle', dreams: ' dream' };
+      var tierClass = { secondary: ' secondary', vehicles: ' vehicle', dreams: ' dream', values: ' value' };
       li.className = 'pursuit' + (tierClass[tier] || '');
 
       var num = document.createElement('span');
@@ -548,7 +567,7 @@
     save();
     renderAll();
   }
-  var addInputs = { central: 'newCentral', secondary: 'newSecondary', vehicles: 'newVehicle', dreams: 'newDream' };
+  var addInputs = { central: 'newCentral', secondary: 'newSecondary', vehicles: 'newVehicle', dreams: 'newDream', values: 'newValue' };
   document.querySelectorAll('button[data-add]').forEach(function (btn) {
     var tier = btn.getAttribute('data-add');
     var inputId = addInputs[tier];
@@ -573,6 +592,7 @@
   });
 
   function renderAll() {
+    renderTier('values', 'valuesList');
     renderTier('central', 'centralList');
     renderTier('secondary', 'secondaryList');
     renderTier('vehicles', 'vehiclesList');
