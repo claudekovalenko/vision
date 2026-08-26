@@ -92,6 +92,17 @@
   }
   .vision .eternity { margin-top: 1rem; color: var(--muted); font-style: italic; }
 
+  /* Why now */
+  .whynow {
+    margin-top: 3rem;
+    padding: 1.5rem 1.75rem;
+    border: 1px solid var(--line);
+    border-left: 3px solid #c97f5e;
+    border-radius: 6px;
+    background: var(--panel);
+  }
+  .whynow p { margin-top: 0.6rem; font-style: italic; line-height: 1.7; }
+
   /* Tier sections */
   section.tier { margin-top: 3.25rem; }
   .tier-head {
@@ -251,6 +262,11 @@
     <span class="label">The Vision I Am Running After</span>
     <h2 id="visionText" contenteditable="true" spellcheck="false">To see disciples made in Los Angeles who look more and more like Jesus &mdash; raised up as leaders and sent out to the ends of the earth.</h2>
     <p class="eternity" id="eternityText" contenteditable="true" spellcheck="false">Held in light of eternity.</p>
+  </section>
+
+  <section class="whynow">
+    <span class="label">Why Now</span>
+    <p id="whynowText" contenteditable="true" spellcheck="false">The time to build is now. My body is already becoming slightly weaker, and I won&rsquo;t always have the flexibility I have today. This is the window to establish myself well &mdash; to lay foundations while I have the strength and freedom to lay them.</p>
   </section>
 
   <section class="tier">
@@ -428,6 +444,7 @@
   bindText('abideText', 'abide');
   bindText('visionText', 'vision');
   bindText('eternityText', 'eternity');
+  bindText('whynowText', 'whynow');
 
   function renderTier(tier, listId) {
     var listEl = document.getElementById(listId);
