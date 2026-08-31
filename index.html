@@ -92,6 +92,50 @@
   }
   .vision .eternity { margin-top: 1rem; color: var(--muted); font-style: italic; }
 
+  /* Vision iterations */
+  .iter-row { margin-top: 1.25rem; }
+  .iter-btn {
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    border-radius: 6px;
+    padding: 0.35rem 0.9rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+  }
+  .iter-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .iterations { margin-top: 1rem; text-align: left; }
+  .iterations summary {
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    letter-spacing: 0.08em;
+    text-align: center;
+    list-style: none;
+  }
+  .iterations summary:hover { color: var(--gold); }
+  .iterations ol {
+    margin: 1rem auto 0;
+    max-width: 560px;
+    padding-left: 1.25rem;
+    display: grid;
+    gap: 0.8rem;
+  }
+  .iterations li { color: var(--muted); font-size: 0.92rem; font-style: italic; }
+  .iterations li .iter-date {
+    display: block;
+    font-style: normal;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin-top: 0.2rem;
+    opacity: 0.7;
+  }
+
   /* Why now */
   .whynow {
     margin-top: 3rem;
@@ -260,8 +304,15 @@
 
   <section class="vision">
     <span class="label">The Vision I Am Running After</span>
-    <h2 id="visionText" contenteditable="true" spellcheck="false">To see disciples made in Los Angeles who look more and more like Jesus &mdash; raised up as leaders and sent out to the ends of the earth.</h2>
+    <h2 id="visionText" contenteditable="true" spellcheck="false"></h2>
     <p class="eternity" id="eternityText" contenteditable="true" spellcheck="false">Held in light of eternity.</p>
+    <div class="iter-row">
+      <button id="newIterBtn" class="iter-btn" title="Snapshot the current statement and start a new iteration">Save as new iteration</button>
+      <details class="iterations">
+        <summary id="iterSummary">Past iterations</summary>
+        <ol id="iterList"></ol>
+      </details>
+    </div>
   </section>
 
   <section class="whynow">
@@ -362,9 +413,16 @@
   var KEY = 'vision-app-v2';
   var OLD_KEY = 'vision-app-v1';
 
+  var V1_TEXT = 'To see disciples made in Los Angeles who look more and more like Jesus — raised up as leaders and sent out to the ends of the earth.';
+  var V2_TEXT = 'To live in light of eternity — living for a “Well done, good and faithful servant.” Becoming more like Jesus day by day, loving God and loving my neighbor as myself, and raising up people who look more and more like Jesus.';
+
   var defaults = {
     abide: null,
     vision: null,
+    visionVersions: [
+      { text: V1_TEXT, date: '2026-08-25' },
+      { text: V2_TEXT, date: '2026-08-31' }
+    ],
     eternity: null,
     values: [
       { title: 'A culture so good and strong my children can grow almost unsupervised', note: 'The environment itself disciples — safety and formation come from the strength of the culture around them.' },
@@ -442,8 +500,49 @@
     el.addEventListener('input', function () { state[field] = el.textContent; save(); });
   }
   bindText('abideText', 'abide');
-  bindText('visionText', 'vision');
   bindText('eternityText', 'eternity');
+
+  // Vision statement with iterations: past versions are kept, never overwritten.
+  if (!state.visionVersions) {
+    state.visionVersions = [];
+    var firstText = state.vision || V1_TEXT;
+    state.visionVersions.push({ text: firstText, date: '2026-08-25' });
+    if (firstText !== V2_TEXT) state.visionVersions.push({ text: V2_TEXT, date: '2026-08-31' });
+  }
+  var visionEl = document.getElementById('visionText');
+  function currentVision() { return state.visionVersions[state.visionVersions.length - 1]; }
+  visionEl.textContent = currentVision().text;
+  visionEl.addEventListener('input', function () {
+    currentVision().text = visionEl.textContent;
+    save();
+  });
+
+  function renderIterations() {
+    var list = document.getElementById('iterList');
+    var summary = document.getElementById('iterSummary');
+    list.innerHTML = '';
+    var past = state.visionVersions.slice(0, -1);
+    summary.textContent = past.length
+      ? 'Past iterations (' + past.length + ')'
+      : 'No past iterations yet';
+    past.forEach(function (v) {
+      var li = document.createElement('li');
+      li.textContent = v.text;
+      var d = document.createElement('span');
+      d.className = 'iter-date';
+      d.textContent = v.date || '';
+      li.appendChild(d);
+      list.appendChild(li);
+    });
+  }
+  document.getElementById('newIterBtn').addEventListener('click', function () {
+    var cur = currentVision();
+    state.visionVersions.push({ text: cur.text, date: new Date().toISOString().slice(0, 10) });
+    save();
+    renderIterations();
+    visionEl.focus();
+  });
+  renderIterations();
   bindText('whynowText', 'whynow');
 
   function renderTier(tier, listId) {
