@@ -173,6 +173,8 @@
   .pursuit.value .num { color: #c98a9a; }
   .pursuit.vehicle { border-left-color: var(--green); }
   .pursuit.vehicle .num { color: var(--green); }
+  .pursuit.barrier { border-left-color: #b06557; }
+  .pursuit.barrier .num { color: #b06557; }
   .pursuit.dream { border-left-style: dashed; border-left-color: var(--muted); opacity: 0.9; }
   .pursuit.dream .num { color: var(--muted); }
   .pursuit.dream .title { font-style: italic; }
@@ -382,6 +384,18 @@
 
   <section class="tier">
     <div class="tier-head">
+      <span class="label">Barriers &amp; Hindrances</span>
+      <p>what stands in the way &mdash; named honestly</p>
+    </div>
+    <ul class="plist" id="barriersList"></ul>
+    <div class="add-row">
+      <input id="newBarrier" type="text" placeholder="Name a barrier or hindrance&hellip;" />
+      <button data-add="barriers">Add</button>
+    </div>
+  </section>
+
+  <section class="tier">
+    <div class="tier-head">
       <span class="label">My Gifts</span>
       <p>how God has wired me toward this</p>
     </div>
@@ -447,6 +461,15 @@
       { title: 'Growing in marriage', note: 'A marriage that deepens — growing together inside the vision, not beside it.' },
       { title: 'Settled with a people to do life with completely', note: 'Not just co-laborers — a people to belong to, all the way in.' }
     ],
+    barriers: [
+      { title: 'Ignorance', note: 'Not yet knowing what I need to know — a barrier to break through by learning and seeking counsel.' },
+      { title: 'People-pleasing', note: 'Trying to fit the mold others want, being nice to everyone continually — instead of living for the audience of One.' },
+      { title: 'Spending time on the wrong people or the wrong things', note: 'Time given away from what is central.' },
+      { title: 'No clear steps toward growing in marriage prep', note: 'The desire is there, but the concrete next steps aren’t yet.' },
+      { title: 'Comparing easily with other people', note: 'Measuring myself against others instead of against faithfulness.' },
+      { title: 'Greed', note: 'A pull toward more that competes with what is central.' },
+      { title: 'Desire for my own honor', note: 'Wanting the "well done" from people rather than from God.' }
+    ],
     gifts: ['Leadership', 'Vision-casting', 'Discipleship'],
     decision: { text: '', checks: {} }
   };
@@ -467,6 +490,7 @@
   } catch (e) { state = JSON.parse(JSON.stringify(defaults)); }
   state.gifts = state.gifts || [];
   state.values = state.values || JSON.parse(JSON.stringify(defaults.values));
+  state.barriers = state.barriers || JSON.parse(JSON.stringify(defaults.barriers));
   if (!state.seededHealthFinance) {
     state.secondary = state.secondary || [];
     ['Getting fit and increasing my health', 'Growing my financial capacities'].forEach(function (t) {
@@ -550,7 +574,7 @@
     listEl.innerHTML = '';
     state[tier].forEach(function (p, i) {
       var li = document.createElement('li');
-      var tierClass = { secondary: ' secondary', vehicles: ' vehicle', dreams: ' dream', values: ' value' };
+      var tierClass = { secondary: ' secondary', vehicles: ' vehicle', dreams: ' dream', values: ' value', barriers: ' barrier' };
       li.className = 'pursuit' + (tierClass[tier] || '');
 
       var num = document.createElement('span');
@@ -704,7 +728,7 @@
     save();
     renderAll();
   }
-  var addInputs = { central: 'newCentral', secondary: 'newSecondary', vehicles: 'newVehicle', dreams: 'newDream', values: 'newValue' };
+  var addInputs = { central: 'newCentral', secondary: 'newSecondary', vehicles: 'newVehicle', dreams: 'newDream', values: 'newValue', barriers: 'newBarrier' };
   document.querySelectorAll('button[data-add]').forEach(function (btn) {
     var tier = btn.getAttribute('data-add');
     var inputId = addInputs[tier];
@@ -734,6 +758,7 @@
     renderTier('secondary', 'secondaryList');
     renderTier('vehicles', 'vehiclesList');
     renderTier('dreams', 'dreamsList');
+    renderTier('barriers', 'barriersList');
     renderGifts();
     renderDecision();
   }
