@@ -863,6 +863,15 @@
 
   // Building log: every update names what it builds up.
   state.log = state.log || [];
+  if (!state.seededPracticalSteps) {
+    [
+      { text: 'Great access to food at Knott’s — fueling health well', target: 'Secondary: Getting fit and increasing my health', date: '2026-09-01' },
+      { text: 'Working out 6 times a week', target: 'Marriage Preparation: Developing my physique', date: '2026-09-01' },
+      { text: 'Reading a book on purity daily', target: 'Marriage Preparation: Be pure', date: '2026-09-01' },
+      { text: 'On the Compassionate Warrior program', target: 'Marriage Preparation: Be pure', date: '2026-09-01' }
+    ].forEach(function (e) { state.log.push(e); });
+    state.seededPracticalSteps = true;
+  }
   var LOG_GROUPS = [
     ['rhythms', 'Rhythms of Abiding'],
     ['central', 'Central'],
