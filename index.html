@@ -518,6 +518,18 @@
 
   <section class="tier">
     <div class="tier-head">
+      <span class="label">Fun</span>
+      <p>joy is a bucket too</p>
+    </div>
+    <ul class="plist" id="funList"></ul>
+    <div class="add-row">
+      <input id="newFun" type="text" placeholder="Add something that is genuinely fun for you&hellip;" />
+      <button data-add="fun">Add</button>
+    </div>
+  </section>
+
+  <section class="tier">
+    <div class="tier-head">
       <span class="label">Building Log</span>
       <p>each update builds something &mdash; name what</p>
     </div>
@@ -607,6 +619,7 @@
       { title: 'Business builder', note: '' },
       { title: 'Hosting worship spaces', note: '' }
     ],
+    fun: [],
     barriers: [
       { title: 'Ignorance', note: 'Not yet knowing what I need to know — a barrier to break through by learning and seeking counsel.' },
       { title: 'People-pleasing', note: 'Trying to fit the mold others want, being nice to everyone continually — instead of living for the audience of One.' },
@@ -640,6 +653,7 @@
   state.rhythms = state.rhythms || JSON.parse(JSON.stringify(defaults.rhythms));
   state.marriagePrep = state.marriagePrep || JSON.parse(JSON.stringify(defaults.marriagePrep));
   state.positions = state.positions || JSON.parse(JSON.stringify(defaults.positions));
+  state.fun = state.fun || [];
   if (!state.seededHealthFinance) {
     state.secondary = state.secondary || [];
     ['Getting fit and increasing my health', 'Growing my financial capacities'].forEach(function (t) {
@@ -723,7 +737,7 @@
     listEl.innerHTML = '';
     state[tier].forEach(function (p, i) {
       var li = document.createElement('li');
-      var tierClass = { secondary: ' secondary', vehicles: ' vehicle', dreams: ' dream', values: ' value', barriers: ' barrier', rhythms: ' rhythm', marriagePrep: ' value', positions: ' dream' };
+      var tierClass = { secondary: ' secondary', vehicles: ' vehicle', dreams: ' dream', values: ' value', barriers: ' barrier', rhythms: ' rhythm', marriagePrep: ' value', positions: ' dream', fun: ' vehicle' };
       li.className = 'pursuit' + (tierClass[tier] || '');
 
       var num = document.createElement('span');
@@ -819,7 +833,10 @@
       .concat(state.central.map(function (p, i) {
         return { key: 'c' + i, text: 'Does this advance: ' + p.title + '?' };
       }))
-      .concat([{ key: '_gifts', text: 'Does this fit the gifts God has given me?' }]);
+      .concat([
+        { key: '_gifts', text: 'Does this fit the gifts God has given me?' },
+        { key: '_fun', text: 'Is this genuinely fun — life-giving, not just draining duty?' }
+      ]);
 
     questions.forEach(function (q) {
       var label = document.createElement('label');
@@ -879,7 +896,8 @@
     ['marriagePrep', 'Marriage Preparation'],
     ['vehicles', 'Vehicles'],
     ['secondary', 'Secondary'],
-    ['positions', 'Possible Positions']
+    ['positions', 'Possible Positions'],
+    ['fun', 'Fun']
   ];
   function renderLogTargets() {
     var sel = document.getElementById('logTarget');
@@ -971,7 +989,7 @@
     save();
     renderAll();
   }
-  var addInputs = { central: 'newCentral', secondary: 'newSecondary', vehicles: 'newVehicle', dreams: 'newDream', values: 'newValue', barriers: 'newBarrier', rhythms: 'newRhythm', marriagePrep: 'newMarriagePrep', positions: 'newPosition' };
+  var addInputs = { central: 'newCentral', secondary: 'newSecondary', vehicles: 'newVehicle', dreams: 'newDream', values: 'newValue', barriers: 'newBarrier', rhythms: 'newRhythm', marriagePrep: 'newMarriagePrep', positions: 'newPosition', fun: 'newFun' };
   document.querySelectorAll('button[data-add]').forEach(function (btn) {
     var tier = btn.getAttribute('data-add');
     var inputId = addInputs[tier];
@@ -999,6 +1017,7 @@
     renderTier('rhythms', 'rhythmsList');
     renderTier('marriagePrep', 'marriagePrepList');
     renderTier('positions', 'positionsList');
+    renderTier('fun', 'funList');
     renderTier('values', 'valuesList');
     renderTier('central', 'centralList');
     renderTier('secondary', 'secondaryList');
