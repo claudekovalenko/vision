@@ -304,6 +304,18 @@
     <p class="verse">&ldquo;Remain in me, as I also remain in you&hellip; apart from me you can do nothing.&rdquo; &mdash; John 15:4&ndash;5</p>
   </section>
 
+  <section class="tier">
+    <div class="tier-head">
+      <span class="label">Rhythms of Abiding</span>
+      <p>my relationship with God, daily</p>
+    </div>
+    <ul class="plist" id="rhythmsList"></ul>
+    <div class="add-row">
+      <input id="newRhythm" type="text" placeholder="Add a rhythm&hellip;" />
+      <button data-add="rhythms">Add</button>
+    </div>
+  </section>
+
   <section class="vision">
     <span class="label">The Vision I Am Running After</span>
     <h2 id="visionText" contenteditable="true" spellcheck="false"></h2>
@@ -379,6 +391,30 @@
     <div class="add-row">
       <input id="newDream" type="text" placeholder="Add a dream or sense to hold lightly&hellip;" />
       <button data-add="dreams">Add</button>
+    </div>
+  </section>
+
+  <section class="tier">
+    <div class="tier-head">
+      <span class="label">Marriage Preparation</span>
+      <p>clear steps toward being ready</p>
+    </div>
+    <ul class="plist" id="marriagePrepList"></ul>
+    <div class="add-row">
+      <input id="newMarriagePrep" type="text" placeholder="Add a preparation step&hellip;" />
+      <button data-add="marriagePrep">Add</button>
+    </div>
+  </section>
+
+  <section class="tier">
+    <div class="tier-head">
+      <span class="label">Possible Positions</span>
+      <p>ideas that sound exciting &mdash; held loosely</p>
+    </div>
+    <ul class="plist" id="positionsList"></ul>
+    <div class="add-row">
+      <input id="newPosition" type="text" placeholder="Add a possible position&hellip;" />
+      <button data-add="positions">Add</button>
     </div>
   </section>
 
@@ -461,6 +497,27 @@
       { title: 'Growing in marriage', note: 'A marriage that deepens — growing together inside the vision, not beside it.' },
       { title: 'Settled with a people to do life with completely', note: 'Not just co-laborers — a people to belong to, all the way in.' }
     ],
+    rhythms: [
+      { title: 'Prayer', note: '' },
+      { title: 'Reading the Word', note: '' },
+      { title: 'Obedience to the Word', note: 'Not just hearing it — doing it.' }
+    ],
+    marriagePrep: [
+      { title: 'Be pure', note: '' },
+      { title: 'Grow in clarity on where I am going to be planted', note: '' },
+      { title: 'Have financial backing', note: '' },
+      { title: 'Solid guy friends and mentors', note: '' },
+      { title: 'Developing my physique', note: '' }
+    ],
+    positions: [
+      { title: 'Pastor', note: '' },
+      { title: 'Podcast teacher', note: '' },
+      { title: 'Insta preacher', note: '' },
+      { title: 'Itinerant speaker', note: '' },
+      { title: 'Disciplemaker', note: '' },
+      { title: 'Business builder', note: '' },
+      { title: 'Hosting worship spaces', note: '' }
+    ],
     barriers: [
       { title: 'Ignorance', note: 'Not yet knowing what I need to know — a barrier to break through by learning and seeking counsel.' },
       { title: 'People-pleasing', note: 'Trying to fit the mold others want, being nice to everyone continually — instead of living for the audience of One.' },
@@ -491,6 +548,9 @@
   state.gifts = state.gifts || [];
   state.values = state.values || JSON.parse(JSON.stringify(defaults.values));
   state.barriers = state.barriers || JSON.parse(JSON.stringify(defaults.barriers));
+  state.rhythms = state.rhythms || JSON.parse(JSON.stringify(defaults.rhythms));
+  state.marriagePrep = state.marriagePrep || JSON.parse(JSON.stringify(defaults.marriagePrep));
+  state.positions = state.positions || JSON.parse(JSON.stringify(defaults.positions));
   if (!state.seededHealthFinance) {
     state.secondary = state.secondary || [];
     ['Getting fit and increasing my health', 'Growing my financial capacities'].forEach(function (t) {
@@ -574,7 +634,7 @@
     listEl.innerHTML = '';
     state[tier].forEach(function (p, i) {
       var li = document.createElement('li');
-      var tierClass = { secondary: ' secondary', vehicles: ' vehicle', dreams: ' dream', values: ' value', barriers: ' barrier' };
+      var tierClass = { secondary: ' secondary', vehicles: ' vehicle', dreams: ' dream', values: ' value', barriers: ' barrier', rhythms: ' rhythm', marriagePrep: ' value', positions: ' dream' };
       li.className = 'pursuit' + (tierClass[tier] || '');
 
       var num = document.createElement('span');
@@ -728,7 +788,7 @@
     save();
     renderAll();
   }
-  var addInputs = { central: 'newCentral', secondary: 'newSecondary', vehicles: 'newVehicle', dreams: 'newDream', values: 'newValue', barriers: 'newBarrier' };
+  var addInputs = { central: 'newCentral', secondary: 'newSecondary', vehicles: 'newVehicle', dreams: 'newDream', values: 'newValue', barriers: 'newBarrier', rhythms: 'newRhythm', marriagePrep: 'newMarriagePrep', positions: 'newPosition' };
   document.querySelectorAll('button[data-add]').forEach(function (btn) {
     var tier = btn.getAttribute('data-add');
     var inputId = addInputs[tier];
@@ -753,6 +813,9 @@
   });
 
   function renderAll() {
+    renderTier('rhythms', 'rhythmsList');
+    renderTier('marriagePrep', 'marriagePrepList');
+    renderTier('positions', 'positionsList');
     renderTier('values', 'valuesList');
     renderTier('central', 'centralList');
     renderTier('secondary', 'secondaryList');
