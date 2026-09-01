@@ -243,6 +243,80 @@
   .gift:hover button { opacity: 1; }
   .gift button:hover { color: #c97f7f; }
 
+  /* Building log */
+  .log-box {
+    margin-top: 1.25rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 1.25rem;
+  }
+  .log-form { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+  .log-form input {
+    flex: 2 1 220px;
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    color: var(--ink);
+    padding: 0.7rem 0.9rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+  }
+  .log-form select {
+    flex: 1 1 180px;
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    color: var(--ink);
+    padding: 0.7rem 0.6rem;
+    font-family: inherit;
+    font-size: 0.9rem;
+  }
+  .log-form input:focus, .log-form select:focus { outline: 1px solid var(--accent); }
+  .log-form button {
+    background: var(--gold-soft);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    border-radius: 6px;
+    padding: 0 1.2rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+  .log-form button:hover { background: var(--gold); color: var(--bg); }
+  #logList { list-style: none; margin-top: 1.1rem; display: grid; gap: 0.6rem; }
+  #logList li {
+    display: flex;
+    gap: 0.75rem;
+    align-items: baseline;
+    font-size: 0.93rem;
+    border-top: 1px solid var(--line);
+    padding-top: 0.6rem;
+  }
+  #logList .log-date {
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+  #logList .log-body { flex: 1; }
+  #logList .log-target {
+    display: inline-block;
+    margin-left: 0.5rem;
+    color: var(--gold);
+    font-size: 0.78rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    letter-spacing: 0.05em;
+  }
+  #logList .log-target::before { content: '→ '; }
+  #logList button {
+    background: none; border: none; color: var(--muted);
+    cursor: pointer; font-size: 0.85rem; opacity: 0.35;
+  }
+  #logList li:hover button { opacity: 1; }
+  #logList button:hover { color: #c97f7f; }
+
   /* Decision filter */
   .decision-box {
     margin-top: 1.25rem;
@@ -439,6 +513,21 @@
     <div class="add-row">
       <input id="newGift" type="text" placeholder="Add a gift&hellip;" />
       <button id="addGiftBtn">Add</button>
+    </div>
+  </section>
+
+  <section class="tier">
+    <div class="tier-head">
+      <span class="label">Building Log</span>
+      <p>each update builds something &mdash; name what</p>
+    </div>
+    <div class="log-box">
+      <div class="log-form">
+        <input id="logText" type="text" placeholder="What did you do or decide?&hellip;" />
+        <select id="logTarget"></select>
+        <button id="logBtn">Log it</button>
+      </div>
+      <ul id="logList"></ul>
     </div>
   </section>
 
@@ -772,6 +861,91 @@
     }
   }
 
+  // Building log: every update names what it builds up.
+  state.log = state.log || [];
+  var LOG_GROUPS = [
+    ['rhythms', 'Rhythms of Abiding'],
+    ['central', 'Central'],
+    ['values', 'Values'],
+    ['marriagePrep', 'Marriage Preparation'],
+    ['vehicles', 'Vehicles'],
+    ['secondary', 'Secondary'],
+    ['positions', 'Possible Positions']
+  ];
+  function renderLogTargets() {
+    var sel = document.getElementById('logTarget');
+    var prev = sel.value;
+    sel.innerHTML = '';
+    var def = document.createElement('option');
+    def.value = '';
+    def.textContent = 'What does this build?';
+    sel.appendChild(def);
+    LOG_GROUPS.forEach(function (g) {
+      var items = state[g[0]] || [];
+      if (!items.length) return;
+      var og = document.createElement('optgroup');
+      og.label = g[1];
+      items.forEach(function (p) {
+        var o = document.createElement('option');
+        o.value = g[1] + ': ' + p.title;
+        o.textContent = p.title;
+        og.appendChild(o);
+      });
+      sel.appendChild(og);
+    });
+    sel.value = prev;
+  }
+  function renderLog() {
+    renderLogTargets();
+    var list = document.getElementById('logList');
+    list.innerHTML = '';
+    state.log.slice().reverse().forEach(function (e, ri) {
+      var i = state.log.length - 1 - ri;
+      var li = document.createElement('li');
+      var date = document.createElement('span');
+      date.className = 'log-date';
+      date.textContent = e.date;
+      var body = document.createElement('span');
+      body.className = 'log-body';
+      body.textContent = e.text;
+      if (e.target) {
+        var t = document.createElement('span');
+        t.className = 'log-target';
+        t.textContent = e.target;
+        body.appendChild(t);
+      }
+      var del = document.createElement('button');
+      del.textContent = '✕';
+      del.title = 'Remove';
+      del.addEventListener('click', function () {
+        state.log.splice(i, 1);
+        save();
+        renderLog();
+      });
+      li.appendChild(date);
+      li.appendChild(body);
+      li.appendChild(del);
+      list.appendChild(li);
+    });
+  }
+  function addLog() {
+    var input = document.getElementById('logText');
+    var text = input.value.trim();
+    if (!text) return;
+    state.log.push({
+      text: text,
+      target: document.getElementById('logTarget').value,
+      date: new Date().toISOString().slice(0, 10)
+    });
+    input.value = '';
+    save();
+    renderLog();
+  }
+  document.getElementById('logBtn').addEventListener('click', addLog);
+  document.getElementById('logText').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') addLog();
+  });
+
   var decisionInput = document.getElementById('decisionText');
   decisionInput.value = state.decision.text || '';
   decisionInput.addEventListener('input', function () {
@@ -824,6 +998,7 @@
     renderTier('barriers', 'barriersList');
     renderGifts();
     renderDecision();
+    renderLog();
   }
   renderAll();
 })();
