@@ -16,6 +16,9 @@
     --line: #2a2e38;
     --accent: #7fa8c9;
     --green: #8fbf8f;
+    --rose: #c98a9a;
+    --rust: #b06557;
+    --ember: #c97f5e;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -23,344 +26,280 @@
     color: var(--ink);
     font-family: Georgia, 'Times New Roman', serif;
     min-height: 100vh;
-    line-height: 1.6;
+    line-height: 1.55;
   }
-  .wrap { max-width: 760px; margin: 0 auto; padding: 3rem 1.25rem 5rem; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
 
-  /* Scripture banner */
+  /* Compact scripture line */
   .scripture {
     text-align: center;
-    padding: 2.5rem 1.5rem;
-    border: 1px solid var(--line);
-    border-top: 3px solid var(--gold);
-    background: var(--panel);
-    border-radius: 6px;
+    padding: 1rem;
   }
   .scripture blockquote {
-    font-size: 1.6rem;
+    display: inline;
+    font-size: 1.15rem;
     font-style: italic;
     color: var(--gold);
-    letter-spacing: 0.01em;
   }
   .scripture cite {
-    display: block;
-    margin-top: 0.75rem;
     font-style: normal;
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     color: var(--muted);
     letter-spacing: 0.15em;
     text-transform: uppercase;
+    margin-left: 0.75rem;
   }
 
   .label {
-    font-size: 0.75rem;
-    letter-spacing: 0.25em;
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--muted);
     font-family: 'Helvetica Neue', Arial, sans-serif;
   }
   [contenteditable]:focus {
     outline: 1px dashed var(--accent);
-    outline-offset: 6px;
+    outline-offset: 4px;
     border-radius: 4px;
   }
 
-  /* Abide — the deepest center */
+  /* Center bubble: abide */
   .abide {
-    margin-top: 3rem;
+    margin: 1.25rem auto 0;
+    max-width: 620px;
     text-align: center;
-    padding: 2rem 1.5rem;
+    padding: 1.5rem 2rem;
     border: 1px solid var(--gold);
-    border-radius: 6px;
+    border-radius: 32px;
     background: var(--gold-soft);
   }
-  .abide h1 {
-    margin-top: 0.75rem;
-    font-size: 1.7rem;
-    font-weight: normal;
-    line-height: 1.4;
-  }
-  .abide .verse { margin-top: 0.75rem; color: var(--muted); font-style: italic; font-size: 0.95rem; }
+  .abide h1 { margin-top: 0.4rem; font-size: 1.35rem; font-weight: normal; line-height: 1.4; }
+  .abide .verse { margin-top: 0.5rem; color: var(--muted); font-style: italic; font-size: 0.85rem; }
 
-  /* Vision statement */
-  .vision { margin-top: 2.5rem; text-align: center; }
-  .vision h2 {
-    margin-top: 0.75rem;
-    font-size: 1.5rem;
-    font-weight: normal;
-    line-height: 1.45;
+  /* Vision compact */
+  .vision { margin: 1.5rem auto 0; max-width: 760px; text-align: center; }
+  .vision h2 { margin-top: 0.5rem; font-size: 1.15rem; font-weight: normal; line-height: 1.5; }
+  .vision .eternity { margin-top: 0.4rem; color: var(--muted); font-style: italic; font-size: 0.9rem; }
+  .whynow-line {
+    margin: 0.9rem auto 0;
+    max-width: 760px;
+    text-align: center;
+    color: var(--ember);
+    font-style: italic;
+    font-size: 0.9rem;
   }
-  .vision .eternity { margin-top: 1rem; color: var(--muted); font-style: italic; }
-
-  /* Vision iterations */
-  .iter-row { margin-top: 1.25rem; }
+  .iter-row { margin-top: 0.75rem; }
   .iter-btn {
-    background: none;
-    border: 1px solid var(--line);
-    color: var(--muted);
-    border-radius: 6px;
-    padding: 0.35rem 0.9rem;
+    background: none; border: 1px solid var(--line); color: var(--muted);
+    border-radius: 6px; padding: 0.25rem 0.75rem;
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 0.78rem;
-    letter-spacing: 0.08em;
-    cursor: pointer;
+    font-size: 0.72rem; letter-spacing: 0.08em; cursor: pointer;
   }
   .iter-btn:hover { border-color: var(--gold); color: var(--gold); }
-  .iterations { margin-top: 1rem; text-align: left; }
+  .iterations { margin-top: 0.6rem; }
   .iterations summary {
-    cursor: pointer;
-    color: var(--muted);
-    font-size: 0.8rem;
+    cursor: pointer; color: var(--muted); font-size: 0.75rem;
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    letter-spacing: 0.08em;
-    text-align: center;
-    list-style: none;
+    letter-spacing: 0.08em; list-style: none;
   }
   .iterations summary:hover { color: var(--gold); }
   .iterations ol {
-    margin: 1rem auto 0;
-    max-width: 560px;
-    padding-left: 1.25rem;
-    display: grid;
-    gap: 0.8rem;
+    margin: 0.75rem auto 0; max-width: 560px; padding-left: 1.25rem;
+    display: grid; gap: 0.7rem; text-align: left;
   }
-  .iterations li { color: var(--muted); font-size: 0.92rem; font-style: italic; }
+  .iterations li { color: var(--muted); font-size: 0.88rem; font-style: italic; }
   .iterations li .iter-date {
-    display: block;
-    font-style: normal;
-    font-size: 0.72rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    display: block; font-style: normal; font-size: 0.68rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    margin-top: 0.2rem;
-    opacity: 0.7;
+    margin-top: 0.15rem; opacity: 0.7;
   }
 
-  /* Why now */
-  .whynow {
-    margin-top: 3rem;
-    padding: 1.5rem 1.75rem;
-    border: 1px solid var(--line);
-    border-left: 3px solid #c97f5e;
-    border-radius: 6px;
-    background: var(--panel);
+  /* The bubble board */
+  .board {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    gap: 1rem;
+    align-items: start;
   }
-  .whynow p { margin-top: 0.6rem; font-style: italic; line-height: 1.7; }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--card-color, var(--gold));
+    border-radius: 12px;
+    padding: 1rem 1.1rem 1.1rem;
+  }
+  .card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
+  .card-head p { color: var(--muted); font-size: 0.75rem; font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card[data-color="gold"]   { --card-color: var(--gold); }
+  .card[data-color="accent"] { --card-color: var(--accent); }
+  .card[data-color="green"]  { --card-color: var(--green); }
+  .card[data-color="rose"]   { --card-color: var(--rose); }
+  .card[data-color="rust"]   { --card-color: var(--rust); }
+  .card[data-color="muted"]  { --card-color: var(--muted); }
 
-  /* Tier sections */
-  section.tier { margin-top: 3.25rem; }
-  .tier-head {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--line);
-    padding-bottom: 0.75rem;
-  }
-  .tier-head p { color: var(--muted); font-size: 0.9rem; font-style: italic; }
-  ul.plist { list-style: none; margin-top: 1.25rem; display: grid; gap: 0.85rem; }
-  .pursuit {
-    background: var(--panel);
+  .bubbles { list-style: none; margin-top: 0.8rem; display: flex; flex-wrap: wrap; gap: 0.45rem; }
+  .bubble {
+    background: var(--panel-2);
     border: 1px solid var(--line);
-    border-left: 3px solid var(--gold);
-    border-radius: 6px;
-    padding: 1rem 1.1rem;
+    border-radius: 999px;
+    padding: 0.32rem 0.75rem;
+    font-size: 0.88rem;
     display: flex;
-    gap: 0.9rem;
-    align-items: flex-start;
+    align-items: center;
+    gap: 0.45rem;
+    max-width: 100%;
+    cursor: default;
   }
-  .pursuit.secondary { border-left-color: var(--accent); opacity: 0.92; }
-  .pursuit.value { border-left-color: #c98a9a; }
-  .pursuit.value .num { color: #c98a9a; }
-  .pursuit.vehicle { border-left-color: var(--green); }
-  .pursuit.vehicle .num { color: var(--green); }
-  .pursuit.barrier { border-left-color: #b06557; }
-  .pursuit.barrier .num { color: #b06557; }
-  .pursuit.dream { border-left-style: dashed; border-left-color: var(--muted); opacity: 0.9; }
-  .pursuit.dream .num { color: var(--muted); }
-  .pursuit.dream .title { font-style: italic; }
-  .pursuit .num {
-    color: var(--gold);
-    font-size: 0.85rem;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    padding-top: 0.2rem;
-    min-width: 1.4rem;
+  .bubble::before {
+    content: '';
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--card-color, var(--gold));
+    flex: none;
   }
-  .pursuit.secondary .num { color: var(--accent); }
-  .pursuit .body { flex: 1; }
-  .pursuit .title { font-size: 1.05rem; }
-  .pursuit .note { color: var(--muted); font-size: 0.9rem; margin-top: 0.25rem; }
-  .pursuit .ctrls { display: flex; flex-direction: column; gap: 0.1rem; }
-  .pursuit .ctrls button {
+  .bubble .btitle { min-width: 2ch; }
+  .bubble.dashed { border-style: dashed; font-style: italic; }
+  .bubble button {
     background: none; border: none; color: var(--muted);
-    cursor: pointer; font-size: 0.9rem; padding: 0.15rem 0.35rem;
-    opacity: 0.35; transition: opacity 0.15s;
+    cursor: pointer; font-size: 0.78rem; opacity: 0;
+    padding: 0 0.1rem;
+    transition: opacity 0.15s;
+    flex: none;
   }
-  .pursuit:hover .ctrls button { opacity: 1; }
-  .pursuit .ctrls button.del:hover { color: #c97f7f; }
-  .pursuit .ctrls button.move:hover { color: var(--gold); }
+  .bubble:hover button, .bubble:focus-within button { opacity: 0.85; }
+  .bubble button.del:hover { color: #c97f7f; }
+  .bubble button.move:hover, .bubble button.info:hover { color: var(--gold); }
+  .bubble.open {
+    flex-basis: 100%;
+    border-radius: 14px;
+    flex-wrap: wrap;
+  }
+  .bubble .bnote { display: none; }
+  .bubble.open .bnote {
+    display: block;
+    flex-basis: 100%;
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-style: italic;
+    padding: 0.25rem 0.1rem 0.1rem 1.1rem;
+    min-height: 1.1rem;
+  }
 
-  .add-row { margin-top: 1.25rem; display: flex; gap: 0.6rem; }
-  .add-row input {
+  .mini-add { margin-top: 0.7rem; display: flex; gap: 0.4rem; }
+  .mini-add input {
     flex: 1;
     background: var(--panel-2);
     border: 1px solid var(--line);
-    border-radius: 6px;
-    color: var(--ink);
-    padding: 0.7rem 0.9rem;
-    font-family: inherit;
-    font-size: 0.95rem;
-  }
-  .add-row input:focus { outline: 1px solid var(--accent); }
-  .add-row button {
-    background: var(--gold-soft);
-    border: 1px solid var(--gold);
-    color: var(--gold);
-    border-radius: 6px;
-    padding: 0 1.2rem;
-    font-family: inherit;
-    font-size: 0.95rem;
-    cursor: pointer;
-  }
-  .add-row button:hover { background: var(--gold); color: var(--bg); }
-
-  /* Gifts */
-  .gifts-list { margin-top: 1.25rem; display: flex; flex-wrap: wrap; gap: 0.6rem; }
-  .gift {
-    background: var(--panel);
-    border: 1px solid var(--line);
     border-radius: 999px;
-    padding: 0.35rem 0.9rem;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    color: var(--ink);
+    padding: 0.32rem 0.8rem;
+    font-family: inherit;
+    font-size: 0.82rem;
+    min-width: 0;
   }
-  .gift span[contenteditable] { min-width: 2ch; }
-  .gift button {
-    background: none; border: none; color: var(--muted);
-    cursor: pointer; font-size: 0.8rem; opacity: 0.4;
+  .mini-add input:focus { outline: 1px solid var(--accent); }
+  .mini-add button {
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    border-radius: 999px;
+    width: 1.9rem;
+    font-size: 1rem;
+    cursor: pointer;
+    flex: none;
   }
-  .gift:hover button { opacity: 1; }
-  .gift button:hover { color: #c97f7f; }
+  .mini-add button:hover { border-color: var(--gold); color: var(--gold); }
 
-  /* Building log */
-  .log-box {
-    margin-top: 1.25rem;
+  /* Tools row: log + decision as collapsible full-width cards */
+  .tools { margin-top: 1.5rem; display: grid; gap: 1rem; }
+  details.tool {
     background: var(--panel);
     border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: 1.25rem;
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
   }
+  details.tool summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+  details.tool summary::-webkit-details-marker { display: none; }
+  details.tool summary p { color: var(--muted); font-size: 0.78rem; font-style: italic; }
+  details.tool[open] summary { margin-bottom: 0.9rem; }
+
   .log-form { display: flex; gap: 0.6rem; flex-wrap: wrap; }
   .log-form input {
     flex: 2 1 220px;
-    background: var(--panel-2);
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    color: var(--ink);
-    padding: 0.7rem 0.9rem;
-    font-family: inherit;
-    font-size: 0.95rem;
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 6px;
+    color: var(--ink); padding: 0.6rem 0.9rem; font-family: inherit; font-size: 0.92rem;
   }
   .log-form select {
     flex: 1 1 180px;
-    background: var(--panel-2);
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    color: var(--ink);
-    padding: 0.7rem 0.6rem;
-    font-family: inherit;
-    font-size: 0.9rem;
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 6px;
+    color: var(--ink); padding: 0.6rem 0.6rem; font-family: inherit; font-size: 0.88rem;
   }
   .log-form input:focus, .log-form select:focus { outline: 1px solid var(--accent); }
   .log-form button {
-    background: var(--gold-soft);
-    border: 1px solid var(--gold);
-    color: var(--gold);
-    border-radius: 6px;
-    padding: 0 1.2rem;
-    font-family: inherit;
-    font-size: 0.95rem;
-    cursor: pointer;
+    background: var(--gold-soft); border: 1px solid var(--gold); color: var(--gold);
+    border-radius: 6px; padding: 0 1.1rem; font-family: inherit; font-size: 0.92rem; cursor: pointer;
   }
   .log-form button:hover { background: var(--gold); color: var(--bg); }
-  #logList { list-style: none; margin-top: 1.1rem; display: grid; gap: 0.6rem; }
+  #logList { list-style: none; margin-top: 1rem; display: grid; gap: 0.55rem; }
   #logList li {
-    display: flex;
-    gap: 0.75rem;
-    align-items: baseline;
-    font-size: 0.93rem;
-    border-top: 1px solid var(--line);
-    padding-top: 0.6rem;
+    display: flex; gap: 0.75rem; align-items: baseline; font-size: 0.9rem;
+    border-top: 1px solid var(--line); padding-top: 0.55rem;
   }
   #logList .log-date {
-    color: var(--muted);
-    font-size: 0.72rem;
+    color: var(--muted); font-size: 0.7rem;
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    letter-spacing: 0.08em;
-    white-space: nowrap;
+    letter-spacing: 0.08em; white-space: nowrap;
   }
   #logList .log-body { flex: 1; }
   #logList .log-target {
-    display: inline-block;
-    margin-left: 0.5rem;
-    color: var(--gold);
-    font-size: 0.78rem;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+    display: inline-block; margin-left: 0.5rem; color: var(--gold);
+    font-size: 0.75rem; font-family: 'Helvetica Neue', Arial, sans-serif;
     letter-spacing: 0.05em;
   }
   #logList .log-target::before { content: '→ '; }
   #logList button {
     background: none; border: none; color: var(--muted);
-    cursor: pointer; font-size: 0.85rem; opacity: 0.35;
+    cursor: pointer; font-size: 0.82rem; opacity: 0.35;
   }
   #logList li:hover button { opacity: 1; }
   #logList button:hover { color: #c97f7f; }
 
-  /* Decision filter */
-  .decision-box {
-    margin-top: 1.25rem;
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: 1.25rem;
-  }
   .decision-box textarea {
     width: 100%;
-    background: var(--panel-2);
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    color: var(--ink);
-    padding: 0.7rem 0.9rem;
-    font-family: inherit;
-    font-size: 0.95rem;
-    resize: vertical;
-    min-height: 3.2rem;
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 6px;
+    color: var(--ink); padding: 0.6rem 0.9rem; font-family: inherit; font-size: 0.92rem;
+    resize: vertical; min-height: 3rem;
   }
   .decision-box textarea:focus { outline: 1px solid var(--accent); }
-  .decision-qs { margin-top: 1rem; display: grid; gap: 0.55rem; }
-  .decision-qs label {
-    display: flex; gap: 0.6rem; align-items: flex-start;
-    font-size: 0.95rem; cursor: pointer;
-  }
-  .decision-qs input { margin-top: 0.35rem; accent-color: var(--gold); }
-  .verdict { margin-top: 1.1rem; font-style: italic; font-size: 0.95rem; color: var(--muted); }
+  .decision-qs { margin-top: 0.9rem; display: grid; gap: 0.5rem; }
+  .decision-qs label { display: flex; gap: 0.6rem; align-items: flex-start; font-size: 0.9rem; cursor: pointer; }
+  .decision-qs input { margin-top: 0.3rem; accent-color: var(--gold); }
+  .verdict { margin-top: 1rem; font-style: italic; font-size: 0.92rem; color: var(--muted); }
   .verdict.strong { color: var(--green); }
-  .verdict.weak { color: #c9a25e; }
+  .verdict.weak { color: var(--gold); }
 
   .hint {
-    margin-top: 2.5rem;
+    margin-top: 2rem;
     text-align: center;
     color: var(--muted);
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-family: 'Helvetica Neue', Arial, sans-serif;
     opacity: 0.7;
   }
 
   @media (max-width: 480px) {
-    .scripture blockquote { font-size: 1.25rem; }
-    .abide h1 { font-size: 1.3rem; }
-    .vision h2 { font-size: 1.25rem; }
+    .board { grid-template-columns: 1fr; }
+    .abide h1 { font-size: 1.15rem; }
+    .vision h2 { font-size: 1.02rem; }
   }
 </style>
 </head>
@@ -378,18 +317,6 @@
     <p class="verse">&ldquo;Remain in me, as I also remain in you&hellip; apart from me you can do nothing.&rdquo; &mdash; John 15:4&ndash;5</p>
   </section>
 
-  <section class="tier">
-    <div class="tier-head">
-      <span class="label">Rhythms of Abiding</span>
-      <p>my relationship with God, daily</p>
-    </div>
-    <ul class="plist" id="rhythmsList"></ul>
-    <div class="add-row">
-      <input id="newRhythm" type="text" placeholder="Add a rhythm&hellip;" />
-      <button data-add="rhythms">Add</button>
-    </div>
-  </section>
-
   <section class="vision">
     <span class="label">The Vision I Am Running After</span>
     <h2 id="visionText" contenteditable="true" spellcheck="false"></h2>
@@ -403,159 +330,100 @@
     </div>
   </section>
 
-  <section class="whynow">
-    <span class="label">Why Now</span>
-    <p id="whynowText" contenteditable="true" spellcheck="false">The time to build is now. My body is already becoming slightly weaker, and I won&rsquo;t always have the flexibility I have today. This is the window to establish myself well &mdash; to lay foundations while I have the strength and freedom to lay them.</p>
-  </section>
+  <p class="whynow-line" id="whynowText" contenteditable="true" spellcheck="false">The time to build is now. My body is already becoming slightly weaker, and I won&rsquo;t always have the flexibility I have today. This is the window to establish myself well &mdash; to lay foundations while I have the strength and freedom to lay them.</p>
 
-  <section class="tier">
-    <div class="tier-head">
-      <span class="label">Values</span>
-      <p>the culture I am building toward</p>
-    </div>
-    <ul class="plist" id="valuesList"></ul>
-    <div class="add-row">
-      <input id="newValue" type="text" placeholder="Add a value&hellip;" />
-      <button data-add="values">Add</button>
-    </div>
-  </section>
+  <div class="board">
 
-  <section class="tier">
-    <div class="tier-head">
-      <span class="label">Central &mdash; Primary Focus</span>
-      <p>what the Lord has made central</p>
-    </div>
-    <ul class="plist" id="centralList"></ul>
-    <div class="add-row">
-      <input id="newCentral" type="text" placeholder="Add a central pursuit&hellip;" />
-      <button data-add="central">Add</button>
-    </div>
-  </section>
+    <section class="card" data-color="gold" data-tier="rhythms">
+      <div class="card-head"><span class="label">Rhythms of Abiding</span><p>daily, with God</p></div>
+      <ul class="bubbles" id="rhythmsList"></ul>
+      <div class="mini-add"><input id="newRhythm" type="text" placeholder="Add a rhythm&hellip;" /><button data-add="rhythms" title="Add">+</button></div>
+    </section>
 
-  <section class="tier">
-    <div class="tier-head">
-      <span class="label">Ancillary &mdash; Secondary</span>
-      <p>good, but not the center</p>
-    </div>
-    <ul class="plist" id="secondaryList"></ul>
-    <div class="add-row">
-      <input id="newSecondary" type="text" placeholder="Add a secondary pursuit&hellip;" />
-      <button data-add="secondary">Add</button>
-    </div>
-  </section>
+    <section class="card" data-color="gold" data-tier="central">
+      <div class="card-head"><span class="label">Central</span><p>primary focus</p></div>
+      <ul class="bubbles" id="centralList"></ul>
+      <div class="mini-add"><input id="newCentral" type="text" placeholder="Add a central pursuit&hellip;" /><button data-add="central" title="Add">+</button></div>
+    </section>
 
-  <section class="tier">
-    <div class="tier-head">
-      <span class="label">Vehicles</span>
-      <p>the means I&rsquo;ll set out through</p>
-    </div>
-    <ul class="plist" id="vehiclesList"></ul>
-    <div class="add-row">
-      <input id="newVehicle" type="text" placeholder="Add a vehicle &mdash; a structure, platform, or means&hellip;" />
-      <button data-add="vehicles">Add</button>
-    </div>
-  </section>
+    <section class="card" data-color="rose" data-tier="values">
+      <div class="card-head"><span class="label">Values</span><p>the culture I&rsquo;m building</p></div>
+      <ul class="bubbles" id="valuesList"></ul>
+      <div class="mini-add"><input id="newValue" type="text" placeholder="Add a value&hellip;" /><button data-add="values" title="Add">+</button></div>
+    </section>
 
-  <section class="tier">
-    <div class="tier-head">
-      <span class="label">Dreams Held Lightly</span>
-      <p>senses and impressions &mdash; with open hands</p>
-    </div>
-    <ul class="plist" id="dreamsList"></ul>
-    <div class="add-row">
-      <input id="newDream" type="text" placeholder="Add a dream or sense to hold lightly&hellip;" />
-      <button data-add="dreams">Add</button>
-    </div>
-  </section>
+    <section class="card" data-color="rose" data-tier="marriagePrep">
+      <div class="card-head"><span class="label">Marriage Prep</span><p>clear steps</p></div>
+      <ul class="bubbles" id="marriagePrepList"></ul>
+      <div class="mini-add"><input id="newMarriagePrep" type="text" placeholder="Add a step&hellip;" /><button data-add="marriagePrep" title="Add">+</button></div>
+    </section>
 
-  <section class="tier">
-    <div class="tier-head">
-      <span class="label">Marriage Preparation</span>
-      <p>clear steps toward being ready</p>
-    </div>
-    <ul class="plist" id="marriagePrepList"></ul>
-    <div class="add-row">
-      <input id="newMarriagePrep" type="text" placeholder="Add a preparation step&hellip;" />
-      <button data-add="marriagePrep">Add</button>
-    </div>
-  </section>
+    <section class="card" data-color="accent" data-tier="secondary">
+      <div class="card-head"><span class="label">Secondary</span><p>good, not the center</p></div>
+      <ul class="bubbles" id="secondaryList"></ul>
+      <div class="mini-add"><input id="newSecondary" type="text" placeholder="Add a secondary pursuit&hellip;" /><button data-add="secondary" title="Add">+</button></div>
+    </section>
 
-  <section class="tier">
-    <div class="tier-head">
-      <span class="label">Possible Positions</span>
-      <p>ideas that sound exciting &mdash; held loosely</p>
-    </div>
-    <ul class="plist" id="positionsList"></ul>
-    <div class="add-row">
-      <input id="newPosition" type="text" placeholder="Add a possible position&hellip;" />
-      <button data-add="positions">Add</button>
-    </div>
-  </section>
+    <section class="card" data-color="green" data-tier="vehicles">
+      <div class="card-head"><span class="label">Vehicles</span><p>the means</p></div>
+      <ul class="bubbles" id="vehiclesList"></ul>
+      <div class="mini-add"><input id="newVehicle" type="text" placeholder="Add a vehicle&hellip;" /><button data-add="vehicles" title="Add">+</button></div>
+    </section>
 
-  <section class="tier">
-    <div class="tier-head">
-      <span class="label">Barriers &amp; Hindrances</span>
-      <p>what stands in the way &mdash; named honestly</p>
-    </div>
-    <ul class="plist" id="barriersList"></ul>
-    <div class="add-row">
-      <input id="newBarrier" type="text" placeholder="Name a barrier or hindrance&hellip;" />
-      <button data-add="barriers">Add</button>
-    </div>
-  </section>
+    <section class="card" data-color="muted" data-tier="dreams">
+      <div class="card-head"><span class="label">Dreams Held Lightly</span><p>open hands</p></div>
+      <ul class="bubbles" id="dreamsList"></ul>
+      <div class="mini-add"><input id="newDream" type="text" placeholder="Add a dream&hellip;" /><button data-add="dreams" title="Add">+</button></div>
+    </section>
 
-  <section class="tier">
-    <div class="tier-head">
-      <span class="label">My Gifts</span>
-      <p>how God has wired me toward this</p>
-    </div>
-    <div class="gifts-list" id="giftsList"></div>
-    <div class="add-row">
-      <input id="newGift" type="text" placeholder="Add a gift&hellip;" />
-      <button id="addGiftBtn">Add</button>
-    </div>
-  </section>
+    <section class="card" data-color="muted" data-tier="positions">
+      <div class="card-head"><span class="label">Possible Positions</span><p>held loosely</p></div>
+      <ul class="bubbles" id="positionsList"></ul>
+      <div class="mini-add"><input id="newPosition" type="text" placeholder="Add a position&hellip;" /><button data-add="positions" title="Add">+</button></div>
+    </section>
 
-  <section class="tier">
-    <div class="tier-head">
-      <span class="label">Fun</span>
-      <p>joy is a bucket too</p>
-    </div>
-    <ul class="plist" id="funList"></ul>
-    <div class="add-row">
-      <input id="newFun" type="text" placeholder="Add something that is genuinely fun for you&hellip;" />
-      <button data-add="fun">Add</button>
-    </div>
-  </section>
+    <section class="card" data-color="rust" data-tier="barriers">
+      <div class="card-head"><span class="label">Barriers</span><p>named honestly</p></div>
+      <ul class="bubbles" id="barriersList"></ul>
+      <div class="mini-add"><input id="newBarrier" type="text" placeholder="Name a barrier&hellip;" /><button data-add="barriers" title="Add">+</button></div>
+    </section>
 
-  <section class="tier">
-    <div class="tier-head">
-      <span class="label">Building Log</span>
-      <p>each update builds something &mdash; name what</p>
-    </div>
-    <div class="log-box">
+    <section class="card" data-color="gold">
+      <div class="card-head"><span class="label">My Gifts</span><p>how God wired me</p></div>
+      <ul class="bubbles" id="giftsList"></ul>
+      <div class="mini-add"><input id="newGift" type="text" placeholder="Add a gift&hellip;" /><button id="addGiftBtn" title="Add">+</button></div>
+    </section>
+
+    <section class="card" data-color="green" data-tier="fun">
+      <div class="card-head"><span class="label">Fun</span><p>joy is a bucket too</p></div>
+      <ul class="bubbles" id="funList"></ul>
+      <div class="mini-add"><input id="newFun" type="text" placeholder="Add something fun&hellip;" /><button data-add="fun" title="Add">+</button></div>
+    </section>
+
+  </div>
+
+  <div class="tools">
+    <details class="tool" open>
+      <summary><span class="label">Building Log</span><p>each update builds something &mdash; name what</p></summary>
       <div class="log-form">
         <input id="logText" type="text" placeholder="What did you do or decide?&hellip;" />
         <select id="logTarget"></select>
         <button id="logBtn">Log it</button>
       </div>
       <ul id="logList"></ul>
-    </div>
-  </section>
+    </details>
 
-  <section class="tier">
-    <div class="tier-head">
-      <span class="label">Decision Filter</span>
-      <p>test a decision against the vision</p>
-    </div>
-    <div class="decision-box">
-      <textarea id="decisionText" placeholder="What are you deciding? (an opportunity, a commitment, a role&hellip;)"></textarea>
-      <div class="decision-qs" id="decisionQs"></div>
-      <p class="verdict" id="verdict"></p>
-    </div>
-  </section>
+    <details class="tool">
+      <summary><span class="label">Decision Filter</span><p>test a decision against the vision</p></summary>
+      <div class="decision-box">
+        <textarea id="decisionText" placeholder="What are you deciding? (an opportunity, a commitment, a role&hellip;)"></textarea>
+        <div class="decision-qs" id="decisionQs"></div>
+        <p class="verdict" id="verdict"></p>
+      </div>
+    </details>
+  </div>
 
-  <p class="hint">Click any text to edit it &mdash; everything saves automatically in this browser. Use &uarr;/&darr; on a pursuit to move it between Central and Secondary.</p>
+  <p class="hint">Click a bubble to open its note &middot; click any text to edit &middot; everything saves in this browser.</p>
 
 </div>
 
@@ -732,40 +600,22 @@
   renderIterations();
   bindText('whynowText', 'whynow');
 
+  var DASHED_TIERS = { dreams: true, positions: true };
+
   function renderTier(tier, listId) {
     var listEl = document.getElementById(listId);
     listEl.innerHTML = '';
     state[tier].forEach(function (p, i) {
       var li = document.createElement('li');
-      var tierClass = { secondary: ' secondary', vehicles: ' vehicle', dreams: ' dream', values: ' value', barriers: ' barrier', rhythms: ' rhythm', marriagePrep: ' value', positions: ' dream', fun: ' vehicle' };
-      li.className = 'pursuit' + (tierClass[tier] || '');
+      li.className = 'bubble' + (DASHED_TIERS[tier] ? ' dashed' : '');
 
-      var num = document.createElement('span');
-      num.className = 'num';
-      num.textContent = String(i + 1).padStart(2, '0');
-
-      var body = document.createElement('div');
-      body.className = 'body';
-
-      var title = document.createElement('div');
-      title.className = 'title';
+      var title = document.createElement('span');
+      title.className = 'btitle';
       title.contentEditable = 'true';
       title.spellcheck = false;
       title.textContent = p.title;
       title.addEventListener('input', function () { p.title = title.textContent; save(); renderDecision(); });
-
-      var note = document.createElement('div');
-      note.className = 'note';
-      note.contentEditable = 'true';
-      note.spellcheck = false;
-      note.textContent = p.note || '';
-      note.addEventListener('input', function () { p.note = note.textContent; save(); });
-
-      body.appendChild(title);
-      body.appendChild(note);
-
-      var ctrls = document.createElement('div');
-      ctrls.className = 'ctrls';
+      li.appendChild(title);
 
       if (tier === 'central' || tier === 'secondary') {
         var move = document.createElement('button');
@@ -773,30 +623,44 @@
         var toTier = tier === 'central' ? 'secondary' : 'central';
         move.title = tier === 'central' ? 'Move to Secondary' : 'Move to Central';
         move.textContent = tier === 'central' ? '↓' : '↑';
-        move.addEventListener('click', function () {
+        move.addEventListener('click', function (ev) {
+          ev.stopPropagation();
           state[tier].splice(i, 1);
           state[toTier].push(p);
           save();
           renderAll();
         });
-        ctrls.appendChild(move);
+        li.appendChild(move);
       }
 
       var del = document.createElement('button');
       del.className = 'del';
       del.title = 'Remove';
       del.textContent = '✕';
-      del.addEventListener('click', function () {
+      del.addEventListener('click', function (ev) {
+        ev.stopPropagation();
         state[tier].splice(i, 1);
         save();
         renderAll();
       });
+      li.appendChild(del);
 
-      ctrls.appendChild(del);
+      var note = document.createElement('div');
+      note.className = 'bnote';
+      note.contentEditable = 'true';
+      note.spellcheck = false;
+      note.textContent = p.note || '';
+      note.addEventListener('input', function () { p.note = note.textContent; save(); });
+      note.addEventListener('click', function (ev) { ev.stopPropagation(); });
+      li.appendChild(note);
 
-      li.appendChild(num);
-      li.appendChild(body);
-      li.appendChild(ctrls);
+      // Click the bubble (not its editable title/buttons) to open/close the note.
+      li.addEventListener('click', function (ev) {
+        if (ev.target === title || ev.target === note) return;
+        li.classList.toggle('open');
+      });
+      if (p.note) li.title = p.note;
+
       listEl.appendChild(li);
     });
   }
@@ -805,14 +669,16 @@
     var el = document.getElementById('giftsList');
     el.innerHTML = '';
     state.gifts.forEach(function (g, i) {
-      var chip = document.createElement('div');
-      chip.className = 'gift';
+      var chip = document.createElement('li');
+      chip.className = 'bubble';
       var span = document.createElement('span');
+      span.className = 'btitle';
       span.contentEditable = 'true';
       span.spellcheck = false;
       span.textContent = g;
       span.addEventListener('input', function () { state.gifts[i] = span.textContent; save(); });
       var del = document.createElement('button');
+      del.className = 'del';
       del.textContent = '✕';
       del.title = 'Remove';
       del.addEventListener('click', function () {
