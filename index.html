@@ -115,9 +115,36 @@
     margin-top: 0.15rem; opacity: 0.7;
   }
 
+  /* Callings: the whys, clearly named; everything hangs under one */
+  .calling { margin-top: 2.2rem; }
+  .calling-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 0.5rem;
+  }
+  .calling-head .calling-kicker {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .calling-head h3 {
+    font-weight: normal;
+    font-size: 1.15rem;
+  }
+  .calling-head .calling-why {
+    color: var(--muted);
+    font-style: italic;
+    font-size: 0.85rem;
+    margin-left: auto;
+  }
+
   /* The bubble board */
   .board {
-    margin-top: 2rem;
+    margin-top: 1rem;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
     gap: 1rem;
@@ -332,75 +359,110 @@
 
   <p class="whynow-line" id="whynowText" contenteditable="true" spellcheck="false">Build now &mdash; this window of strength and flexibility won&rsquo;t last.</p>
 
-  <div class="board">
+  <section class="calling">
+    <div class="calling-head">
+      <span class="calling-kicker">Calling 01</span>
+      <h3>Remain in Jesus</h3>
+      <span class="calling-why">everything flows from here</span>
+    </div>
+    <div class="board">
+      <section class="card" data-color="gold" data-tier="rhythms">
+        <div class="card-head"><span class="label">Daily Rhythms</span></div>
+        <ul class="bubbles" id="rhythmsList"></ul>
+        <div class="mini-add"><input id="newRhythm" type="text" placeholder="Add a rhythm&hellip;" /><button data-add="rhythms" title="Add">+</button></div>
+      </section>
+    </div>
+  </section>
 
-    <section class="card" data-color="gold" data-tier="rhythms">
-      <div class="card-head"><span class="label">Rhythms of Abiding</span></div>
-      <ul class="bubbles" id="rhythmsList"></ul>
-      <div class="mini-add"><input id="newRhythm" type="text" placeholder="Add a rhythm&hellip;" /><button data-add="rhythms" title="Add">+</button></div>
-    </section>
+  <section class="calling">
+    <div class="calling-head">
+      <span class="calling-kicker">Calling 02</span>
+      <h3>A husband who looks like Christ</h3>
+      <span class="calling-why">what I am becoming</span>
+    </div>
+    <div class="board">
+      <section class="card" data-color="rose" data-tier="marriagePrep">
+        <div class="card-head"><span class="label">Elements</span></div>
+        <ul class="bubbles" id="marriagePrepList"></ul>
+        <div class="mini-add"><input id="newMarriagePrep" type="text" placeholder="Add an element&hellip;" /><button data-add="marriagePrep" title="Add">+</button></div>
+      </section>
+      <section class="card" data-color="rose" data-tier="values">
+        <div class="card-head"><span class="label">Family Culture</span></div>
+        <ul class="bubbles" id="valuesList"></ul>
+        <div class="mini-add"><input id="newValue" type="text" placeholder="Add a value&hellip;" /><button data-add="values" title="Add">+</button></div>
+      </section>
+      <section class="card" data-color="muted" data-tier="dreams">
+        <div class="card-head"><span class="label">Dreams Held Lightly</span></div>
+        <ul class="bubbles" id="dreamsList"></ul>
+        <div class="mini-add"><input id="newDream" type="text" placeholder="Add a dream&hellip;" /><button data-add="dreams" title="Add">+</button></div>
+      </section>
+    </div>
+  </section>
 
-    <section class="card" data-color="gold" data-tier="central">
-      <div class="card-head"><span class="label">Central</span></div>
-      <ul class="bubbles" id="centralList"></ul>
-      <div class="mini-add"><input id="newCentral" type="text" placeholder="Add a central pursuit&hellip;" /><button data-add="central" title="Add">+</button></div>
-    </section>
+  <section class="calling">
+    <div class="calling-head">
+      <span class="calling-kicker">Calling 03</span>
+      <h3>Raise up disciples who look like Jesus</h3>
+      <span class="calling-why">what I am building</span>
+    </div>
+    <div class="board">
+      <section class="card" data-color="gold" data-tier="central">
+        <div class="card-head"><span class="label">Central</span></div>
+        <ul class="bubbles" id="centralList"></ul>
+        <div class="mini-add"><input id="newCentral" type="text" placeholder="Add a central pursuit&hellip;" /><button data-add="central" title="Add">+</button></div>
+      </section>
+      <section class="card" data-color="green" data-tier="vehicles">
+        <div class="card-head"><span class="label">Vehicles</span></div>
+        <ul class="bubbles" id="vehiclesList"></ul>
+        <div class="mini-add"><input id="newVehicle" type="text" placeholder="Add a vehicle&hellip;" /><button data-add="vehicles" title="Add">+</button></div>
+      </section>
+      <section class="card" data-color="muted" data-tier="positions">
+        <div class="card-head"><span class="label">Possible Positions</span></div>
+        <ul class="bubbles" id="positionsList"></ul>
+        <div class="mini-add"><input id="newPosition" type="text" placeholder="Add a position&hellip;" /><button data-add="positions" title="Add">+</button></div>
+      </section>
+    </div>
+  </section>
 
-    <section class="card" data-color="rose" data-tier="values">
-      <div class="card-head"><span class="label">Values</span></div>
-      <ul class="bubbles" id="valuesList"></ul>
-      <div class="mini-add"><input id="newValue" type="text" placeholder="Add a value&hellip;" /><button data-add="values" title="Add">+</button></div>
-    </section>
+  <section class="calling">
+    <div class="calling-head">
+      <span class="calling-kicker">Foundation</span>
+      <h3>What carries the callings</h3>
+      <span class="calling-why">strength, provision, joy</span>
+    </div>
+    <div class="board">
+      <section class="card" data-color="accent" data-tier="secondary">
+        <div class="card-head"><span class="label">Support</span></div>
+        <ul class="bubbles" id="secondaryList"></ul>
+        <div class="mini-add"><input id="newSecondary" type="text" placeholder="Add a support&hellip;" /><button data-add="secondary" title="Add">+</button></div>
+      </section>
+      <section class="card" data-color="gold">
+        <div class="card-head"><span class="label">My Gifts</span></div>
+        <ul class="bubbles" id="giftsList"></ul>
+        <div class="mini-add"><input id="newGift" type="text" placeholder="Add a gift&hellip;" /><button id="addGiftBtn" title="Add">+</button></div>
+      </section>
+      <section class="card" data-color="green" data-tier="fun">
+        <div class="card-head"><span class="label">Fun</span></div>
+        <ul class="bubbles" id="funList"></ul>
+        <div class="mini-add"><input id="newFun" type="text" placeholder="Add something fun&hellip;" /><button data-add="fun" title="Add">+</button></div>
+      </section>
+    </div>
+  </section>
 
-    <section class="card" data-color="rose" data-tier="marriagePrep">
-      <div class="card-head"><span class="label">Husband like Christ</span></div>
-      <ul class="bubbles" id="marriagePrepList"></ul>
-      <div class="mini-add"><input id="newMarriagePrep" type="text" placeholder="Add a step&hellip;" /><button data-add="marriagePrep" title="Add">+</button></div>
-    </section>
-
-    <section class="card" data-color="accent" data-tier="secondary">
-      <div class="card-head"><span class="label">Secondary</span></div>
-      <ul class="bubbles" id="secondaryList"></ul>
-      <div class="mini-add"><input id="newSecondary" type="text" placeholder="Add a secondary pursuit&hellip;" /><button data-add="secondary" title="Add">+</button></div>
-    </section>
-
-    <section class="card" data-color="green" data-tier="vehicles">
-      <div class="card-head"><span class="label">Vehicles</span></div>
-      <ul class="bubbles" id="vehiclesList"></ul>
-      <div class="mini-add"><input id="newVehicle" type="text" placeholder="Add a vehicle&hellip;" /><button data-add="vehicles" title="Add">+</button></div>
-    </section>
-
-    <section class="card" data-color="muted" data-tier="dreams">
-      <div class="card-head"><span class="label">Dreams Held Lightly</span></div>
-      <ul class="bubbles" id="dreamsList"></ul>
-      <div class="mini-add"><input id="newDream" type="text" placeholder="Add a dream&hellip;" /><button data-add="dreams" title="Add">+</button></div>
-    </section>
-
-    <section class="card" data-color="muted" data-tier="positions">
-      <div class="card-head"><span class="label">Possible Positions</span></div>
-      <ul class="bubbles" id="positionsList"></ul>
-      <div class="mini-add"><input id="newPosition" type="text" placeholder="Add a position&hellip;" /><button data-add="positions" title="Add">+</button></div>
-    </section>
-
-    <section class="card" data-color="rust" data-tier="barriers">
-      <div class="card-head"><span class="label">Barriers</span></div>
-      <ul class="bubbles" id="barriersList"></ul>
-      <div class="mini-add"><input id="newBarrier" type="text" placeholder="Name a barrier&hellip;" /><button data-add="barriers" title="Add">+</button></div>
-    </section>
-
-    <section class="card" data-color="gold">
-      <div class="card-head"><span class="label">My Gifts</span></div>
-      <ul class="bubbles" id="giftsList"></ul>
-      <div class="mini-add"><input id="newGift" type="text" placeholder="Add a gift&hellip;" /><button id="addGiftBtn" title="Add">+</button></div>
-    </section>
-
-    <section class="card" data-color="green" data-tier="fun">
-      <div class="card-head"><span class="label">Fun</span></div>
-      <ul class="bubbles" id="funList"></ul>
-      <div class="mini-add"><input id="newFun" type="text" placeholder="Add something fun&hellip;" /><button data-add="fun" title="Add">+</button></div>
-    </section>
-
-  </div>
+  <section class="calling">
+    <div class="calling-head">
+      <span class="calling-kicker">Against Me</span>
+      <h3>Barriers</h3>
+      <span class="calling-why">named honestly</span>
+    </div>
+    <div class="board">
+      <section class="card" data-color="rust" data-tier="barriers">
+        <div class="card-head"><span class="label">Barriers</span></div>
+        <ul class="bubbles" id="barriersList"></ul>
+        <div class="mini-add"><input id="newBarrier" type="text" placeholder="Name a barrier&hellip;" /><button data-add="barriers" title="Add">+</button></div>
+      </section>
+    </div>
+  </section>
 
   <div class="tools">
     <details class="tool" open>
