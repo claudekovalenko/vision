@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vision</title>
+<title>Today Under the Vision</title>
 <style>
   :root {
     --bg: #0f1115;
@@ -12,555 +12,140 @@
     --ink: #e8e6e1;
     --muted: #9a978f;
     --gold: #c9a25e;
-    --gold-soft: rgba(201, 162, 94, 0.15);
+    --gold-soft: rgba(201,162,94,0.14);
     --line: #2a2e38;
-    --accent: #7fa8c9;
-    --green: #8fbf8f;
     --rose: #c98a9a;
+    --green: #8fbf8f;
+    --accent: #7fa8c9;
     --rust: #b06557;
-    --ember: #c97f5e;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     background: var(--bg);
     color: var(--ink);
     font-family: Georgia, 'Times New Roman', serif;
-    min-height: 100vh;
     line-height: 1.55;
+    min-height: 100vh;
   }
-  .wrap { max-width: 1240px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
-
-  /* Compact scripture line */
-  .scripture {
-    text-align: center;
-    padding: 1rem;
-  }
-  .scripture blockquote {
-    display: inline;
-    font-size: 1.15rem;
-    font-style: italic;
-    color: var(--gold);
-  }
-  .scripture cite {
-    font-style: normal;
-    font-size: 0.75rem;
-    color: var(--muted);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-left: 0.75rem;
-  }
-
+  .wrap { max-width: 680px; margin: 0 auto; padding: 2rem 1.1rem 4rem; }
   .label {
-    font-size: 0.7rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-  }
-  [contenteditable]:focus {
-    outline: 1px dashed var(--accent);
-    outline-offset: 4px;
-    border-radius: 4px;
+    font-size: 0.66rem; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--muted); font-family: 'Helvetica Neue', Arial, sans-serif;
   }
 
-  /* Center bubble: abide */
-  .abide {
-    margin: 1.25rem auto 0;
-    max-width: 620px;
-    text-align: center;
-    padding: 1.5rem 2rem;
+  /* The seal — the vision, fixed and clear */
+  .seal {
     border: 1px solid var(--gold);
-    border-radius: 32px;
-    background: var(--gold-soft);
-  }
-  .abide h1 { margin-top: 0.4rem; font-size: 1.35rem; font-weight: normal; line-height: 1.4; }
-  .abide .verse { margin-top: 0.5rem; color: var(--muted); font-style: italic; font-size: 0.85rem; }
-
-  /* Vision compact */
-  .vision { margin: 1.5rem auto 0; max-width: 760px; text-align: center; }
-  .vision h2 { margin-top: 0.5rem; font-size: 1.15rem; font-weight: normal; line-height: 1.5; }
-  .vision .eternity { margin-top: 0.4rem; color: var(--muted); font-style: italic; font-size: 0.9rem; }
-  .whynow-line {
-    margin: 0.9rem auto 0;
-    max-width: 760px;
-    text-align: center;
-    color: var(--ember);
-    font-style: italic;
-    font-size: 0.9rem;
-  }
-  .iter-row { margin-top: 0.75rem; }
-  .iter-btn {
-    background: none; border: 1px solid var(--line); color: var(--muted);
-    border-radius: 6px; padding: 0.25rem 0.75rem;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 0.72rem; letter-spacing: 0.08em; cursor: pointer;
-  }
-  .iter-btn:hover { border-color: var(--gold); color: var(--gold); }
-  .iterations { margin-top: 0.6rem; }
-  .iterations summary {
-    cursor: pointer; color: var(--muted); font-size: 0.75rem;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    letter-spacing: 0.08em; list-style: none;
-  }
-  .iterations summary:hover { color: var(--gold); }
-  .iterations ol {
-    margin: 0.75rem auto 0; max-width: 560px; padding-left: 1.25rem;
-    display: grid; gap: 0.7rem; text-align: left;
-  }
-  .iterations li { color: var(--muted); font-size: 0.88rem; font-style: italic; }
-  .iterations li .iter-date {
-    display: block; font-style: normal; font-size: 0.68rem;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    margin-top: 0.15rem; opacity: 0.7;
-  }
-
-  /* Radial map: the visions held in front, at a glance */
-  .map {
-    position: relative;
-    margin-top: 1.5rem;
-    height: min(78vh, 820px);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    background:
-      radial-gradient(ellipse at 50% 42%, rgba(201,162,94,0.07), transparent 55%),
-      var(--panel);
-    overflow: hidden;
-  }
-  .map svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .map svg line { stroke: var(--line); stroke-width: 1.2; }
-  .mnode {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    cursor: pointer;
-    max-width: 220px;
-  }
-  .mnode.center {
-    background: var(--gold-soft);
-    border: 1.5px solid var(--gold);
-    border-radius: 50%;
-    width: 190px; height: 190px;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    padding: 1rem;
-    cursor: default;
-  }
-  .mnode.center .mtitle { font-size: 1.25rem; line-height: 1.3; }
-  .mnode.center .msub { color: var(--muted); font-size: 0.7rem; font-style: italic; margin-top: 0.3rem; }
-  .mnode.calling {
-    background: var(--panel-2);
-    border: 1.5px solid var(--node-color, var(--gold));
-    border-radius: 999px;
-    padding: 0.6rem 1.2rem;
-  }
-  .mnode.calling .mtitle { font-size: 0.98rem; line-height: 1.25; }
-  .mnode.calling:hover { background: var(--node-color); color: var(--bg); }
-  .mleaf {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    background: var(--panel-2);
-    border: 1px solid var(--line);
-    border-left: 3px solid var(--node-color, var(--gold));
-    border-radius: 999px;
-    padding: 0.16rem 0.6rem;
-    font-size: 0.74rem;
-    white-space: nowrap;
-    color: var(--ink);
-    opacity: 0.92;
-    cursor: default;
-  }
-  .mleaf.dim { opacity: 0.6; font-style: italic; }
-  .map-hint {
-    position: absolute;
-    bottom: 0.6rem; left: 0; right: 0;
-    text-align: center;
-    color: var(--muted);
-    font-size: 0.68rem;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    opacity: 0.6;
-  }
-  @media (max-width: 760px) { .map { display: none; } }
-
-  /* Callings: the whys, clearly named; everything hangs under one */
-  .calling { margin-top: 2.2rem; }
-  .calling-head {
-    display: flex;
-    align-items: baseline;
-    gap: 0.75rem;
-    border-bottom: 1px solid var(--line);
-    padding-bottom: 0.5rem;
-  }
-  .calling-head .calling-kicker {
-    font-size: 0.65rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--gold);
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-  }
-  .calling-head h3 {
-    font-weight: normal;
-    font-size: 1.15rem;
-  }
-  .calling-head .calling-why {
-    color: var(--muted);
-    font-style: italic;
-    font-size: 0.85rem;
-    margin-left: auto;
-  }
-
-  /* The bubble board */
-  .board {
-    margin-top: 1rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
-    gap: 1rem;
-    align-items: start;
-  }
-  .card {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-top: 3px solid var(--card-color, var(--gold));
-    border-radius: 12px;
-    padding: 1rem 1.1rem 1.1rem;
-  }
-  .card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
-  .card-head p { color: var(--muted); font-size: 0.75rem; font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .card[data-color="gold"]   { --card-color: var(--gold); }
-  .card[data-color="accent"] { --card-color: var(--accent); }
-  .card[data-color="green"]  { --card-color: var(--green); }
-  .card[data-color="rose"]   { --card-color: var(--rose); }
-  .card[data-color="rust"]   { --card-color: var(--rust); }
-  .card[data-color="muted"]  { --card-color: var(--muted); }
-
-  .bubbles { list-style: none; margin-top: 0.8rem; display: flex; flex-wrap: wrap; gap: 0.45rem; }
-  .bubble {
-    background: var(--panel-2);
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    padding: 0.32rem 0.75rem;
-    font-size: 0.88rem;
-    display: flex;
-    align-items: center;
-    gap: 0.45rem;
-    max-width: 100%;
-    cursor: default;
-  }
-  .bubble::before {
-    content: '';
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: var(--card-color, var(--gold));
-    flex: none;
-  }
-  .bubble .btitle { min-width: 2ch; }
-  .bubble.dashed { border-style: dashed; font-style: italic; }
-  .bubble button {
-    background: none; border: none; color: var(--muted);
-    cursor: pointer; font-size: 0.78rem; opacity: 0;
-    padding: 0 0.1rem;
-    transition: opacity 0.15s;
-    flex: none;
-  }
-  .bubble:hover button, .bubble:focus-within button { opacity: 0.85; }
-  .bubble button.del:hover { color: #c97f7f; }
-  .bubble button.move:hover, .bubble button.info:hover { color: var(--gold); }
-  .bubble.open {
-    flex-basis: 100%;
     border-radius: 14px;
-    flex-wrap: wrap;
-  }
-  .bubble .bnote { display: none; }
-  .bubble.open .bnote {
-    display: block;
-    flex-basis: 100%;
-    color: var(--muted);
-    font-size: 0.82rem;
-    font-style: italic;
-    padding: 0.25rem 0.1rem 0.1rem 1.1rem;
-    min-height: 1.1rem;
-  }
-
-  .mini-add { margin-top: 0.7rem; display: flex; gap: 0.4rem; }
-  .mini-add input {
-    flex: 1;
-    background: var(--panel-2);
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    color: var(--ink);
-    padding: 0.32rem 0.8rem;
-    font-family: inherit;
-    font-size: 0.82rem;
-    min-width: 0;
-  }
-  .mini-add input:focus { outline: 1px solid var(--accent); }
-  .mini-add button {
-    background: none;
-    border: 1px solid var(--line);
-    color: var(--muted);
-    border-radius: 999px;
-    width: 1.9rem;
-    font-size: 1rem;
-    cursor: pointer;
-    flex: none;
-  }
-  .mini-add button:hover { border-color: var(--gold); color: var(--gold); }
-
-  /* Tools row: log + decision as collapsible full-width cards */
-  .tools { margin-top: 1.5rem; display: grid; gap: 1rem; }
-  details.tool {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 1rem 1.1rem;
-  }
-  details.tool summary {
-    cursor: pointer;
-    list-style: none;
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 0.75rem;
-  }
-  details.tool summary::-webkit-details-marker { display: none; }
-  details.tool summary p { color: var(--muted); font-size: 0.78rem; font-style: italic; }
-  details.tool[open] summary { margin-bottom: 0.9rem; }
-
-  .log-form { display: flex; gap: 0.6rem; flex-wrap: wrap; }
-  .log-form input {
-    flex: 2 1 220px;
-    background: var(--panel-2); border: 1px solid var(--line); border-radius: 6px;
-    color: var(--ink); padding: 0.6rem 0.9rem; font-family: inherit; font-size: 0.92rem;
-  }
-  .log-form select {
-    flex: 1 1 180px;
-    background: var(--panel-2); border: 1px solid var(--line); border-radius: 6px;
-    color: var(--ink); padding: 0.6rem 0.6rem; font-family: inherit; font-size: 0.88rem;
-  }
-  .log-form input:focus, .log-form select:focus { outline: 1px solid var(--accent); }
-  .log-form button {
-    background: var(--gold-soft); border: 1px solid var(--gold); color: var(--gold);
-    border-radius: 6px; padding: 0 1.1rem; font-family: inherit; font-size: 0.92rem; cursor: pointer;
-  }
-  .log-form button:hover { background: var(--gold); color: var(--bg); }
-  #logList { list-style: none; margin-top: 1rem; display: grid; gap: 0.55rem; }
-  #logList li {
-    display: flex; gap: 0.75rem; align-items: baseline; font-size: 0.9rem;
-    border-top: 1px solid var(--line); padding-top: 0.55rem;
-  }
-  #logList .log-date {
-    color: var(--muted); font-size: 0.7rem;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    letter-spacing: 0.08em; white-space: nowrap;
-  }
-  #logList .log-body { flex: 1; }
-  #logList .log-target {
-    display: inline-block; margin-left: 0.5rem; color: var(--gold);
-    font-size: 0.75rem; font-family: 'Helvetica Neue', Arial, sans-serif;
-    letter-spacing: 0.05em;
-  }
-  #logList .log-target::before { content: '→ '; }
-  #logList button {
-    background: none; border: none; color: var(--muted);
-    cursor: pointer; font-size: 0.82rem; opacity: 0.35;
-  }
-  #logList li:hover button { opacity: 1; }
-  #logList button:hover { color: #c97f7f; }
-
-  .decision-box textarea {
-    width: 100%;
-    background: var(--panel-2); border: 1px solid var(--line); border-radius: 6px;
-    color: var(--ink); padding: 0.6rem 0.9rem; font-family: inherit; font-size: 0.92rem;
-    resize: vertical; min-height: 3rem;
-  }
-  .decision-box textarea:focus { outline: 1px solid var(--accent); }
-  .decision-qs { margin-top: 0.9rem; display: grid; gap: 0.5rem; }
-  .decision-qs label { display: flex; gap: 0.6rem; align-items: flex-start; font-size: 0.9rem; cursor: pointer; }
-  .decision-qs input { margin-top: 0.3rem; accent-color: var(--gold); }
-  .verdict { margin-top: 1rem; font-style: italic; font-size: 0.92rem; color: var(--muted); }
-  .verdict.strong { color: var(--green); }
-  .verdict.weak { color: var(--gold); }
-
-  .hint a.companion { color: var(--gold); text-decoration: none; border-bottom: 1px dotted var(--gold); }
-  .hint a.companion:hover { border-bottom-style: solid; }
-  .hint {
-    margin-top: 2rem;
+    background: var(--gold-soft);
+    padding: 1.5rem 1.6rem;
     text-align: center;
-    color: var(--muted);
-    font-size: 0.75rem;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    opacity: 0.7;
   }
+  .seal .statement { margin-top: 0.6rem; font-size: 1.08rem; line-height: 1.5; }
+  .seal .anchor {
+    margin-top: 0.9rem; padding-top: 0.8rem;
+    border-top: 1px solid rgba(201,162,94,0.28);
+    color: var(--gold); font-size: 0.92rem;
+  }
+  .seal .anchor span { color: var(--muted); font-style: italic; font-size: 0.8rem; display: block; margin-top: 0.2rem; }
 
-  @media (max-width: 480px) {
-    .board { grid-template-columns: 1fr; }
-    .abide h1 { font-size: 1.15rem; }
-    .vision h2 { font-size: 1.02rem; }
+  /* Today */
+  .today-head {
+    margin-top: 2rem; display: flex; align-items: baseline; justify-content: space-between;
+    border-bottom: 1px solid var(--line); padding-bottom: 0.6rem;
+  }
+  .today-head .date { color: var(--muted); font-size: 0.8rem; font-family: 'Helvetica Neue', Arial, sans-serif; }
+
+  .entry { margin-top: 1rem; }
+  .entry input {
+    width: 100%;
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 10px;
+    color: var(--ink); padding: 0.85rem 1rem; font-family: inherit; font-size: 1rem;
+  }
+  .entry input:focus { outline: 1px solid var(--gold); }
+  .book-prompt { margin-top: 0.8rem; color: var(--muted); font-size: 0.85rem; font-style: italic; }
+  .book-row { margin-top: 0.55rem; display: flex; flex-wrap: wrap; gap: 0.45rem; }
+  .book-btn {
+    background: var(--panel); border: 1px solid var(--line);
+    border-left: 3px solid var(--c, var(--gold));
+    color: var(--ink); border-radius: 999px;
+    padding: 0.45rem 0.95rem; font-family: inherit; font-size: 0.9rem; cursor: pointer;
+  }
+  .book-btn:hover { background: var(--c); color: var(--bg); border-color: var(--c); }
+  .book-btn.none { border-left-color: var(--rust); --c: var(--rust); font-style: italic; color: var(--muted); }
+
+  /* Day list, grouped under callings */
+  .day { margin-top: 1.8rem; display: grid; gap: 1rem; }
+  .group {
+    border: 1px solid var(--line); border-left: 3px solid var(--c, var(--gold));
+    border-radius: 10px; background: var(--panel); padding: 0.85rem 1rem;
+  }
+  .group h3 { font-size: 0.95rem; font-weight: normal; color: var(--c, var(--gold)); }
+  .group ul { list-style: none; margin-top: 0.5rem; display: grid; gap: 0.35rem; }
+  .group li { display: flex; gap: 0.6rem; align-items: baseline; font-size: 0.94rem; }
+  .group li .t { flex: 1; }
+  .group li button {
+    background: none; border: none; color: var(--muted); cursor: pointer;
+    font-size: 0.8rem; opacity: 0.3;
+  }
+  .group li:hover button { opacity: 1; }
+  .group li button:hover { color: #c97f7f; }
+  .group.unbooked { border-left-color: var(--rust); --c: var(--rust); }
+  .group.unbooked .warn { margin-top: 0.5rem; color: var(--rust); font-size: 0.82rem; font-style: italic; }
+
+  .empty { margin-top: 1.5rem; text-align: center; color: var(--muted); font-style: italic; font-size: 0.92rem; }
+
+  /* Week weight */
+  .week { margin-top: 2.2rem; }
+  .bars { margin-top: 0.9rem; display: grid; gap: 0.5rem; }
+  .bar-row { display: grid; grid-template-columns: 9.5rem 1fr 2rem; align-items: center; gap: 0.6rem; font-size: 0.85rem; }
+  .bar-row .nm { color: var(--muted); }
+  .bar-track { background: var(--panel-2); border-radius: 999px; height: 9px; overflow: hidden; }
+  .bar-fill { height: 100%; background: var(--c, var(--gold)); border-radius: 999px; }
+  .bar-row .ct { color: var(--muted); text-align: right; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.78rem; }
+
+  .links { margin-top: 2.5rem; text-align: center; font-size: 0.85rem; font-family: 'Helvetica Neue', Arial, sans-serif; }
+  .links a { color: var(--gold); text-decoration: none; border-bottom: 1px dotted var(--gold); }
+  .links a + a { margin-left: 1.2rem; }
+  .links a:hover { border-bottom-style: solid; }
+
+  @media (max-width: 420px) {
+    .bar-row { grid-template-columns: 7rem 1fr 1.8rem; }
+    .seal .statement { font-size: 1rem; }
   }
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <header class="scripture">
-    <blockquote>&ldquo;Where there is no vision, the people perish.&rdquo;</blockquote>
-    <cite>Proverbs 29:18</cite>
-  </header>
-
-  <section class="abide">
-    <span class="label">The Center of It All</span>
-    <h1 id="abideText" contenteditable="true" spellcheck="false">Remain in Jesus.</h1>
-    <p class="verse">&ldquo;Remain in me, as I also remain in you&hellip; apart from me you can do nothing.&rdquo; &mdash; John 15:4&ndash;5</p>
+  <section class="seal">
+    <span class="label">The Vision</span>
+    <p class="statement" id="statement"></p>
+    <p class="anchor">Remain in Jesus.<span>Apart from me you can do nothing. &mdash; John 15:5</span></p>
   </section>
 
-  <section class="vision">
-    <span class="label">The Vision I Am Running After</span>
-    <h2 id="visionText" contenteditable="true" spellcheck="false"></h2>
-    <p class="eternity" id="eternityText" contenteditable="true" spellcheck="false">Held in light of eternity.</p>
-    <div class="iter-row">
-      <button id="newIterBtn" class="iter-btn" title="Snapshot the current statement and start a new iteration">Save as new iteration</button>
-      <details class="iterations">
-        <summary id="iterSummary">Past iterations</summary>
-        <ol id="iterList"></ol>
-      </details>
-    </div>
-  </section>
-
-  <p class="whynow-line" id="whynowText" contenteditable="true" spellcheck="false">Build now &mdash; this window of strength and flexibility won&rsquo;t last.</p>
-
-  <div class="map" id="visionMap">
-    <svg id="mapLines"></svg>
-    <p class="map-hint">Click a calling to jump to its details below &middot; hover a bubble for its note</p>
+  <div class="today-head">
+    <span class="label">Today</span>
+    <span class="date" id="todayDate"></span>
   </div>
 
-  <section class="calling" id="call-abide">
-    <div class="calling-head">
-      <span class="calling-kicker">Calling 01</span>
-      <h3>Remain in Jesus</h3>
-      <span class="calling-why">everything flows from here</span>
-    </div>
-    <div class="board">
-      <section class="card" data-color="gold" data-tier="rhythms">
-        <div class="card-head"><span class="label">Daily Rhythms</span></div>
-        <ul class="bubbles" id="rhythmsList"></ul>
-        <div class="mini-add"><input id="newRhythm" type="text" placeholder="Add a rhythm&hellip;" /><button data-add="rhythms" title="Add">+</button></div>
-      </section>
-    </div>
-  </section>
-
-  <section class="calling" id="call-husband">
-    <div class="calling-head">
-      <span class="calling-kicker">Calling 02</span>
-      <h3>A husband who looks like Christ</h3>
-      <span class="calling-why">what I am becoming</span>
-    </div>
-    <div class="board">
-      <section class="card" data-color="rose" data-tier="marriagePrep">
-        <div class="card-head"><span class="label">Elements</span></div>
-        <ul class="bubbles" id="marriagePrepList"></ul>
-        <div class="mini-add"><input id="newMarriagePrep" type="text" placeholder="Add an element&hellip;" /><button data-add="marriagePrep" title="Add">+</button></div>
-      </section>
-      <section class="card" data-color="rose" data-tier="values">
-        <div class="card-head"><span class="label">Family Culture</span></div>
-        <ul class="bubbles" id="valuesList"></ul>
-        <div class="mini-add"><input id="newValue" type="text" placeholder="Add a value&hellip;" /><button data-add="values" title="Add">+</button></div>
-      </section>
-      <section class="card" data-color="muted" data-tier="dreams">
-        <div class="card-head"><span class="label">Dreams Held Lightly</span></div>
-        <ul class="bubbles" id="dreamsList"></ul>
-        <div class="mini-add"><input id="newDream" type="text" placeholder="Add a dream&hellip;" /><button data-add="dreams" title="Add">+</button></div>
-      </section>
-    </div>
-  </section>
-
-  <section class="calling" id="call-disciples">
-    <div class="calling-head">
-      <span class="calling-kicker">Calling 03</span>
-      <h3>Raise up disciples who look like Jesus</h3>
-      <span class="calling-why">what I am building</span>
-    </div>
-    <div class="board">
-      <section class="card" data-color="gold" data-tier="central">
-        <div class="card-head"><span class="label">Central</span></div>
-        <ul class="bubbles" id="centralList"></ul>
-        <div class="mini-add"><input id="newCentral" type="text" placeholder="Add a central pursuit&hellip;" /><button data-add="central" title="Add">+</button></div>
-      </section>
-      <section class="card" data-color="green" data-tier="vehicles">
-        <div class="card-head"><span class="label">Vehicles</span></div>
-        <ul class="bubbles" id="vehiclesList"></ul>
-        <div class="mini-add"><input id="newVehicle" type="text" placeholder="Add a vehicle&hellip;" /><button data-add="vehicles" title="Add">+</button></div>
-      </section>
-      <section class="card" data-color="muted" data-tier="positions">
-        <div class="card-head"><span class="label">Possible Positions</span></div>
-        <ul class="bubbles" id="positionsList"></ul>
-        <div class="mini-add"><input id="newPosition" type="text" placeholder="Add a position&hellip;" /><button data-add="positions" title="Add">+</button></div>
-      </section>
-    </div>
-  </section>
-
-  <section class="calling" id="call-foundation">
-    <div class="calling-head">
-      <span class="calling-kicker">Foundation</span>
-      <h3>What carries the callings</h3>
-      <span class="calling-why">strength, provision, joy</span>
-    </div>
-    <div class="board">
-      <section class="card" data-color="accent" data-tier="secondary">
-        <div class="card-head"><span class="label">Support</span></div>
-        <ul class="bubbles" id="secondaryList"></ul>
-        <div class="mini-add"><input id="newSecondary" type="text" placeholder="Add a support&hellip;" /><button data-add="secondary" title="Add">+</button></div>
-      </section>
-      <section class="card" data-color="gold">
-        <div class="card-head"><span class="label">My Gifts</span></div>
-        <ul class="bubbles" id="giftsList"></ul>
-        <div class="mini-add"><input id="newGift" type="text" placeholder="Add a gift&hellip;" /><button id="addGiftBtn" title="Add">+</button></div>
-      </section>
-      <section class="card" data-color="green" data-tier="fun">
-        <div class="card-head"><span class="label">Fun</span></div>
-        <ul class="bubbles" id="funList"></ul>
-        <div class="mini-add"><input id="newFun" type="text" placeholder="Add something fun&hellip;" /><button data-add="fun" title="Add">+</button></div>
-      </section>
-    </div>
-  </section>
-
-  <section class="calling" id="call-barriers">
-    <div class="calling-head">
-      <span class="calling-kicker">Against Me</span>
-      <h3>Barriers</h3>
-      <span class="calling-why">named honestly</span>
-    </div>
-    <div class="board">
-      <section class="card" data-color="rust" data-tier="barriers">
-        <div class="card-head"><span class="label">Barriers</span></div>
-        <ul class="bubbles" id="barriersList"></ul>
-        <div class="mini-add"><input id="newBarrier" type="text" placeholder="Name a barrier&hellip;" /><button data-add="barriers" title="Add">+</button></div>
-      </section>
-    </div>
-  </section>
-
-  <div class="tools">
-    <details class="tool" open>
-      <summary><span class="label">Building Log</span><p>each update builds something &mdash; name what</p></summary>
-      <div class="log-form">
-        <input id="logText" type="text" placeholder="What did you do or decide?&hellip;" />
-        <select id="logTarget"></select>
-        <button id="logBtn">Log it</button>
-      </div>
-      <ul id="logList"></ul>
-    </details>
-
-    <details class="tool">
-      <summary><span class="label">Decision Filter</span><p>test a decision against the vision</p></summary>
-      <div class="decision-box">
-        <textarea id="decisionText" placeholder="What are you deciding? (an opportunity, a commitment, a role&hellip;)"></textarea>
-        <div class="decision-qs" id="decisionQs"></div>
-        <p class="verdict" id="verdict"></p>
-      </div>
-    </details>
+  <div class="entry">
+    <input id="what" type="text" placeholder="What did you just do?" autocomplete="off" />
+    <p class="book-prompt">Book it under:</p>
+    <div class="book-row" id="bookRow"></div>
   </div>
 
-  <p class="hint">
-    Click a bubble to open its note &middot; click any text to edit &middot; everything saves in this browser.<br>
-    Working &ldquo;Not planted&rdquo;? &rarr; <a class="companion" href="https://claudekovalenko.github.io/theo-commitment/">Good Ground</a> &mdash; the commitment app where planting gets decided.
+  <div class="day" id="dayList"></div>
+  <p class="empty" id="emptyNote">Nothing booked yet today.</p>
+
+  <section class="week">
+    <span class="label">Last 7 Days</span>
+    <div class="bars" id="weekBars"></div>
+  </section>
+
+  <p class="links">
+    <a href="plan.html">The full vision</a>
+    <a href="share.html">Share page</a>
   </p>
 
 </div>
@@ -568,661 +153,176 @@
 <script>
 (function () {
   var KEY = 'vision-app-v2';
-  var OLD_KEY = 'vision-app-v1';
-
-  var V1_TEXT = 'To see disciples made in Los Angeles who look more and more like Jesus — raised up as leaders and sent out to the ends of the earth.';
-  var V2_TEXT = 'To live in light of eternity — living for a “Well done, good and faithful servant.” Becoming more like Jesus day by day, loving God and loving my neighbor as myself, and raising up people who look more and more like Jesus.';
-
-  var defaults = {
-    abide: null,
-    vision: null,
-    visionVersions: [
-      { text: V1_TEXT, date: '2026-08-25' },
-      { text: V2_TEXT, date: '2026-08-31' }
-    ],
-    eternity: null,
-    values: [
-      { title: 'A culture so good and strong my children can grow almost unsupervised', note: 'The environment itself disciples — safety and formation come from the strength of the culture around them.' },
-      { title: 'A marriage where my wife grows really well and healthy', note: 'She flourishes in that same culture — it is good for her, not just built by her.' }
-    ],
-    central: [
-      { title: 'Reaching Gen Z on university and college campuses', note: 'The Lord has given a focus of centrality here — this is primary.' },
-      { title: 'Raising up leaders who look more and more like Jesus', note: 'Leadership development as a primary lens — disciples who make disciples.' },
-      { title: 'Sending them out to the ends of the earth', note: 'California is not the end goal — raised up here, sent from here.' }
-    ],
-    secondary: [
-      { title: 'Tying vision to commitments', note: 'Eventually connect this with the commitment app.' },
-      { title: 'Getting fit and increasing my health', note: 'A strong body to sustain the vision for the long haul.' },
-      { title: 'Growing my financial capacities', note: 'Resources that fund and free the pursuit of what is central.' }
-    ],
-    vehicles: [
-      { title: 'Campus ministry presence', note: 'A consistent, embedded presence where Gen Z already is.' },
-      { title: 'Discipleship cycles', note: 'A repeatable rhythm: reached, raised up, releasing others.' },
-      { title: 'The commitment app', note: 'A tool for keeping commitments visible and accountable.' }
-    ],
-    dreams: [
-      { title: 'Growing in marriage', note: 'A marriage that deepens — growing together inside the vision, not beside it.' },
-      { title: 'Settled with a people to do life with completely', note: 'Not just co-laborers — a people to belong to, all the way in.' }
-    ],
-    rhythms: [
-      { title: 'Prayer', note: '' },
-      { title: 'Reading the Word', note: '' },
-      { title: 'Obedience to the Word', note: 'Not just hearing it — doing it.' }
-    ],
-    marriagePrep: [
-      { title: 'Be pure', note: '' },
-      { title: 'Grow in clarity on where I am going to be planted', note: '' },
-      { title: 'Have financial backing', note: '' },
-      { title: 'Solid guy friends and mentors', note: '' },
-      { title: 'Developing my physique', note: '' }
-    ],
-    positions: [
-      { title: 'Pastor', note: '' },
-      { title: 'Podcast teacher', note: '' },
-      { title: 'Insta preacher', note: '' },
-      { title: 'Itinerant speaker', note: '' },
-      { title: 'Disciplemaker', note: '' },
-      { title: 'Business builder', note: '' },
-      { title: 'Hosting worship spaces', note: '' }
-    ],
-    fun: [],
-    barriers: [
-      { title: 'Ignorance', note: 'Not yet knowing what I need to know — a barrier to break through by learning and seeking counsel.' },
-      { title: 'People-pleasing', note: 'Trying to fit the mold others want, being nice to everyone continually — instead of living for the audience of One.' },
-      { title: 'Spending time on the wrong people or the wrong things', note: 'Time given away from what is central.' },
-      { title: 'No clear steps toward growing in marriage prep', note: 'The desire is there, but the concrete next steps aren’t yet.' },
-      { title: 'Comparing easily with other people', note: 'Measuring myself against others instead of against faithfulness.' },
-      { title: 'Greed', note: 'A pull toward more that competes with what is central.' },
-      { title: 'Desire for my own honor', note: 'Wanting the "well done" from people rather than from God.' }
-    ],
-    gifts: ['Leadership', 'Vision-casting', 'Discipleship'],
-    decision: { text: '', checks: {} }
-  };
+  var CALLINGS = [
+    { name: 'Remain in Jesus',       color: 'var(--gold)' },
+    { name: 'Husband like Christ',   color: 'var(--rose)' },
+    { name: 'Raise up disciples',    color: 'var(--gold)' },
+    { name: 'Foundation',            color: 'var(--green)' },
+    { name: 'Fun',                   color: 'var(--green)' }
+  ];
+  var UNBOOKED = "Doesn't fit";
 
   var state;
-  try {
-    state = JSON.parse(localStorage.getItem(KEY));
-    if (!state) {
-      // migrate v1 pursuits into central tier
-      var old = JSON.parse(localStorage.getItem(OLD_KEY));
-      state = JSON.parse(JSON.stringify(defaults));
-      if (old) {
-        if (old.vision) state.vision = old.vision;
-        if (old.eternity) state.eternity = old.eternity;
-        if (old.pursuits && old.pursuits.length) state.central = old.pursuits;
-      }
-    }
-  } catch (e) { state = JSON.parse(JSON.stringify(defaults)); }
-  state.gifts = state.gifts || [];
-  state.values = state.values || JSON.parse(JSON.stringify(defaults.values));
-  state.barriers = state.barriers || JSON.parse(JSON.stringify(defaults.barriers));
-  state.rhythms = state.rhythms || JSON.parse(JSON.stringify(defaults.rhythms));
-  state.marriagePrep = state.marriagePrep || JSON.parse(JSON.stringify(defaults.marriagePrep));
-  state.positions = state.positions || JSON.parse(JSON.stringify(defaults.positions));
-  state.fun = state.fun || [];
-  if (!state.seededHealthFinance) {
-    state.secondary = state.secondary || [];
-    ['Getting fit and increasing my health', 'Growing my financial capacities'].forEach(function (t) {
-      var exists = state.secondary.concat(state.central || []).some(function (p) { return p.title === t; });
-      if (!exists) {
-        var d = defaults.secondary.filter(function (p) { return p.title === t; })[0];
-        if (d) state.secondary.push(JSON.parse(JSON.stringify(d)));
-      }
-    });
-    state.seededHealthFinance = true;
-  }
-  if (!state.replacedGuessedDreams) {
-    var oldTitles = { 'Married by thirty-three': 0, 'Settled into the right org by 2026': 1 };
-    state.dreams = (state.dreams || []).map(function (d) {
-      return d.title in oldTitles ? JSON.parse(JSON.stringify(defaults.dreams[oldTitles[d.title]])) : d;
-    });
-    if (!state.dreams.length) state.dreams = JSON.parse(JSON.stringify(defaults.dreams));
-    state.replacedGuessedDreams = true;
-  }
-  state.vehicles = state.vehicles || JSON.parse(JSON.stringify(defaults.vehicles));
-  state.dreams = state.dreams || JSON.parse(JSON.stringify(defaults.dreams));
-  state.decision = state.decision || { text: '', checks: {} };
-
-  // Compress long titles into short bubbles; the full wording moves into the note.
-  if (!state.shortTitles) {
-    var SHORTEN = [
-      ['central', 'Reaching Gen Z on university and college campuses', 'Gen Z campuses'],
-      ['central', 'Raising up leaders who look more and more like Jesus', 'Raise up leaders'],
-      ['central', 'Sending them out to the ends of the earth', 'Send to the nations'],
-      ['values', 'A culture so good and strong my children can grow almost unsupervised', 'Kids grow free in a strong culture'],
-      ['values', 'A marriage where my wife grows really well and healthy', 'My wife flourishing'],
-      ['secondary', 'Tying vision to commitments', 'Commitment app tie-in'],
-      ['secondary', 'Getting fit and increasing my health', 'Fitness & health'],
-      ['secondary', 'Growing my financial capacities', 'Financial capacity'],
-      ['vehicles', 'Campus ministry presence', 'Campus presence'],
-      ['vehicles', 'The commitment app', 'Commitment app'],
-      ['dreams', 'Settled with a people to do life with completely', 'A people to do life with'],
-      ['marriagePrep', 'Be pure', 'Purity'],
-      ['marriagePrep', 'Grow in clarity on where I am going to be planted', 'Clarity on planting'],
-      ['marriagePrep', 'Have financial backing', 'Financial backing'],
-      ['marriagePrep', 'Solid guy friends and mentors', 'Guy friends & mentors'],
-      ['marriagePrep', 'Developing my physique', 'Physique'],
-      ['barriers', 'Spending time on the wrong people or the wrong things', 'Wrong people, wrong things'],
-      ['barriers', 'No clear steps toward growing in marriage prep', 'Unclear marriage-prep steps'],
-      ['barriers', 'Comparing easily with other people', 'Comparison'],
-      ['barriers', 'Desire for my own honor', 'My own honor']
-    ];
-    SHORTEN.forEach(function (m) {
-      (state[m[0]] || []).forEach(function (p) {
-        if (p.title === m[1]) {
-          if (!p.note) p.note = m[1];
-          p.title = m[2];
-        }
-      });
-    });
-    state.shortTitles = true;
-  }
-
-  // Husband-like-Christ: the fuller picture of what marriage prep is for.
-  if (!state.seededHusband) {
-    var mp = state.marriagePrep = state.marriagePrep || [];
-    var mpTitles = mp.map(function (p) { return p.title; });
-    [
-      { title: 'Settled in my church', note: 'Secure in my place — a confidence and collectedness about where I am.' },
-      { title: 'Mission for my kids', note: 'A clear mission for how they grow up, respond to me and to leaders, and grow in Christ.' },
-      { title: 'Lead my family to the Lord', note: 'Praying for them consistently; helping my family draw closer to the Lord.' },
-      { title: 'An attractive partner', note: 'Becoming an even more attractive marriage partner — someone worth marrying.' }
-    ].forEach(function (item) {
-      if (mpTitles.indexOf(item.title) === -1) mp.push(item);
-    });
-    var rh = state.rhythms = state.rhythms || [];
-    if (!rh.some(function (p) { return p.title === 'Praying for my family'; })) {
-      rh.push({ title: 'Praying for my family', note: 'Consistently.' });
-    }
-    var vh = state.vehicles = state.vehicles || [];
-    if (!vh.some(function (p) { return p.title === 'Greek study'; })) {
-      vh.push({ title: 'Greek study', note: 'Growing toward teaching and preaching.' });
-    }
-    var br = state.barriers = state.barriers || [];
-    br.forEach(function (p) {
-      if (p.title === 'Unclear marriage-prep steps') {
-        p.title = 'Not planted';
-        p.note = 'My cross to bear — nobody else can carry this one. The neglected space: getting truly planted.';
-      }
-    });
-    if (!br.some(function (p) { return p.title === 'Not planted'; })) {
-      br.push({ title: 'Not planted', note: 'My cross to bear — nobody else can carry this one. The neglected space: getting truly planted.' });
-    }
-    state.seededHusband = true;
-  }
-
-  // Digital/AI gifting: online teaching, and provision through it.
-  if (!state.seededDigital) {
-    var g2 = state.gifts = state.gifts || [];
-    ['Teaching', 'Digital & AI'].forEach(function (g) {
-      if (g2.indexOf(g) === -1) g2.push(g);
-    });
-    var vh2 = state.vehicles = state.vehicles || [];
-    [
-      { title: 'Online teaching', note: 'Seminary studies and social media — bringing the teaching online.' },
-      { title: 'Digital & AI for provision', note: 'A gifting that keeps coming up — using it to build financial backing. I really need God’s help over this.' }
-    ].forEach(function (item) {
-      if (!vh2.some(function (p) { return p.title === item.title; })) vh2.push(item);
-    });
-    state.seededDigital = true;
-  }
-
-  // Tie in Good Ground, the commitment app where planting gets decided.
-  if (!state.seededGoodGround) {
-    (state.vehicles || []).forEach(function (p) {
-      if (p.title === 'Commitment app') {
-        p.title = 'Good Ground';
-        p.note = 'The commitment app — a target for which ministry I could be at home with. claudekovalenko.github.io/theo-commitment';
-      }
-    });
-    (state.barriers || []).forEach(function (p) {
-      if (p.title === 'Not planted') {
-        p.note = (p.note || '') + ' Worked concretely in Good Ground (the commitment app).';
-      }
-    });
-    state.seededGoodGround = true;
-  }
-
-  function save() {
-    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
-  }
-
-  function bindText(id, field) {
-    var el = document.getElementById(id);
-    if (state[field]) el.textContent = state[field];
-    el.addEventListener('input', function () { state[field] = el.textContent; save(); });
-  }
-  bindText('abideText', 'abide');
-  bindText('eternityText', 'eternity');
-
-  // Vision statement with iterations: past versions are kept, never overwritten.
-  if (!state.visionVersions) {
-    state.visionVersions = [];
-    var firstText = state.vision || V1_TEXT;
-    state.visionVersions.push({ text: firstText, date: '2026-08-25' });
-    if (firstText !== V2_TEXT) state.visionVersions.push({ text: V2_TEXT, date: '2026-08-31' });
-  }
-  var visionEl = document.getElementById('visionText');
-  function currentVision() { return state.visionVersions[state.visionVersions.length - 1]; }
-  visionEl.textContent = currentVision().text;
-  visionEl.addEventListener('input', function () {
-    currentVision().text = visionEl.textContent;
-    save();
-  });
-
-  function renderIterations() {
-    var list = document.getElementById('iterList');
-    var summary = document.getElementById('iterSummary');
-    list.innerHTML = '';
-    var past = state.visionVersions.slice(0, -1);
-    summary.textContent = past.length
-      ? 'Past iterations (' + past.length + ')'
-      : 'No past iterations yet';
-    past.forEach(function (v) {
-      var li = document.createElement('li');
-      li.textContent = v.text;
-      var d = document.createElement('span');
-      d.className = 'iter-date';
-      d.textContent = v.date || '';
-      li.appendChild(d);
-      list.appendChild(li);
-    });
-  }
-  document.getElementById('newIterBtn').addEventListener('click', function () {
-    var cur = currentVision();
-    state.visionVersions.push({ text: cur.text, date: new Date().toISOString().slice(0, 10) });
-    save();
-    renderIterations();
-    visionEl.focus();
-  });
-  renderIterations();
-  bindText('whynowText', 'whynow');
-
-  var DASHED_TIERS = { dreams: true, positions: true };
-
-  function renderTier(tier, listId) {
-    var listEl = document.getElementById(listId);
-    listEl.innerHTML = '';
-    state[tier].forEach(function (p, i) {
-      var li = document.createElement('li');
-      li.className = 'bubble' + (DASHED_TIERS[tier] ? ' dashed' : '');
-
-      var title = document.createElement('span');
-      title.className = 'btitle';
-      title.contentEditable = 'true';
-      title.spellcheck = false;
-      title.textContent = p.title;
-      title.addEventListener('input', function () { p.title = title.textContent; save(); renderDecision(); });
-      li.appendChild(title);
-
-      if (tier === 'central' || tier === 'secondary') {
-        var move = document.createElement('button');
-        move.className = 'move';
-        var toTier = tier === 'central' ? 'secondary' : 'central';
-        move.title = tier === 'central' ? 'Move to Secondary' : 'Move to Central';
-        move.textContent = tier === 'central' ? '↓' : '↑';
-        move.addEventListener('click', function (ev) {
-          ev.stopPropagation();
-          state[tier].splice(i, 1);
-          state[toTier].push(p);
-          save();
-          renderAll();
-        });
-        li.appendChild(move);
-      }
-
-      var del = document.createElement('button');
-      del.className = 'del';
-      del.title = 'Remove';
-      del.textContent = '✕';
-      del.addEventListener('click', function (ev) {
-        ev.stopPropagation();
-        state[tier].splice(i, 1);
-        save();
-        renderAll();
-      });
-      li.appendChild(del);
-
-      var note = document.createElement('div');
-      note.className = 'bnote';
-      note.contentEditable = 'true';
-      note.spellcheck = false;
-      note.textContent = p.note || '';
-      note.addEventListener('input', function () { p.note = note.textContent; save(); });
-      note.addEventListener('click', function (ev) { ev.stopPropagation(); });
-      li.appendChild(note);
-
-      // Click the bubble (not its editable title/buttons) to open/close the note.
-      li.addEventListener('click', function (ev) {
-        if (ev.target === title || ev.target === note) return;
-        li.classList.toggle('open');
-      });
-      if (p.note) li.title = p.note;
-
-      listEl.appendChild(li);
-    });
-  }
-
-  function renderGifts() {
-    var el = document.getElementById('giftsList');
-    el.innerHTML = '';
-    state.gifts.forEach(function (g, i) {
-      var chip = document.createElement('li');
-      chip.className = 'bubble';
-      var span = document.createElement('span');
-      span.className = 'btitle';
-      span.contentEditable = 'true';
-      span.spellcheck = false;
-      span.textContent = g;
-      span.addEventListener('input', function () { state.gifts[i] = span.textContent; save(); });
-      var del = document.createElement('button');
-      del.className = 'del';
-      del.textContent = '✕';
-      del.title = 'Remove';
-      del.addEventListener('click', function () {
-        state.gifts.splice(i, 1);
-        save();
-        renderGifts();
-      });
-      chip.appendChild(span);
-      chip.appendChild(del);
-      el.appendChild(chip);
-    });
-  }
-
-  function renderDecision() {
-    var qs = document.getElementById('decisionQs');
-    qs.innerHTML = '';
-    var questions = [{ key: '_abide', text: 'Does this flow from — and protect — remaining in Jesus?' }]
-      .concat(state.central.map(function (p, i) {
-        return { key: 'c' + i, text: 'Does this advance: ' + p.title + '?' };
-      }))
-      .concat([
-        { key: '_gifts', text: 'Does this fit the gifts God has given me?' },
-        { key: '_fun', text: 'Is this genuinely fun — life-giving, not just draining duty?' }
-      ]);
-
-    questions.forEach(function (q) {
-      var label = document.createElement('label');
-      var cb = document.createElement('input');
-      cb.type = 'checkbox';
-      cb.checked = !!state.decision.checks[q.key];
-      cb.addEventListener('change', function () {
-        state.decision.checks[q.key] = cb.checked;
-        save();
-        updateVerdict(questions);
-      });
-      var span = document.createElement('span');
-      span.textContent = q.text;
-      label.appendChild(cb);
-      label.appendChild(span);
-      qs.appendChild(label);
-    });
-    updateVerdict(questions);
-  }
-
-  function updateVerdict(questions) {
-    var v = document.getElementById('verdict');
-    var total = questions.length;
-    var yes = questions.filter(function (q) { return state.decision.checks[q.key]; }).length;
-    if (!document.getElementById('decisionText').value.trim() && yes === 0) {
-      v.textContent = '';
-      v.className = 'verdict';
-      return;
-    }
-    if (yes >= Math.ceil(total * 0.75)) {
-      v.textContent = 'This aligns strongly with what is central (' + yes + ' of ' + total + '). It may be a faithful yes.';
-      v.className = 'verdict strong';
-    } else if (yes >= Math.ceil(total * 0.4)) {
-      v.textContent = 'Partial alignment (' + yes + ' of ' + total + '). Good — but is it central, or ancillary?';
-      v.className = 'verdict weak';
-    } else {
-      v.textContent = 'Low alignment (' + yes + ' of ' + total + '). A good opportunity is not the same as the vision.';
-      v.className = 'verdict';
-    }
-  }
-
-  // Building log: every update names what it builds up.
+  try { state = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { state = {}; }
   state.log = state.log || [];
-  if (!state.seededPracticalSteps) {
-    [
-      { text: 'Great access to food at Knott’s — fueling health well', target: 'Secondary: Getting fit and increasing my health', date: '2026-09-01' },
-      { text: 'Working out 6 times a week', target: 'Marriage Preparation: Developing my physique', date: '2026-09-01' },
-      { text: 'Reading a book on purity daily', target: 'Marriage Preparation: Be pure', date: '2026-09-01' },
-      { text: 'On the Compassionate Warrior program', target: 'Marriage Preparation: Be pure', date: '2026-09-01' }
-    ].forEach(function (e) { state.log.push(e); });
-    state.seededPracticalSteps = true;
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+
+  var DEFAULT_STATEMENT = 'To live in light of eternity — living for a “Well done, good and faithful servant.” Becoming more like Jesus day by day, loving God and loving my neighbor as myself, and raising up people who look more and more like Jesus.';
+  var vv = state.visionVersions;
+  document.getElementById('statement').textContent =
+    (vv && vv.length && vv[vv.length - 1].text) || DEFAULT_STATEMENT;
+
+  function today() { return new Date().toISOString().slice(0, 10); }
+  document.getElementById('todayDate').textContent =
+    new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+
+  // Log entries booked from this page carry a calling; older ones carry "Group: item".
+  function callingOf(e) {
+    if (!e.target) return UNBOOKED;
+    var head = String(e.target).split(':')[0].trim();
+    var map = {
+      'Rhythms of Abiding': 'Remain in Jesus',
+      'Husband like Christ': 'Husband like Christ',
+      'Marriage Preparation': 'Husband like Christ',
+      'Values': 'Husband like Christ',
+      'Central': 'Raise up disciples',
+      'Vehicles': 'Raise up disciples',
+      'Possible Positions': 'Raise up disciples',
+      'Secondary': 'Foundation',
+      'Fun': 'Fun'
+    };
+    return map[head] || head;
   }
-  var LOG_GROUPS = [
-    ['rhythms', 'Rhythms of Abiding'],
-    ['central', 'Central'],
-    ['values', 'Values'],
-    ['marriagePrep', 'Husband like Christ'],
-    ['vehicles', 'Vehicles'],
-    ['secondary', 'Secondary'],
-    ['positions', 'Possible Positions'],
-    ['fun', 'Fun']
-  ];
-  function renderLogTargets() {
-    var sel = document.getElementById('logTarget');
-    var prev = sel.value;
-    sel.innerHTML = '';
-    var def = document.createElement('option');
-    def.value = '';
-    def.textContent = 'What does this build?';
-    sel.appendChild(def);
-    LOG_GROUPS.forEach(function (g) {
-      var items = state[g[0]] || [];
-      if (!items.length) return;
-      var og = document.createElement('optgroup');
-      og.label = g[1];
-      items.forEach(function (p) {
-        var o = document.createElement('option');
-        o.value = g[1] + ': ' + p.title;
-        o.textContent = p.title;
-        og.appendChild(o);
-      });
-      sel.appendChild(og);
-    });
-    sel.value = prev;
-  }
-  function renderLog() {
-    renderLogTargets();
-    var list = document.getElementById('logList');
-    list.innerHTML = '';
-    state.log.slice().reverse().forEach(function (e, ri) {
-      var i = state.log.length - 1 - ri;
-      var li = document.createElement('li');
-      var date = document.createElement('span');
-      date.className = 'log-date';
-      date.textContent = e.date;
-      var body = document.createElement('span');
-      body.className = 'log-body';
-      body.textContent = e.text;
-      if (e.target) {
-        var t = document.createElement('span');
-        t.className = 'log-target';
-        t.textContent = e.target;
-        body.appendChild(t);
-      }
-      var del = document.createElement('button');
-      del.textContent = '✕';
-      del.title = 'Remove';
-      del.addEventListener('click', function () {
-        state.log.splice(i, 1);
-        save();
-        renderLog();
-      });
-      li.appendChild(date);
-      li.appendChild(body);
-      li.appendChild(del);
-      list.appendChild(li);
-    });
-  }
-  function addLog() {
-    var input = document.getElementById('logText');
+
+  function book(calling) {
+    var input = document.getElementById('what');
     var text = input.value.trim();
-    if (!text) return;
-    state.log.push({
-      text: text,
-      target: document.getElementById('logTarget').value,
-      date: new Date().toISOString().slice(0, 10)
-    });
+    if (!text) { input.focus(); return; }
+    state.log.push({ text: text, target: calling, date: today() });
     input.value = '';
     save();
-    renderLog();
+    render();
+    input.focus();
   }
-  document.getElementById('logBtn').addEventListener('click', addLog);
-  document.getElementById('logText').addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') addLog();
-  });
 
-  var decisionInput = document.getElementById('decisionText');
-  decisionInput.value = state.decision.text || '';
-  decisionInput.addEventListener('input', function () {
-    state.decision.text = decisionInput.value;
-    save();
-  });
-
-  function addPursuit(tier, inputId) {
-    var input = document.getElementById(inputId);
-    var v = input.value.trim();
-    if (!v) return;
-    state[tier].push({ title: v, note: '' });
-    input.value = '';
-    save();
-    renderAll();
-  }
-  var addInputs = { central: 'newCentral', secondary: 'newSecondary', vehicles: 'newVehicle', dreams: 'newDream', values: 'newValue', barriers: 'newBarrier', rhythms: 'newRhythm', marriagePrep: 'newMarriagePrep', positions: 'newPosition', fun: 'newFun' };
-  document.querySelectorAll('button[data-add]').forEach(function (btn) {
-    var tier = btn.getAttribute('data-add');
-    var inputId = addInputs[tier];
-    btn.addEventListener('click', function () { addPursuit(tier, inputId); });
-    document.getElementById(inputId).addEventListener('keydown', function (e) {
-      if (e.key === 'Enter') addPursuit(tier, inputId);
+  function renderButtons() {
+    var row = document.getElementById('bookRow');
+    row.innerHTML = '';
+    CALLINGS.forEach(function (c) {
+      var b = document.createElement('button');
+      b.className = 'book-btn';
+      b.style.setProperty('--c', c.color);
+      b.textContent = c.name;
+      b.addEventListener('click', function () { book(c.name); });
+      row.appendChild(b);
     });
-  });
-
-  function addGift() {
-    var input = document.getElementById('newGift');
-    var v = input.value.trim();
-    if (!v) return;
-    state.gifts.push(v);
-    input.value = '';
-    save();
-    renderGifts();
+    var nb = document.createElement('button');
+    nb.className = 'book-btn none';
+    nb.textContent = UNBOOKED;
+    nb.addEventListener('click', function () { book(UNBOOKED); });
+    row.appendChild(nb);
   }
-  document.getElementById('addGiftBtn').addEventListener('click', addGift);
-  document.getElementById('newGift').addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') addGift();
-  });
 
-  // Radial map: center + calling nodes + leaf bubbles, lines underneath.
-  var MAP_CALLINGS = [
-    { id: 'call-husband',    title: 'Husband like Christ',  color: 'var(--rose)',  angle: 200, tiers: ['marriagePrep'] },
-    { id: 'call-disciples',  title: 'Raise up disciples',   color: 'var(--gold)',  angle: 340, tiers: ['central', 'vehicles'] },
-    { id: 'call-foundation', title: 'Foundation',           color: 'var(--green)', angle: 90,  tiers: ['secondary', 'fun'] },
-    { id: 'call-barriers',   title: 'Barriers',             color: 'var(--rust)',  angle: 135, dim: true, tiers: ['barriers'] }
-  ];
-  function renderMap() {
-    var map = document.getElementById('visionMap');
-    if (!map || !map.offsetWidth) return;
-    map.querySelectorAll('.mnode, .mleaf').forEach(function (n) { n.remove(); });
-    var svg = document.getElementById('mapLines');
-    svg.innerHTML = '';
-    var W = map.offsetWidth, H = map.offsetHeight;
-    var cx = W / 2, cy = H * 0.44;
+  function colorFor(name) {
+    for (var i = 0; i < CALLINGS.length; i++) if (CALLINGS[i].name === name) return CALLINGS[i].color;
+    return 'var(--muted)';
+  }
 
-    function line(x1, y1, x2, y2) {
-      var l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      l.setAttribute('x1', x1); l.setAttribute('y1', y1);
-      l.setAttribute('x2', x2); l.setAttribute('y2', y2);
-      svg.appendChild(l);
-    }
-    function put(el, x, y) {
-      el.style.left = Math.max(60, Math.min(W - 60, x)) + 'px';
-      el.style.top = Math.max(20, Math.min(H - 24, y)) + 'px';
-      map.appendChild(el);
-    }
-    function rad(deg) { return deg * Math.PI / 180; }
+  function renderDay() {
+    var list = document.getElementById('dayList');
+    list.innerHTML = '';
+    var t = today();
+    var todays = state.log.filter(function (e) { return e.date === t; });
+    document.getElementById('emptyNote').style.display = todays.length ? 'none' : 'block';
 
-    // Center
-    var center = document.createElement('div');
-    center.className = 'mnode center';
-    center.innerHTML = '<div class="mtitle"></div><div class="msub">John 15:4–5</div>';
-    center.querySelector('.mtitle').textContent = state.abide || 'Remain in Jesus.';
-    put(center, cx, cy);
-
-    // Rhythms orbit the center directly
-    (state.rhythms || []).forEach(function (p, i, arr) {
-      var a = -90 + (i - (arr.length - 1) / 2) * 42;
-      var r0 = 195 + (i % 2) * 40;
-      var x = cx + Math.cos(rad(a)) * (r0 + 40);
-      var y = cy + Math.sin(rad(a)) * r0 * 0.85;
-      line(cx, cy, x, y);
-      var leaf = document.createElement('div');
-      leaf.className = 'mleaf';
-      leaf.style.setProperty('--node-color', 'var(--gold)');
-      leaf.textContent = p.title;
-      if (p.note) leaf.title = p.note;
-      put(leaf, x, y);
-    });
-
-    var rx = Math.min(W * 0.34, 430), ry = Math.min(H * 0.33, 300);
-    MAP_CALLINGS.forEach(function (c) {
-      var nx = cx + Math.cos(rad(c.angle)) * rx;
-      var ny = cy + Math.sin(rad(c.angle)) * ry;
-      line(cx, cy, nx, ny);
-      var node = document.createElement('div');
-      node.className = 'mnode calling';
-      node.style.setProperty('--node-color', c.color);
-      node.innerHTML = '<div class="mtitle"></div>';
-      node.querySelector('.mtitle').textContent = c.title;
-      node.addEventListener('click', function () {
-        var sec = document.getElementById(c.id);
-        if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    var order = CALLINGS.map(function (c) { return c.name; }).concat([UNBOOKED]);
+    order.forEach(function (name) {
+      var items = todays.filter(function (e) { return callingOf(e) === name; });
+      if (!items.length) return;
+      var box = document.createElement('div');
+      box.className = 'group' + (name === UNBOOKED ? ' unbooked' : '');
+      box.style.setProperty('--c', name === UNBOOKED ? 'var(--rust)' : colorFor(name));
+      var h = document.createElement('h3');
+      h.textContent = name;
+      box.appendChild(h);
+      var ul = document.createElement('ul');
+      items.forEach(function (e) {
+        var li = document.createElement('li');
+        var span = document.createElement('span');
+        span.className = 't';
+        span.textContent = e.text;
+        var del = document.createElement('button');
+        del.textContent = '✕';
+        del.title = 'Remove';
+        del.addEventListener('click', function () {
+          var i = state.log.indexOf(e);
+          if (i > -1) state.log.splice(i, 1);
+          save();
+          render();
+        });
+        li.appendChild(span);
+        li.appendChild(del);
+        ul.appendChild(li);
       });
-      put(node, nx, ny);
-
-      var items = [];
-      c.tiers.forEach(function (t) { items = items.concat(state[t] || []); });
-      items = items.slice(0, 10);
-      var away = c.angle;
-      items.forEach(function (p, i, arr) {
-        var spread = Math.min(170, arr.length * 30);
-        var a = away + (i - (arr.length - 1) / 2) * (arr.length > 1 ? spread / (arr.length - 1) : 0);
-        var r = 110 + (i % 3) * 46;
-        var x = nx + Math.cos(rad(a)) * (r + 55);
-        var y = ny + Math.sin(rad(a)) * r * 0.72;
-        line(nx, ny, x, y);
-        var leaf = document.createElement('div');
-        leaf.className = 'mleaf' + (c.dim ? ' dim' : '');
-        leaf.style.setProperty('--node-color', c.color);
-        leaf.textContent = p.title;
-        if (p.note) leaf.title = p.note;
-        put(leaf, x, y);
-      });
+      box.appendChild(ul);
+      if (name === UNBOOKED) {
+        var w = document.createElement('p');
+        w.className = 'warn';
+        w.textContent = 'These fall outside the vision. Was the Lord leading — or should they go?';
+        box.appendChild(w);
+      }
+      list.appendChild(box);
     });
   }
-  window.addEventListener('resize', renderMap);
 
-  function renderAll() {
-    renderTier('rhythms', 'rhythmsList');
-    renderTier('marriagePrep', 'marriagePrepList');
-    renderTier('positions', 'positionsList');
-    renderTier('fun', 'funList');
-    renderTier('values', 'valuesList');
-    renderTier('central', 'centralList');
-    renderTier('secondary', 'secondaryList');
-    renderTier('vehicles', 'vehiclesList');
-    renderTier('dreams', 'dreamsList');
-    renderTier('barriers', 'barriersList');
-    renderGifts();
-    renderDecision();
-    renderLog();
-    renderMap();
+  function renderWeek() {
+    var bars = document.getElementById('weekBars');
+    bars.innerHTML = '';
+    var cut = new Date();
+    cut.setDate(cut.getDate() - 6);
+    var cutStr = cut.toISOString().slice(0, 10);
+    var recent = state.log.filter(function (e) { return e.date >= cutStr; });
+    var counts = {};
+    recent.forEach(function (e) {
+      var c = callingOf(e);
+      counts[c] = (counts[c] || 0) + 1;
+    });
+    var names = CALLINGS.map(function (c) { return c.name; });
+    if (counts[UNBOOKED]) names = names.concat([UNBOOKED]);
+    var max = 1;
+    names.forEach(function (n) { if ((counts[n] || 0) > max) max = counts[n]; });
+
+    names.forEach(function (n) {
+      var row = document.createElement('div');
+      row.className = 'bar-row';
+      row.style.setProperty('--c', n === UNBOOKED ? 'var(--rust)' : colorFor(n));
+      var nm = document.createElement('span');
+      nm.className = 'nm';
+      nm.textContent = n;
+      var track = document.createElement('div');
+      track.className = 'bar-track';
+      var fill = document.createElement('div');
+      fill.className = 'bar-fill';
+      fill.style.width = Math.round(((counts[n] || 0) / max) * 100) + '%';
+      track.appendChild(fill);
+      var ct = document.createElement('span');
+      ct.className = 'ct';
+      ct.textContent = counts[n] || 0;
+      row.appendChild(nm);
+      row.appendChild(track);
+      row.appendChild(ct);
+      bars.appendChild(row);
+    });
   }
-  renderAll();
+
+  function render() { renderDay(); renderWeek(); }
+
+  document.getElementById('what').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') book(CALLINGS[0].name);
+  });
+
+  renderButtons();
+  render();
 })();
 </script>
 </body>
