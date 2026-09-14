@@ -115,6 +115,72 @@
     margin-top: 0.15rem; opacity: 0.7;
   }
 
+  /* Radial map: the visions held in front, at a glance */
+  .map {
+    position: relative;
+    margin-top: 1.5rem;
+    height: min(78vh, 820px);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background:
+      radial-gradient(ellipse at 50% 42%, rgba(201,162,94,0.07), transparent 55%),
+      var(--panel);
+    overflow: hidden;
+  }
+  .map svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .map svg line { stroke: var(--line); stroke-width: 1.2; }
+  .mnode {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    cursor: pointer;
+    max-width: 220px;
+  }
+  .mnode.center {
+    background: var(--gold-soft);
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    width: 190px; height: 190px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 1rem;
+    cursor: default;
+  }
+  .mnode.center .mtitle { font-size: 1.25rem; line-height: 1.3; }
+  .mnode.center .msub { color: var(--muted); font-size: 0.7rem; font-style: italic; margin-top: 0.3rem; }
+  .mnode.calling {
+    background: var(--panel-2);
+    border: 1.5px solid var(--node-color, var(--gold));
+    border-radius: 999px;
+    padding: 0.6rem 1.2rem;
+  }
+  .mnode.calling .mtitle { font-size: 0.98rem; line-height: 1.25; }
+  .mnode.calling:hover { background: var(--node-color); color: var(--bg); }
+  .mleaf {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--node-color, var(--gold));
+    border-radius: 999px;
+    padding: 0.16rem 0.6rem;
+    font-size: 0.74rem;
+    white-space: nowrap;
+    color: var(--ink);
+    opacity: 0.92;
+    cursor: default;
+  }
+  .mleaf.dim { opacity: 0.6; font-style: italic; }
+  .map-hint {
+    position: absolute;
+    bottom: 0.6rem; left: 0; right: 0;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.68rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    opacity: 0.6;
+  }
+  @media (max-width: 760px) { .map { display: none; } }
+
   /* Callings: the whys, clearly named; everything hangs under one */
   .calling { margin-top: 2.2rem; }
   .calling-head {
@@ -359,7 +425,12 @@
 
   <p class="whynow-line" id="whynowText" contenteditable="true" spellcheck="false">Build now &mdash; this window of strength and flexibility won&rsquo;t last.</p>
 
-  <section class="calling">
+  <div class="map" id="visionMap">
+    <svg id="mapLines"></svg>
+    <p class="map-hint">Click a calling to jump to its details below &middot; hover a bubble for its note</p>
+  </div>
+
+  <section class="calling" id="call-abide">
     <div class="calling-head">
       <span class="calling-kicker">Calling 01</span>
       <h3>Remain in Jesus</h3>
@@ -374,7 +445,7 @@
     </div>
   </section>
 
-  <section class="calling">
+  <section class="calling" id="call-husband">
     <div class="calling-head">
       <span class="calling-kicker">Calling 02</span>
       <h3>A husband who looks like Christ</h3>
@@ -399,7 +470,7 @@
     </div>
   </section>
 
-  <section class="calling">
+  <section class="calling" id="call-disciples">
     <div class="calling-head">
       <span class="calling-kicker">Calling 03</span>
       <h3>Raise up disciples who look like Jesus</h3>
@@ -424,7 +495,7 @@
     </div>
   </section>
 
-  <section class="calling">
+  <section class="calling" id="call-foundation">
     <div class="calling-head">
       <span class="calling-kicker">Foundation</span>
       <h3>What carries the callings</h3>
@@ -449,7 +520,7 @@
     </div>
   </section>
 
-  <section class="calling">
+  <section class="calling" id="call-barriers">
     <div class="calling-head">
       <span class="calling-kicker">Against Me</span>
       <h3>Barriers</h3>
@@ -1009,6 +1080,95 @@
     if (e.key === 'Enter') addGift();
   });
 
+  // Radial map: center + calling nodes + leaf bubbles, lines underneath.
+  var MAP_CALLINGS = [
+    { id: 'call-husband',    title: 'Husband like Christ',  color: 'var(--rose)',  angle: 200, tiers: ['marriagePrep'] },
+    { id: 'call-disciples',  title: 'Raise up disciples',   color: 'var(--gold)',  angle: 340, tiers: ['central', 'vehicles'] },
+    { id: 'call-foundation', title: 'Foundation',           color: 'var(--green)', angle: 90,  tiers: ['secondary', 'fun'] },
+    { id: 'call-barriers',   title: 'Barriers',             color: 'var(--rust)',  angle: 135, dim: true, tiers: ['barriers'] }
+  ];
+  function renderMap() {
+    var map = document.getElementById('visionMap');
+    if (!map || !map.offsetWidth) return;
+    map.querySelectorAll('.mnode, .mleaf').forEach(function (n) { n.remove(); });
+    var svg = document.getElementById('mapLines');
+    svg.innerHTML = '';
+    var W = map.offsetWidth, H = map.offsetHeight;
+    var cx = W / 2, cy = H * 0.44;
+
+    function line(x1, y1, x2, y2) {
+      var l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      l.setAttribute('x1', x1); l.setAttribute('y1', y1);
+      l.setAttribute('x2', x2); l.setAttribute('y2', y2);
+      svg.appendChild(l);
+    }
+    function put(el, x, y) {
+      el.style.left = Math.max(60, Math.min(W - 60, x)) + 'px';
+      el.style.top = Math.max(20, Math.min(H - 24, y)) + 'px';
+      map.appendChild(el);
+    }
+    function rad(deg) { return deg * Math.PI / 180; }
+
+    // Center
+    var center = document.createElement('div');
+    center.className = 'mnode center';
+    center.innerHTML = '<div class="mtitle"></div><div class="msub">John 15:4–5</div>';
+    center.querySelector('.mtitle').textContent = state.abide || 'Remain in Jesus.';
+    put(center, cx, cy);
+
+    // Rhythms orbit the center directly
+    (state.rhythms || []).forEach(function (p, i, arr) {
+      var a = -90 + (i - (arr.length - 1) / 2) * 42;
+      var r0 = 195 + (i % 2) * 40;
+      var x = cx + Math.cos(rad(a)) * (r0 + 40);
+      var y = cy + Math.sin(rad(a)) * r0 * 0.85;
+      line(cx, cy, x, y);
+      var leaf = document.createElement('div');
+      leaf.className = 'mleaf';
+      leaf.style.setProperty('--node-color', 'var(--gold)');
+      leaf.textContent = p.title;
+      if (p.note) leaf.title = p.note;
+      put(leaf, x, y);
+    });
+
+    var rx = Math.min(W * 0.34, 430), ry = Math.min(H * 0.33, 300);
+    MAP_CALLINGS.forEach(function (c) {
+      var nx = cx + Math.cos(rad(c.angle)) * rx;
+      var ny = cy + Math.sin(rad(c.angle)) * ry;
+      line(cx, cy, nx, ny);
+      var node = document.createElement('div');
+      node.className = 'mnode calling';
+      node.style.setProperty('--node-color', c.color);
+      node.innerHTML = '<div class="mtitle"></div>';
+      node.querySelector('.mtitle').textContent = c.title;
+      node.addEventListener('click', function () {
+        var sec = document.getElementById(c.id);
+        if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      put(node, nx, ny);
+
+      var items = [];
+      c.tiers.forEach(function (t) { items = items.concat(state[t] || []); });
+      items = items.slice(0, 8);
+      var away = c.angle;
+      items.forEach(function (p, i, arr) {
+        var spread = Math.min(170, arr.length * 30);
+        var a = away + (i - (arr.length - 1) / 2) * (arr.length > 1 ? spread / (arr.length - 1) : 0);
+        var r = 110 + (i % 3) * 46;
+        var x = nx + Math.cos(rad(a)) * (r + 55);
+        var y = ny + Math.sin(rad(a)) * r * 0.72;
+        line(nx, ny, x, y);
+        var leaf = document.createElement('div');
+        leaf.className = 'mleaf' + (c.dim ? ' dim' : '');
+        leaf.style.setProperty('--node-color', c.color);
+        leaf.textContent = p.title;
+        if (p.note) leaf.title = p.note;
+        put(leaf, x, y);
+      });
+    });
+  }
+  window.addEventListener('resize', renderMap);
+
   function renderAll() {
     renderTier('rhythms', 'rhythmsList');
     renderTier('marriagePrep', 'marriagePrepList');
@@ -1023,6 +1183,7 @@
     renderGifts();
     renderDecision();
     renderLog();
+    renderMap();
   }
   renderAll();
 })();
