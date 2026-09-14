@@ -746,6 +746,22 @@
     state.seededHusband = true;
   }
 
+  // Digital/AI gifting: online teaching, and provision through it.
+  if (!state.seededDigital) {
+    var g2 = state.gifts = state.gifts || [];
+    ['Teaching', 'Digital & AI'].forEach(function (g) {
+      if (g2.indexOf(g) === -1) g2.push(g);
+    });
+    var vh2 = state.vehicles = state.vehicles || [];
+    [
+      { title: 'Online teaching', note: 'Seminary studies and social media — bringing the teaching online.' },
+      { title: 'Digital & AI for provision', note: 'A gifting that keeps coming up — using it to build financial backing. I really need God’s help over this.' }
+    ].forEach(function (item) {
+      if (!vh2.some(function (p) { return p.title === item.title; })) vh2.push(item);
+    });
+    state.seededDigital = true;
+  }
+
   function save() {
     try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
   }
@@ -1149,7 +1165,7 @@
 
       var items = [];
       c.tiers.forEach(function (t) { items = items.concat(state[t] || []); });
-      items = items.slice(0, 8);
+      items = items.slice(0, 10);
       var away = c.angle;
       items.forEach(function (p, i, arr) {
         var spread = Math.min(170, arr.length * 30);
