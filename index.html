@@ -353,7 +353,7 @@
     </section>
 
     <section class="card" data-color="rose" data-tier="marriagePrep">
-      <div class="card-head"><span class="label">Marriage Prep</span></div>
+      <div class="card-head"><span class="label">Husband like Christ</span></div>
       <ul class="bubbles" id="marriagePrepList"></ul>
       <div class="mini-add"><input id="newMarriagePrep" type="text" placeholder="Add a step&hellip;" /><button data-add="marriagePrep" title="Add">+</button></div>
     </section>
@@ -580,6 +580,39 @@
     state.shortTitles = true;
   }
 
+  // Husband-like-Christ: the fuller picture of what marriage prep is for.
+  if (!state.seededHusband) {
+    var mp = state.marriagePrep = state.marriagePrep || [];
+    var mpTitles = mp.map(function (p) { return p.title; });
+    [
+      { title: 'Settled in my church', note: 'Secure in my place — a confidence and collectedness about where I am.' },
+      { title: 'Mission for my kids', note: 'A clear mission for how they grow up, respond to me and to leaders, and grow in Christ.' },
+      { title: 'Lead my family to the Lord', note: 'Praying for them consistently; helping my family draw closer to the Lord.' },
+      { title: 'An attractive partner', note: 'Becoming an even more attractive marriage partner — someone worth marrying.' }
+    ].forEach(function (item) {
+      if (mpTitles.indexOf(item.title) === -1) mp.push(item);
+    });
+    var rh = state.rhythms = state.rhythms || [];
+    if (!rh.some(function (p) { return p.title === 'Praying for my family'; })) {
+      rh.push({ title: 'Praying for my family', note: 'Consistently.' });
+    }
+    var vh = state.vehicles = state.vehicles || [];
+    if (!vh.some(function (p) { return p.title === 'Greek study'; })) {
+      vh.push({ title: 'Greek study', note: 'Growing toward teaching and preaching.' });
+    }
+    var br = state.barriers = state.barriers || [];
+    br.forEach(function (p) {
+      if (p.title === 'Unclear marriage-prep steps') {
+        p.title = 'Not planted';
+        p.note = 'My cross to bear — nobody else can carry this one. The neglected space: getting truly planted.';
+      }
+    });
+    if (!br.some(function (p) { return p.title === 'Not planted'; })) {
+      br.push({ title: 'Not planted', note: 'My cross to bear — nobody else can carry this one. The neglected space: getting truly planted.' });
+    }
+    state.seededHusband = true;
+  }
+
   function save() {
     try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
   }
@@ -794,7 +827,7 @@
     ['rhythms', 'Rhythms of Abiding'],
     ['central', 'Central'],
     ['values', 'Values'],
-    ['marriagePrep', 'Marriage Preparation'],
+    ['marriagePrep', 'Husband like Christ'],
     ['vehicles', 'Vehicles'],
     ['secondary', 'Secondary'],
     ['positions', 'Possible Positions'],
