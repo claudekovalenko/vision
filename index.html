@@ -380,6 +380,8 @@
   .verdict.strong { color: var(--green); }
   .verdict.weak { color: var(--gold); }
 
+  .hint a.companion { color: var(--gold); text-decoration: none; border-bottom: 1px dotted var(--gold); }
+  .hint a.companion:hover { border-bottom-style: solid; }
   .hint {
     margin-top: 2rem;
     text-align: center;
@@ -556,7 +558,10 @@
     </details>
   </div>
 
-  <p class="hint">Click a bubble to open its note &middot; click any text to edit &middot; everything saves in this browser.</p>
+  <p class="hint">
+    Click a bubble to open its note &middot; click any text to edit &middot; everything saves in this browser.<br>
+    Working &ldquo;Not planted&rdquo;? &rarr; <a class="companion" href="https://claudekovalenko.github.io/theo-commitment/">Good Ground</a> &mdash; the commitment app where planting gets decided.
+  </p>
 
 </div>
 
@@ -760,6 +765,22 @@
       if (!vh2.some(function (p) { return p.title === item.title; })) vh2.push(item);
     });
     state.seededDigital = true;
+  }
+
+  // Tie in Good Ground, the commitment app where planting gets decided.
+  if (!state.seededGoodGround) {
+    (state.vehicles || []).forEach(function (p) {
+      if (p.title === 'Commitment app') {
+        p.title = 'Good Ground';
+        p.note = 'The commitment app — a target for which ministry I could be at home with. claudekovalenko.github.io/theo-commitment';
+      }
+    });
+    (state.barriers || []).forEach(function (p) {
+      if (p.title === 'Not planted') {
+        p.note = (p.note || '') + ' Worked concretely in Good Ground (the commitment app).';
+      }
+    });
+    state.seededGoodGround = true;
   }
 
   function save() {
