@@ -60,6 +60,7 @@
   }
   .season .focus { margin-top: 0.35rem; font-size: 0.98rem; line-height: 1.45; }
   .season .key { margin-top: 0.3rem; color: var(--rose); font-size: 0.86rem; font-style: italic; }
+  .season .also { margin-top: 0.35rem; color: var(--green); font-size: 0.82rem; }
 
   /* Today */
   .today-head {
@@ -140,6 +141,7 @@
     <span class="label">This Season</span>
     <p class="focus" id="seasonFocus"></p>
     <p class="key" id="seasonKey"></p>
+    <p class="also" id="seasonAlso"></p>
   </section>
 
   <div class="today-head">
@@ -192,11 +194,13 @@
 
   var DEFAULT_SEASON = {
     focus: 'Find the place where I can raise my family — and the community that can support that.',
-    key: 'When I talk to people, raising the family is the key.'
+    key: 'When I talk to people, raising the family is the key.',
+    also: 'Also going after: AI development, and real estate investment.'
   };
   var season = state.season || DEFAULT_SEASON;
   document.getElementById('seasonFocus').textContent = season.focus || DEFAULT_SEASON.focus;
   document.getElementById('seasonKey').textContent = season.key || DEFAULT_SEASON.key;
+  document.getElementById('seasonAlso').textContent = season.also || DEFAULT_SEASON.also;
 
   function today() { return new Date().toISOString().slice(0, 10); }
   document.getElementById('todayDate').textContent =

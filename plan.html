@@ -101,6 +101,7 @@
   .season h3 { margin-top: 0.4rem; font-size: 1.12rem; font-weight: normal; line-height: 1.45; }
   .season .season-key { margin-top: 0.55rem; color: var(--rose); font-size: 0.95rem; }
   .season .season-secondary { margin-top: 0.3rem; color: var(--muted); font-style: italic; font-size: 0.88rem; }
+  .season .season-also { margin-top: 0.55rem; color: var(--green); font-size: 0.88rem; }
   .season .season-since {
     margin-top: 0.7rem; color: var(--muted); font-size: 0.68rem;
     letter-spacing: 0.1em; text-transform: uppercase;
@@ -453,6 +454,7 @@
     <h3 id="seasonFocus" contenteditable="true" spellcheck="false"></h3>
     <p class="season-key" id="seasonKey" contenteditable="true" spellcheck="false"></p>
     <p class="season-secondary" id="seasonSecondary" contenteditable="true" spellcheck="false"></p>
+    <p class="season-also" id="seasonAlso" contenteditable="true" spellcheck="false"></p>
     <p class="season-since">Since <span id="seasonSince"></span> &middot; worked concretely in <a href="https://claudekovalenko.github.io/theo-commitment/">Good Ground</a></p>
   </section>
 
@@ -670,6 +672,7 @@
       focus: 'Find the place where I can raise my family — and the community that can support that.',
       key: 'When I talk to people, raising the family is the key.',
       secondary: 'My spiritual disciples come along too — but that is secondary.',
+      also: 'Also going after: AI development, and real estate investment.',
       since: '2026-09-16'
     },
     decision: { text: '', checks: {} }
@@ -831,6 +834,19 @@
   }
   state.season = state.season || JSON.parse(JSON.stringify(defaults.season));
 
+  // Time this season also goes to AI development and real estate investment — provision.
+  if (!state.seededAiRealEstate) {
+    if (!state.season.also) state.season.also = defaults.season.also;
+    var sec2 = state.secondary = state.secondary || [];
+    [
+      { title: 'AI development', note: 'Building with AI — the digital gifting that keeps coming up, put to work for provision and for the vision.' },
+      { title: 'Real estate investment', note: 'Financial backing that lasts — a foundation under a family, not just an income.' }
+    ].forEach(function (item) {
+      if (!sec2.some(function (p) { return p.title === item.title; })) sec2.push(item);
+    });
+    state.seededAiRealEstate = true;
+  }
+
   function save() {
     try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
   }
@@ -894,6 +910,7 @@
   bindSeason('seasonFocus', 'focus');
   bindSeason('seasonKey', 'key');
   bindSeason('seasonSecondary', 'secondary');
+  bindSeason('seasonAlso', 'also');
   document.getElementById('seasonSince').textContent = state.season.since || '';
 
   var DASHED_TIERS = { dreams: true, positions: true };
@@ -1059,6 +1076,14 @@
       date: '2026-09-16'
     });
     state.seededSeasonLog = true;
+  }
+  if (!state.seededAiRealEstateLog) {
+    state.log.push({
+      text: 'Set aside time this season for AI development and real estate investment',
+      target: 'Secondary: Financial capacity',
+      date: '2026-09-16'
+    });
+    state.seededAiRealEstateLog = true;
   }
   var LOG_GROUPS = [
     ['rhythms', 'Rhythms of Abiding'],
