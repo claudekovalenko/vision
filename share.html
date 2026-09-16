@@ -113,6 +113,28 @@
   .rose { --accent-color: var(--rose); }
   .green { --accent-color: var(--green); }
 
+  .season {
+    margin-top: 3rem;
+    padding: 1.4rem 1.6rem;
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--rose);
+    border-radius: 8px;
+    background: var(--panel);
+  }
+  .season strong {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin-bottom: 0.5rem;
+    font-weight: normal;
+  }
+  .season .focus { font-size: 1.1rem; line-height: 1.5; }
+  .season .key { margin-top: 0.5rem; color: var(--rose); font-style: italic; }
+  .season .second { margin-top: 0.3rem; color: var(--muted); font-style: italic; font-size: 0.9rem; }
+
   .now {
     margin-top: 3rem;
     padding: 1.4rem 1.6rem;
@@ -224,6 +246,13 @@
       <li>Discipleship</li>
     </ul>
   </section>
+
+  <div class="season">
+    <strong>This season</strong>
+    <p class="focus">Find the place where I can raise my family &mdash; and the community that can support that.</p>
+    <p class="key">When I talk to people, raising the family is the key.</p>
+    <p class="second">My spiritual disciples come along too &mdash; but that is secondary.</p>
+  </div>
 
   <p class="now">
     <strong>Why now</strong>

@@ -88,6 +88,27 @@
     font-style: italic;
     font-size: 0.9rem;
   }
+  /* This season: the one thing the next stretch is for */
+  .season {
+    margin: 1.4rem auto 0;
+    max-width: 760px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--rose);
+    border-radius: 12px;
+    padding: 1.1rem 1.4rem 1rem;
+  }
+  .season h3 { margin-top: 0.4rem; font-size: 1.12rem; font-weight: normal; line-height: 1.45; }
+  .season .season-key { margin-top: 0.55rem; color: var(--rose); font-size: 0.95rem; }
+  .season .season-secondary { margin-top: 0.3rem; color: var(--muted); font-style: italic; font-size: 0.88rem; }
+  .season .season-since {
+    margin-top: 0.7rem; color: var(--muted); font-size: 0.68rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    font-family: 'Helvetica Neue', Arial, sans-serif; opacity: 0.75;
+  }
+  .season .season-since a { color: var(--gold); text-decoration: none; border-bottom: 1px dotted var(--gold); text-transform: none; letter-spacing: 0; }
+  .season .season-since a:hover { border-bottom-style: solid; }
+
   .iter-row { margin-top: 0.75rem; }
   .iter-btn {
     background: none; border: 1px solid var(--line); color: var(--muted);
@@ -427,6 +448,14 @@
 
   <p class="whynow-line" id="whynowText" contenteditable="true" spellcheck="false">Build now &mdash; this window of strength and flexibility won&rsquo;t last.</p>
 
+  <section class="season" id="seasonBox">
+    <span class="label">This Season</span>
+    <h3 id="seasonFocus" contenteditable="true" spellcheck="false"></h3>
+    <p class="season-key" id="seasonKey" contenteditable="true" spellcheck="false"></p>
+    <p class="season-secondary" id="seasonSecondary" contenteditable="true" spellcheck="false"></p>
+    <p class="season-since">Since <span id="seasonSince"></span> &middot; worked concretely in <a href="https://claudekovalenko.github.io/theo-commitment/">Good Ground</a></p>
+  </section>
+
   <div class="map" id="visionMap">
     <svg id="mapLines"></svg>
     <p class="map-hint">Click a calling to jump to its details below &middot; hover a bubble for its note</p>
@@ -637,6 +666,12 @@
       { title: 'Desire for my own honor', note: 'Wanting the "well done" from people rather than from God.' }
     ],
     gifts: ['Leadership', 'Vision-casting', 'Discipleship'],
+    season: {
+      focus: 'Find the place where I can raise my family — and the community that can support that.',
+      key: 'When I talk to people, raising the family is the key.',
+      secondary: 'My spiritual disciples come along too — but that is secondary.',
+      since: '2026-09-16'
+    },
     decision: { text: '', checks: {} }
   };
 
@@ -784,6 +819,18 @@
     state.seededGoodGround = true;
   }
 
+  // This season: find the place to raise my family. Disciples come along, but second.
+  if (!state.seededSeasonPlanting) {
+    state.season = state.season || JSON.parse(JSON.stringify(defaults.season));
+    (state.marriagePrep || []).forEach(function (p) {
+      if (p.title === 'Clarity on planting') {
+        p.note = 'This season’s focus: the place where I can raise my family, and a community that can support that.';
+      }
+    });
+    state.seededSeasonPlanting = true;
+  }
+  state.season = state.season || JSON.parse(JSON.stringify(defaults.season));
+
   function save() {
     try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
   }
@@ -838,6 +885,16 @@
   });
   renderIterations();
   bindText('whynowText', 'whynow');
+
+  function bindSeason(id, field) {
+    var el = document.getElementById(id);
+    el.textContent = state.season[field] || '';
+    el.addEventListener('input', function () { state.season[field] = el.textContent; save(); });
+  }
+  bindSeason('seasonFocus', 'focus');
+  bindSeason('seasonKey', 'key');
+  bindSeason('seasonSecondary', 'secondary');
+  document.getElementById('seasonSince').textContent = state.season.since || '';
 
   var DASHED_TIERS = { dreams: true, positions: true };
 
@@ -939,6 +996,7 @@
         return { key: 'c' + i, text: 'Does this advance: ' + p.title + '?' };
       }))
       .concat([
+        { key: '_season', text: 'Does this move me toward the place where I can raise my family — and a community to support that?' },
         { key: '_gifts', text: 'Does this fit the gifts God has given me?' },
         { key: '_fun', text: 'Is this genuinely fun — life-giving, not just draining duty?' }
       ]);
@@ -993,6 +1051,14 @@
       { text: 'On the Compassionate Warrior program', target: 'Marriage Preparation: Be pure', date: '2026-09-01' }
     ].forEach(function (e) { state.log.push(e); });
     state.seededPracticalSteps = true;
+  }
+  if (!state.seededSeasonLog) {
+    state.log.push({
+      text: 'Named this season: find the place where I can raise my family — and the community to support that',
+      target: 'Husband like Christ: Clarity on planting',
+      date: '2026-09-16'
+    });
+    state.seededSeasonLog = true;
   }
   var LOG_GROUPS = [
     ['rhythms', 'Rhythms of Abiding'],

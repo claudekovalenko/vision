@@ -49,6 +49,18 @@
   }
   .seal .anchor span { color: var(--muted); font-style: italic; font-size: 0.8rem; display: block; margin-top: 0.2rem; }
 
+  /* This season, under the seal */
+  .season {
+    margin-top: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--rose);
+    border-radius: 10px;
+    padding: 0.85rem 1.1rem;
+  }
+  .season .focus { margin-top: 0.35rem; font-size: 0.98rem; line-height: 1.45; }
+  .season .key { margin-top: 0.3rem; color: var(--rose); font-size: 0.86rem; font-style: italic; }
+
   /* Today */
   .today-head {
     margin-top: 2rem; display: flex; align-items: baseline; justify-content: space-between;
@@ -124,6 +136,12 @@
     <p class="anchor">Remain in Jesus.<span>Apart from me you can do nothing. &mdash; John 15:5</span></p>
   </section>
 
+  <section class="season">
+    <span class="label">This Season</span>
+    <p class="focus" id="seasonFocus"></p>
+    <p class="key" id="seasonKey"></p>
+  </section>
+
   <div class="today-head">
     <span class="label">Today</span>
     <span class="date" id="todayDate"></span>
@@ -171,6 +189,14 @@
   var vv = state.visionVersions;
   document.getElementById('statement').textContent =
     (vv && vv.length && vv[vv.length - 1].text) || DEFAULT_STATEMENT;
+
+  var DEFAULT_SEASON = {
+    focus: 'Find the place where I can raise my family — and the community that can support that.',
+    key: 'When I talk to people, raising the family is the key.'
+  };
+  var season = state.season || DEFAULT_SEASON;
+  document.getElementById('seasonFocus').textContent = season.focus || DEFAULT_SEASON.focus;
+  document.getElementById('seasonKey').textContent = season.key || DEFAULT_SEASON.key;
 
   function today() { return new Date().toISOString().slice(0, 10); }
   document.getElementById('todayDate').textContent =
