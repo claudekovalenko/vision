@@ -230,6 +230,12 @@
     margin-left: auto;
   }
 
+  .calling-deep {
+    margin-top: 0.7rem; color: var(--muted); font-style: italic; font-size: 0.92rem;
+    max-width: 820px;
+  }
+  .calling-deep em { color: var(--gold); font-style: normal; }
+
   /* The bubble board */
   .board {
     margin-top: 1rem;
@@ -509,7 +515,13 @@
       <h3>Raise up disciples who look like Jesus</h3>
       <span class="calling-why">what I am building</span>
     </div>
+    <p class="calling-deep"><em>The deep vision in my heart:</em> <span id="deepVisionText" contenteditable="true" spellcheck="false"></span></p>
     <div class="board">
+      <section class="card" data-color="accent" data-tier="convictions">
+        <div class="card-head"><span class="label">How People Change</span></div>
+        <ul class="bubbles" id="convictionsList"></ul>
+        <div class="mini-add"><input id="newConviction" type="text" placeholder="Add a conviction&hellip;" /><button data-add="convictions" title="Add">+</button></div>
+      </section>
       <section class="card" data-color="gold" data-tier="central">
         <div class="card-head"><span class="label">Central</span></div>
         <ul class="bubbles" id="centralList"></ul>
@@ -658,6 +670,13 @@
       { title: 'Hosting worship spaces', note: '' }
     ],
     fun: [],
+    deepVision: 'That everybody would become like Christ — that America would shine again as a city on a hill, a beautiful place where people are transformed from the inside out to look like Jesus.',
+    convictions: [
+      { title: 'Just obey what it says', note: 'The whole thing is us doing what Jesus says in the Bible. People don’t need to know it all or study all the stuff — they need to do what it says.' },
+      { title: 'Study must lead to obedience', note: 'If studying doesn’t lead to a greater obedience of the Word, what’s the point?' },
+      { title: 'Culture changes people most', note: 'Culture will change people more than anything. The how has to build a culture, not just deliver content.' },
+      { title: 'Transformed from the inside out', note: 'More and more like Christ — not behavior management, but hearts remade.' }
+    ],
     barriers: [
       { title: 'Ignorance', note: 'Not yet knowing what I need to know — a barrier to break through by learning and seeking counsel.' },
       { title: 'People-pleasing', note: 'Trying to fit the mold others want, being nice to everyone continually — instead of living for the audience of One.' },
@@ -847,6 +866,31 @@
     state.seededAiRealEstate = true;
   }
 
+  // The hows of raising up Christ-like disciples, and how people actually change.
+  if (!state.seededHows) {
+    state.convictions = state.convictions || JSON.parse(JSON.stringify(defaults.convictions));
+    if (!state.deepVision) state.deepVision = defaults.deepVision;
+    var vh3 = state.vehicles = state.vehicles || [];
+    [
+      { title: 'Worship nights', note: 'A how — gathering people to meet God together.' },
+      { title: 'Bible studies', note: 'Regular time in the Word together, aimed at obedience.' },
+      { title: 'GDS', note: 'Among believers, with non-believers able to listen in — guided by believers.' },
+      { title: 'Catechisms', note: 'Could be helpful — the basics, learned by heart.' },
+      { title: 'Instagram & YouTube', note: 'Regular listening to healthy teaching of the Word, on the channels people already use. Instagram preaching.' }
+    ].forEach(function (item) {
+      if (!vh3.some(function (p) { return p.title === item.title; })) vh3.push(item);
+    });
+    vh3.forEach(function (p) {
+      if (p.title === 'Online teaching') p.note = 'Seminary studies and social media — bringing healthy teaching of the Word online, so people hear it regularly.';
+    });
+    var rh3 = state.rhythms = state.rhythms || [];
+    rh3.forEach(function (p) {
+      if (p.title === 'Obedience to the Word') p.note = 'Not just hearing it — doing it. Practically, in everyday life, what the Word says.';
+    });
+    state.seededHows = true;
+  }
+  state.convictions = state.convictions || JSON.parse(JSON.stringify(defaults.convictions));
+
   function save() {
     try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
   }
@@ -901,6 +945,9 @@
   });
   renderIterations();
   bindText('whynowText', 'whynow');
+  var deepEl = document.getElementById('deepVisionText');
+  deepEl.textContent = state.deepVision || defaults.deepVision;
+  deepEl.addEventListener('input', function () { state.deepVision = deepEl.textContent; save(); });
 
   function bindSeason(id, field) {
     var el = document.getElementById(id);
@@ -1085,9 +1132,18 @@
     });
     state.seededAiRealEstateLog = true;
   }
+  if (!state.seededHowsLog) {
+    state.log.push({
+      text: 'Thought through the hows — worship nights, Instagram preaching, regular time in the Word, obedience — and named culture as what changes people most',
+      target: 'Convictions: Culture changes people most',
+      date: '2026-09-19'
+    });
+    state.seededHowsLog = true;
+  }
   var LOG_GROUPS = [
     ['rhythms', 'Rhythms of Abiding'],
     ['central', 'Central'],
+    ['convictions', 'Convictions'],
     ['values', 'Values'],
     ['marriagePrep', 'Husband like Christ'],
     ['vehicles', 'Vehicles'],
@@ -1185,7 +1241,7 @@
     save();
     renderAll();
   }
-  var addInputs = { central: 'newCentral', secondary: 'newSecondary', vehicles: 'newVehicle', dreams: 'newDream', values: 'newValue', barriers: 'newBarrier', rhythms: 'newRhythm', marriagePrep: 'newMarriagePrep', positions: 'newPosition', fun: 'newFun' };
+  var addInputs = { central: 'newCentral', secondary: 'newSecondary', vehicles: 'newVehicle', dreams: 'newDream', values: 'newValue', barriers: 'newBarrier', rhythms: 'newRhythm', marriagePrep: 'newMarriagePrep', positions: 'newPosition', fun: 'newFun', convictions: 'newConviction' };
   document.querySelectorAll('button[data-add]').forEach(function (btn) {
     var tier = btn.getAttribute('data-add');
     var inputId = addInputs[tier];
@@ -1305,6 +1361,7 @@
     renderTier('fun', 'funList');
     renderTier('values', 'valuesList');
     renderTier('central', 'centralList');
+    renderTier('convictions', 'convictionsList');
     renderTier('secondary', 'secondaryList');
     renderTier('vehicles', 'vehiclesList');
     renderTier('dreams', 'dreamsList');

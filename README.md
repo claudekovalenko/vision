@@ -18,6 +18,8 @@ disciples made in Los Angeles who look more and more like Jesus, held in light o
 - Tiered pursuits: **Central** (primary focus) and **Ancillary** (secondary), with
   one-click moves between tiers
 - **Vehicles** — the concrete means and structures the vision moves through
+- **How People Change** — the convictions behind the hows (obey what it says; culture
+  changes people most), and the deep vision held under raising up disciples
 - **Dreams Held Lightly** — personal senses and impressions, carried with open hands
 - **My Gifts** — name how God has wired you, so pursuits can be traced back to gifting
 - **Decision Filter** — write out a decision and test it against remaining in Jesus,
