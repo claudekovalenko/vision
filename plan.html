@@ -686,7 +686,7 @@
       { title: 'Greed', note: 'A pull toward more that competes with what is central.' },
       { title: 'Desire for my own honor', note: 'Wanting the "well done" from people rather than from God.' }
     ],
-    gifts: ['Leadership', 'Vision-casting', 'Discipleship'],
+    gifts: ['Leadership', 'Vision-casting', 'Discipleship', 'Teaching', 'Digital & AI', 'Preaching'],
     season: {
       focus: 'Find the place where I can raise my family — and the community that can support that.',
       key: 'When I talk to people, raising the family is the key.',
@@ -888,6 +888,17 @@
       if (p.title === 'Obedience to the Word') p.note = 'Not just hearing it — doing it. Practically, in everyday life, what the Word says.';
     });
     state.seededHows = true;
+  }
+
+  // Preaching: a sense of calling, and something I really enjoy.
+  if (!state.seededPreaching) {
+    var g3 = state.gifts = state.gifts || [];
+    if (g3.indexOf('Preaching') === -1) g3.push('Preaching');
+    var fn3 = state.fun = state.fun || [];
+    if (!fn3.some(function (p) { return p.title === 'Preaching'; })) {
+      fn3.push({ title: 'Preaching', note: 'I really enjoy it — and I think I feel called toward it.' });
+    }
+    state.seededPreaching = true;
   }
   state.convictions = state.convictions || JSON.parse(JSON.stringify(defaults.convictions));
 
@@ -1139,6 +1150,14 @@
       date: '2026-09-19'
     });
     state.seededHowsLog = true;
+  }
+  if (!state.seededPreachingLog) {
+    state.log.push({
+      text: 'Named preaching — a sense of calling, and something I really enjoy',
+      target: 'Fun: Preaching',
+      date: '2026-09-20'
+    });
+    state.seededPreachingLog = true;
   }
   var LOG_GROUPS = [
     ['rhythms', 'Rhythms of Abiding'],
