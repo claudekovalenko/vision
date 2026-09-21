@@ -58,9 +58,13 @@
     border-radius: 10px;
     padding: 0.85rem 1.1rem;
   }
-  .season .focus { margin-top: 0.35rem; font-size: 0.98rem; line-height: 1.45; }
-  .season .key { margin-top: 0.3rem; color: var(--rose); font-size: 0.86rem; font-style: italic; }
-  .season .also { margin-top: 0.35rem; color: var(--green); font-size: 0.82rem; }
+  .season ol { list-style: none; margin-top: 0.5rem; display: grid; gap: 0.3rem; counter-reset: t; }
+  .season li { display: flex; gap: 0.6rem; align-items: baseline; font-size: 0.95rem; }
+  .season li::before {
+    counter-increment: t; content: counter(t, decimal-leading-zero);
+    color: var(--rose); font-size: 0.66rem; letter-spacing: 0.1em;
+    font-family: 'Helvetica Neue', Arial, sans-serif; flex: none;
+  }
 
   /* Today */
   .today-head {
@@ -139,9 +143,7 @@
 
   <section class="season">
     <span class="label">This Season</span>
-    <p class="focus" id="seasonFocus"></p>
-    <p class="key" id="seasonKey"></p>
-    <p class="also" id="seasonAlso"></p>
+    <ol id="targetsList"></ol>
   </section>
 
   <div class="today-head">
@@ -192,15 +194,22 @@
   document.getElementById('statement').textContent =
     (vv && vv.length && vv[vv.length - 1].text) || DEFAULT_STATEMENT;
 
-  var DEFAULT_SEASON = {
-    focus: 'Find the place where I can raise my family — and the community that can support that.',
-    key: 'When I talk to people, raising the family is the key.',
-    also: 'Also going after: AI development, and real estate investment.'
-  };
-  var season = state.season || DEFAULT_SEASON;
-  document.getElementById('seasonFocus').textContent = season.focus || DEFAULT_SEASON.focus;
-  document.getElementById('seasonKey').textContent = season.key || DEFAULT_SEASON.key;
-  document.getElementById('seasonAlso').textContent = season.also || DEFAULT_SEASON.also;
+  var DEFAULT_TARGETS = [
+    'A community to raise my children and disciples in',
+    'A passive income stream',
+    'Build things for people with AI',
+    'Strength in my body',
+    'Closer to Jesus, pleasing him in every way'
+  ];
+  var targets = (state.targets && state.targets.length)
+    ? state.targets.map(function (t) { return t.title; })
+    : DEFAULT_TARGETS;
+  var tl = document.getElementById('targetsList');
+  targets.forEach(function (t) {
+    var li = document.createElement('li');
+    li.textContent = t;
+    tl.appendChild(li);
+  });
 
   function today() { return new Date().toISOString().slice(0, 10); }
   document.getElementById('todayDate').textContent =

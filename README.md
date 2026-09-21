@@ -10,10 +10,9 @@ disciples made in Los Angeles who look more and more like Jesus, held in light o
 - Scripture banner (Proverbs 29:18) at the top
 - **The Center of It All** — remaining in Jesus (John 15), from which everything flows
 - Editable vision statement — click any text to edit it in place
-- **This Season** — the one thing the next stretch is for (right now: finding the place
-  to raise my family, and the community that can support that, with time also going
-  to AI development and real estate investment); shown on Today too, and tested in
-  the Decision Filter
+- **This Season** — five simplified targets for the next stretch (a community to raise
+  my children and disciples in, a passive income stream, building with AI, strength,
+  closer to Jesus); editable, shown on Today too, and each tested in the Decision Filter
 - **Values** — the marks of the culture being built (family flourishing within it)
 - Tiered pursuits: **Central** (primary focus) and **Ancillary** (secondary), with
   one-click moves between tiers

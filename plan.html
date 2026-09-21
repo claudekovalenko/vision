@@ -98,10 +98,25 @@
     border-radius: 12px;
     padding: 1.1rem 1.4rem 1rem;
   }
-  .season h3 { margin-top: 0.4rem; font-size: 1.12rem; font-weight: normal; line-height: 1.45; }
-  .season .season-key { margin-top: 0.55rem; color: var(--rose); font-size: 0.95rem; }
-  .season .season-secondary { margin-top: 0.3rem; color: var(--muted); font-style: italic; font-size: 0.88rem; }
-  .season .season-also { margin-top: 0.55rem; color: var(--green); font-size: 0.88rem; }
+  .season .season-lead { margin-top: 0.3rem; color: var(--muted); font-style: italic; font-size: 0.88rem; }
+  .targets { list-style: none; margin-top: 0.7rem; display: grid; gap: 0.45rem; counter-reset: t; }
+  .targets li {
+    display: grid; grid-template-columns: 1.6rem 1fr auto; align-items: baseline; gap: 0.5rem;
+    padding: 0.4rem 0; border-top: 1px solid var(--line);
+  }
+  .targets li::before {
+    counter-increment: t; content: counter(t, decimal-leading-zero);
+    color: var(--rose); font-size: 0.7rem; letter-spacing: 0.1em;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .targets .ttitle { font-size: 1.02rem; }
+  .targets .tnote { grid-column: 2; color: var(--muted); font-style: italic; font-size: 0.85rem; min-height: 1rem; }
+  .targets li button {
+    background: none; border: none; color: var(--muted); cursor: pointer;
+    font-size: 0.78rem; opacity: 0; padding: 0 0.1rem;
+  }
+  .targets li:hover button, .targets li:focus-within button { opacity: 0.85; }
+  .targets li button:hover { color: #c97f7f; }
   .season .season-since {
     margin-top: 0.7rem; color: var(--muted); font-size: 0.68rem;
     letter-spacing: 0.1em; text-transform: uppercase;
@@ -457,10 +472,9 @@
 
   <section class="season" id="seasonBox">
     <span class="label">This Season</span>
-    <h3 id="seasonFocus" contenteditable="true" spellcheck="false"></h3>
-    <p class="season-key" id="seasonKey" contenteditable="true" spellcheck="false"></p>
-    <p class="season-secondary" id="seasonSecondary" contenteditable="true" spellcheck="false"></p>
-    <p class="season-also" id="seasonAlso" contenteditable="true" spellcheck="false"></p>
+    <p class="season-lead">Five targets, simplified.</p>
+    <ol class="targets" id="targetsList"></ol>
+    <div class="mini-add"><input id="newTarget" type="text" placeholder="Add a target&hellip;" /><button id="addTargetBtn" title="Add">+</button></div>
     <p class="season-since">Since <span id="seasonSince"></span> &middot; worked concretely in <a href="https://claudekovalenko.github.io/theo-commitment/">Good Ground</a></p>
   </section>
 
@@ -694,6 +708,13 @@
       also: 'Also going after: AI development, and real estate investment.',
       since: '2026-09-16'
     },
+    targets: [
+      { title: 'A community to raise my children and disciples in', note: 'A place where I feel comfortable raising up my children — and my disciples alongside them.' },
+      { title: 'A passive income stream', note: 'Right now, looking at real estate development.' },
+      { title: 'Build things for people with AI', note: 'Using AI to develop things for people, appropriately.' },
+      { title: 'Strength in my body', note: 'Growing in strength.' },
+      { title: 'Closer to Jesus, pleasing him in every way', note: 'Growing closer to Jesus and pleasing him in every way I possibly can.' }
+    ],
     decision: { text: '', checks: {} }
   };
 
@@ -900,6 +921,19 @@
     }
     state.seededPreaching = true;
   }
+
+  // Simplified: this season is five targets.
+  if (!state.seededTargets) {
+    state.targets = state.targets || JSON.parse(JSON.stringify(defaults.targets));
+    (state.secondary || []).forEach(function (p) {
+      if (p.title === 'Real estate investment') {
+        p.title = 'Real estate development';
+        p.note = 'A passive income stream — right now, looking at development. Financial backing that lasts, a foundation under a family.';
+      }
+    });
+    state.seededTargets = true;
+  }
+  state.targets = state.targets || JSON.parse(JSON.stringify(defaults.targets));
   state.convictions = state.convictions || JSON.parse(JSON.stringify(defaults.convictions));
 
   function save() {
@@ -960,16 +994,50 @@
   deepEl.textContent = state.deepVision || defaults.deepVision;
   deepEl.addEventListener('input', function () { state.deepVision = deepEl.textContent; save(); });
 
-  function bindSeason(id, field) {
-    var el = document.getElementById(id);
-    el.textContent = state.season[field] || '';
-    el.addEventListener('input', function () { state.season[field] = el.textContent; save(); });
-  }
-  bindSeason('seasonFocus', 'focus');
-  bindSeason('seasonKey', 'key');
-  bindSeason('seasonSecondary', 'secondary');
-  bindSeason('seasonAlso', 'also');
   document.getElementById('seasonSince').textContent = state.season.since || '';
+
+  function renderTargets() {
+    var list = document.getElementById('targetsList');
+    list.innerHTML = '';
+    state.targets.forEach(function (t, i) {
+      var li = document.createElement('li');
+      var title = document.createElement('span');
+      title.className = 'ttitle';
+      title.contentEditable = 'true';
+      title.spellcheck = false;
+      title.textContent = t.title;
+      title.addEventListener('input', function () { t.title = title.textContent; save(); renderDecision(); });
+      var del = document.createElement('button');
+      del.textContent = '✕';
+      del.title = 'Remove';
+      del.addEventListener('click', function () { state.targets.splice(i, 1); save(); renderTargets(); renderDecision(); });
+      var note = document.createElement('span');
+      note.className = 'tnote';
+      note.contentEditable = 'true';
+      note.spellcheck = false;
+      note.textContent = t.note || '';
+      note.addEventListener('input', function () { t.note = note.textContent; save(); });
+      li.appendChild(title);
+      li.appendChild(del);
+      li.appendChild(note);
+      list.appendChild(li);
+    });
+  }
+  function addTarget() {
+    var input = document.getElementById('newTarget');
+    var v = input.value.trim();
+    if (!v) return;
+    state.targets.push({ title: v, note: '' });
+    input.value = '';
+    save();
+    renderTargets();
+    renderDecision();
+  }
+  document.getElementById('addTargetBtn').addEventListener('click', addTarget);
+  document.getElementById('newTarget').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') addTarget();
+  });
+  renderTargets();
 
   var DASHED_TIERS = { dreams: true, positions: true };
 
@@ -1067,11 +1135,13 @@
     var qs = document.getElementById('decisionQs');
     qs.innerHTML = '';
     var questions = [{ key: '_abide', text: 'Does this flow from — and protect — remaining in Jesus?' }]
+      .concat(state.targets.map(function (t, i) {
+        return { key: 't' + i, text: 'Does this hit this season’s target: ' + t.title + '?' };
+      }))
       .concat(state.central.map(function (p, i) {
         return { key: 'c' + i, text: 'Does this advance: ' + p.title + '?' };
       }))
       .concat([
-        { key: '_season', text: 'Does this move me toward the place where I can raise my family — and a community to support that?' },
         { key: '_gifts', text: 'Does this fit the gifts God has given me?' },
         { key: '_fun', text: 'Is this genuinely fun — life-giving, not just draining duty?' }
       ]);
@@ -1158,6 +1228,14 @@
       date: '2026-09-20'
     });
     state.seededPreachingLog = true;
+  }
+  if (!state.seededTargetsLog) {
+    state.log.push({
+      text: 'Simplified this season to five targets: community for my children and disciples, passive income, building with AI, strength, closer to Jesus',
+      target: 'Husband like Christ: Clarity on planting',
+      date: '2026-09-21'
+    });
+    state.seededTargetsLog = true;
   }
   var LOG_GROUPS = [
     ['rhythms', 'Rhythms of Abiding'],

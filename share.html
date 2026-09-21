@@ -131,10 +131,14 @@
     margin-bottom: 0.5rem;
     font-weight: normal;
   }
-  .season .focus { font-size: 1.1rem; line-height: 1.5; }
-  .season .key { margin-top: 0.5rem; color: var(--rose); font-style: italic; }
-  .season .second { margin-top: 0.3rem; color: var(--muted); font-style: italic; font-size: 0.9rem; }
-  .season .also { margin-top: 0.6rem; color: var(--green); font-size: 0.92rem; }
+  .season ol { list-style: none; display: grid; gap: 0.55rem; counter-reset: t; }
+  .season li { display: flex; gap: 0.75rem; align-items: baseline; font-size: 1.05rem; }
+  .season li::before {
+    counter-increment: t; content: counter(t, decimal-leading-zero);
+    color: var(--rose); font-size: 0.7rem; letter-spacing: 0.12em;
+    font-family: 'Helvetica Neue', Arial, sans-serif; flex: none;
+  }
+  .season li small { display: block; color: var(--muted); font-style: italic; font-size: 0.85rem; }
 
   .now {
     margin-top: 3rem;
@@ -247,7 +251,7 @@
       <li>Fitness &amp; health</li>
       <li>Financial capacity</li>
       <li>AI development</li>
-      <li>Real estate investment</li>
+      <li>Real estate development</li>
       <li>Teaching</li>
       <li>Preaching</li>
       <li>Digital &amp; AI</li>
@@ -259,10 +263,13 @@
 
   <div class="season">
     <strong>This season</strong>
-    <p class="focus">Find the place where I can raise my family &mdash; and the community that can support that.</p>
-    <p class="key">When I talk to people, raising the family is the key.</p>
-    <p class="second">My spiritual disciples come along too &mdash; but that is secondary.</p>
-    <p class="also">Also going after: AI development, and real estate investment.</p>
+    <ol>
+      <li><span>A community to raise my children and disciples in<small>A place where I feel comfortable raising up my children &mdash; and my disciples alongside them.</small></span></li>
+      <li><span>A passive income stream<small>Right now, looking at real estate development.</small></span></li>
+      <li><span>Build things for people with AI<small>Appropriately.</small></span></li>
+      <li><span>Strength in my body</span></li>
+      <li><span>Closer to Jesus, pleasing him in every way<small>In every way I possibly can.</small></span></li>
+    </ol>
   </div>
 
   <p class="now">
