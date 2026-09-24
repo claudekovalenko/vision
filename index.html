@@ -3,327 +3,258 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Today Under the Vision</title>
+<title>The Whole Thing</title>
 <style>
   :root {
-    --bg: #0f1115;
-    --panel: #181b22;
-    --panel-2: #1e222b;
-    --ink: #e8e6e1;
-    --muted: #9a978f;
+    --bg: #0e1014;
+    --ink: #ece8e1;
+    --muted: #8f8a81;
     --gold: #c9a25e;
-    --gold-soft: rgba(201,162,94,0.14);
-    --line: #2a2e38;
-    --rose: #c98a9a;
+    --gold-dim: rgba(201,162,94,0.10);
+    --rose: #cf8fa0;
+    --blue: #7fa8c9;
     --green: #8fbf8f;
-    --accent: #7fa8c9;
-    --rust: #b06557;
+    --rust: #b0655a;
+    --line: #262a33;
+    --panel: #171a20;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     background: var(--bg);
     color: var(--ink);
     font-family: Georgia, 'Times New Roman', serif;
-    line-height: 1.55;
-    min-height: 100vh;
+    line-height: 1.35;
+    padding: 1.4rem 1rem 2rem;
   }
-  .wrap { max-width: 680px; margin: 0 auto; padding: 2rem 1.1rem 4rem; }
-  .label {
-    font-size: 0.66rem; letter-spacing: 0.24em; text-transform: uppercase;
-    color: var(--muted); font-family: 'Helvetica Neue', Arial, sans-serif;
+  .sheet { max-width: 1120px; margin: 0 auto; }
+
+  .tag {
+    font-size: 0.58rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
   }
 
-  /* The seal — the vision, fixed and clear */
-  .seal {
+  /* ROOF — what it's all for */
+  .roof {
+    text-align: center;
     border: 1px solid var(--gold);
-    border-radius: 14px;
-    background: var(--gold-soft);
-    padding: 1.5rem 1.6rem;
+    background: var(--gold-dim);
+    border-radius: 10px 10px 4px 4px;
+    padding: 1rem 1.4rem;
+  }
+  .roof .aim {
+    margin-top: 0.4rem;
+    font-size: 1.35rem;
+    color: var(--gold);
+    line-height: 1.3;
+  }
+  .roof .aim small { display: block; color: var(--muted); font-size: 0.78rem; font-style: italic; margin-top: 0.3rem; letter-spacing: 0.02em; }
+
+  .flow {
+    text-align: center;
+    color: var(--muted);
+    font-size: 1.1rem;
+    line-height: 1;
+    padding: 0.35rem 0;
+  }
+
+  /* PILLARS */
+  .pillars {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+  }
+  .pillar {
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--c);
+    border-radius: 6px;
+    background: var(--panel);
+    padding: 0.85rem 0.95rem 0.95rem;
+  }
+  .pillar h2 {
+    font-size: 1.05rem;
+    font-weight: normal;
+    color: var(--c);
+    margin-top: 0.3rem;
+  }
+  .chips { margin-top: 0.6rem; display: flex; flex-wrap: wrap; gap: 0.3rem; }
+  .chip {
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 0.16rem 0.6rem;
+    font-size: 0.8rem;
+    background: #1d212a;
+  }
+  .chip.lead { border-color: var(--c); color: var(--c); }
+  .sub {
+    margin-top: 0.65rem;
+    padding-top: 0.55rem;
+    border-top: 1px dashed var(--line);
+  }
+  .sub .tag { font-size: 0.54rem; }
+
+  /* BASE — remain in Jesus */
+  .base {
+    border: 1px solid var(--gold);
+    border-radius: 4px 4px 10px 10px;
+    background: var(--gold-dim);
+    padding: 0.85rem 1.1rem;
     text-align: center;
   }
-  .seal .statement { margin-top: 0.6rem; font-size: 1.08rem; line-height: 1.5; }
-  .seal .anchor {
-    margin-top: 0.9rem; padding-top: 0.8rem;
-    border-top: 1px solid rgba(201,162,94,0.28);
-    color: var(--gold); font-size: 0.92rem;
-  }
-  .seal .anchor span { color: var(--muted); font-style: italic; font-size: 0.8rem; display: block; margin-top: 0.2rem; }
+  .base h2 { font-size: 1.1rem; font-weight: normal; color: var(--gold); margin-top: 0.25rem; }
+  .base .chips { justify-content: center; margin-top: 0.5rem; }
+  .base .chip { border-color: rgba(201,162,94,0.4); }
+  .base .verse { color: var(--muted); font-style: italic; font-size: 0.75rem; margin-top: 0.5rem; }
 
-  /* Today */
-  .today-head {
-    margin-top: 2rem; display: flex; align-items: baseline; justify-content: space-between;
-    border-bottom: 1px solid var(--line); padding-bottom: 0.6rem;
+  /* FOOT — carries / fights */
+  .foot {
+    margin-top: 0.8rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
   }
-  .today-head .date { color: var(--muted); font-size: 0.8rem; font-family: 'Helvetica Neue', Arial, sans-serif; }
-
-  .entry { margin-top: 1rem; }
-  .entry input {
-    width: 100%;
-    background: var(--panel-2); border: 1px solid var(--line); border-radius: 10px;
-    color: var(--ink); padding: 0.85rem 1rem; font-family: inherit; font-size: 1rem;
+  .strip {
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--c);
+    border-radius: 6px;
+    padding: 0.7rem 0.9rem;
+    background: var(--panel);
   }
-  .entry input:focus { outline: 1px solid var(--gold); }
-  .book-prompt { margin-top: 0.8rem; color: var(--muted); font-size: 0.85rem; font-style: italic; }
-  .book-row { margin-top: 0.55rem; display: flex; flex-wrap: wrap; gap: 0.45rem; }
-  .book-btn {
-    background: var(--panel); border: 1px solid var(--line);
-    border-left: 3px solid var(--c, var(--gold));
-    color: var(--ink); border-radius: 999px;
-    padding: 0.45rem 0.95rem; font-family: inherit; font-size: 0.9rem; cursor: pointer;
+  .strip .chip { font-size: 0.76rem; }
+  .strip.fights .chip { color: var(--muted); font-style: italic; border-style: dashed; }
+
+  .now {
+    margin-top: 0.8rem;
+    text-align: center;
+    color: #c98a62;
+    font-style: italic;
+    font-size: 0.86rem;
   }
-  .book-btn:hover { background: var(--c); color: var(--bg); border-color: var(--c); }
-  .book-btn.none { border-left-color: var(--rust); --c: var(--rust); font-style: italic; color: var(--muted); }
-
-  /* Day list, grouped under callings */
-  .day { margin-top: 1.8rem; display: grid; gap: 1rem; }
-  .group {
-    border: 1px solid var(--line); border-left: 3px solid var(--c, var(--gold));
-    border-radius: 10px; background: var(--panel); padding: 0.85rem 1rem;
+  .links {
+    margin-top: 1.2rem;
+    text-align: center;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.78rem;
   }
-  .group h3 { font-size: 0.95rem; font-weight: normal; color: var(--c, var(--gold)); }
-  .group ul { list-style: none; margin-top: 0.5rem; display: grid; gap: 0.35rem; }
-  .group li { display: flex; gap: 0.6rem; align-items: baseline; font-size: 0.94rem; }
-  .group li .t { flex: 1; }
-  .group li button {
-    background: none; border: none; color: var(--muted); cursor: pointer;
-    font-size: 0.8rem; opacity: 0.3;
-  }
-  .group li:hover button { opacity: 1; }
-  .group li button:hover { color: #c97f7f; }
-  .group.unbooked { border-left-color: var(--rust); --c: var(--rust); }
-  .group.unbooked .warn { margin-top: 0.5rem; color: var(--rust); font-size: 0.82rem; font-style: italic; }
-
-  .empty { margin-top: 1.5rem; text-align: center; color: var(--muted); font-style: italic; font-size: 0.92rem; }
-
-  /* Week weight */
-  .week { margin-top: 2.2rem; }
-  .bars { margin-top: 0.9rem; display: grid; gap: 0.5rem; }
-  .bar-row { display: grid; grid-template-columns: 9.5rem 1fr 2rem; align-items: center; gap: 0.6rem; font-size: 0.85rem; }
-  .bar-row .nm { color: var(--muted); }
-  .bar-track { background: var(--panel-2); border-radius: 999px; height: 9px; overflow: hidden; }
-  .bar-fill { height: 100%; background: var(--c, var(--gold)); border-radius: 999px; }
-  .bar-row .ct { color: var(--muted); text-align: right; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.78rem; }
-
-  .links { margin-top: 2.5rem; text-align: center; font-size: 0.85rem; font-family: 'Helvetica Neue', Arial, sans-serif; }
   .links a { color: var(--gold); text-decoration: none; border-bottom: 1px dotted var(--gold); }
-  .links a + a { margin-left: 1.2rem; }
-  .links a:hover { border-bottom-style: solid; }
+  .links a + a { margin-left: 1.1rem; }
 
-  @media (max-width: 420px) {
-    .bar-row { grid-template-columns: 7rem 1fr 1.8rem; }
-    .seal .statement { font-size: 1rem; }
+  @media (max-width: 720px) {
+    .pillars, .foot { grid-template-columns: 1fr; }
+    .roof .aim { font-size: 1.1rem; }
   }
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="sheet">
 
-  <section class="seal">
-    <span class="label">The Vision</span>
-    <p class="statement" id="statement"></p>
-    <p class="anchor">Remain in Jesus.<span>Apart from me you can do nothing. &mdash; John 15:5</span></p>
-  </section>
-
-  <div class="today-head">
-    <span class="label">Today</span>
-    <span class="date" id="todayDate"></span>
+  <div class="roof">
+    <span class="tag">What it is all for</span>
+    <p class="aim">&ldquo;Well done, good and faithful servant.&rdquo;
+      <small>To live in light of eternity &mdash; becoming more like Jesus day by day, loving God, loving my neighbor as myself.</small>
+    </p>
   </div>
 
-  <div class="entry">
-    <input id="what" type="text" placeholder="What did you just do?" autocomplete="off" />
-    <p class="book-prompt">Book it under:</p>
-    <div class="book-row" id="bookRow"></div>
+  <p class="flow">&#9650;</p>
+
+  <div class="pillars">
+
+    <div class="pillar" style="--c: var(--rose)">
+      <span class="tag">Calling</span>
+      <h2>A husband who looks like Christ</h2>
+      <div class="chips">
+        <span class="chip lead">Purity</span>
+        <span class="chip lead">Settled in my church</span>
+        <span class="chip">Financial backing</span>
+        <span class="chip">Guy friends &amp; mentors</span>
+        <span class="chip">Physique</span>
+        <span class="chip">Lead my family to the Lord</span>
+        <span class="chip">Mission for my kids</span>
+        <span class="chip">An attractive partner</span>
+      </div>
+      <div class="sub">
+        <span class="tag">The home it builds</span>
+        <div class="chips">
+          <span class="chip">Kids grow free in a strong culture</span>
+          <span class="chip">My wife flourishing</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pillar" style="--c: var(--gold)">
+      <span class="tag">Calling</span>
+      <h2>Disciples who look like Jesus</h2>
+      <div class="chips">
+        <span class="chip lead">Gen Z campuses</span>
+        <span class="chip lead">Raise up leaders</span>
+        <span class="chip lead">Send to the nations</span>
+      </div>
+      <div class="sub">
+        <span class="tag">How &mdash; the vehicles</span>
+        <div class="chips">
+          <span class="chip">Campus presence</span>
+          <span class="chip">Discipleship cycles</span>
+          <span class="chip">Online teaching</span>
+          <span class="chip">Greek study</span>
+          <span class="chip">Digital &amp; AI</span>
+          <span class="chip">Good Ground</span>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-  <div class="day" id="dayList"></div>
-  <p class="empty" id="emptyNote">Nothing booked yet today.</p>
+  <p class="flow">&#9650;</p>
 
-  <section class="week">
-    <span class="label">Last 7 Days</span>
-    <div class="bars" id="weekBars"></div>
-  </section>
+  <div class="base">
+    <span class="tag">Everything rests here</span>
+    <h2>Remain in Jesus</h2>
+    <div class="chips">
+      <span class="chip">Prayer</span>
+      <span class="chip">Reading the Word</span>
+      <span class="chip">Obedience to the Word</span>
+      <span class="chip">Praying for my family</span>
+    </div>
+    <p class="verse">&ldquo;Apart from me you can do nothing.&rdquo; &mdash; John 15:5</p>
+  </div>
+
+  <div class="foot">
+    <div class="strip" style="--c: var(--green)">
+      <span class="tag">What carries it</span>
+      <div class="chips">
+        <span class="chip">Fitness &amp; health</span>
+        <span class="chip">Financial capacity</span>
+        <span class="chip">Leadership</span>
+        <span class="chip">Vision-casting</span>
+        <span class="chip">Teaching</span>
+        <span class="chip">Digital &amp; AI</span>
+        <span class="chip">Fun</span>
+      </div>
+    </div>
+    <div class="strip fights" style="--c: var(--rust)">
+      <span class="tag">What fights it</span>
+      <div class="chips">
+        <span class="chip">Not planted</span>
+        <span class="chip">People-pleasing</span>
+        <span class="chip">Wrong people, wrong things</span>
+        <span class="chip">Comparison</span>
+        <span class="chip">My own honor</span>
+        <span class="chip">Greed</span>
+        <span class="chip">Ignorance</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="now">Build now &mdash; this window of strength and flexibility won&rsquo;t last.</p>
 
   <p class="links">
-    <a href="plan.html">The full vision</a>
+    <a href="today.html">Book today under it</a>
+    <a href="plan.html">Edit the details</a>
     <a href="share.html">Share page</a>
   </p>
 
 </div>
-
-<script>
-(function () {
-  var KEY = 'vision-app-v2';
-  var CALLINGS = [
-    { name: 'Remain in Jesus',       color: 'var(--gold)' },
-    { name: 'Husband like Christ',   color: 'var(--rose)' },
-    { name: 'Raise up disciples',    color: 'var(--gold)' },
-    { name: 'Foundation',            color: 'var(--green)' },
-    { name: 'Fun',                   color: 'var(--green)' }
-  ];
-  var UNBOOKED = "Doesn't fit";
-
-  var state;
-  try { state = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { state = {}; }
-  state.log = state.log || [];
-  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
-
-  var DEFAULT_STATEMENT = 'To live in light of eternity — living for a “Well done, good and faithful servant.” Becoming more like Jesus day by day, loving God and loving my neighbor as myself, and raising up people who look more and more like Jesus.';
-  var vv = state.visionVersions;
-  document.getElementById('statement').textContent =
-    (vv && vv.length && vv[vv.length - 1].text) || DEFAULT_STATEMENT;
-
-  function today() { return new Date().toISOString().slice(0, 10); }
-  document.getElementById('todayDate').textContent =
-    new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
-
-  // Log entries booked from this page carry a calling; older ones carry "Group: item".
-  function callingOf(e) {
-    if (!e.target) return UNBOOKED;
-    var head = String(e.target).split(':')[0].trim();
-    var map = {
-      'Rhythms of Abiding': 'Remain in Jesus',
-      'Husband like Christ': 'Husband like Christ',
-      'Marriage Preparation': 'Husband like Christ',
-      'Values': 'Husband like Christ',
-      'Central': 'Raise up disciples',
-      'Vehicles': 'Raise up disciples',
-      'Possible Positions': 'Raise up disciples',
-      'Secondary': 'Foundation',
-      'Fun': 'Fun'
-    };
-    return map[head] || head;
-  }
-
-  function book(calling) {
-    var input = document.getElementById('what');
-    var text = input.value.trim();
-    if (!text) { input.focus(); return; }
-    state.log.push({ text: text, target: calling, date: today() });
-    input.value = '';
-    save();
-    render();
-    input.focus();
-  }
-
-  function renderButtons() {
-    var row = document.getElementById('bookRow');
-    row.innerHTML = '';
-    CALLINGS.forEach(function (c) {
-      var b = document.createElement('button');
-      b.className = 'book-btn';
-      b.style.setProperty('--c', c.color);
-      b.textContent = c.name;
-      b.addEventListener('click', function () { book(c.name); });
-      row.appendChild(b);
-    });
-    var nb = document.createElement('button');
-    nb.className = 'book-btn none';
-    nb.textContent = UNBOOKED;
-    nb.addEventListener('click', function () { book(UNBOOKED); });
-    row.appendChild(nb);
-  }
-
-  function colorFor(name) {
-    for (var i = 0; i < CALLINGS.length; i++) if (CALLINGS[i].name === name) return CALLINGS[i].color;
-    return 'var(--muted)';
-  }
-
-  function renderDay() {
-    var list = document.getElementById('dayList');
-    list.innerHTML = '';
-    var t = today();
-    var todays = state.log.filter(function (e) { return e.date === t; });
-    document.getElementById('emptyNote').style.display = todays.length ? 'none' : 'block';
-
-    var order = CALLINGS.map(function (c) { return c.name; }).concat([UNBOOKED]);
-    order.forEach(function (name) {
-      var items = todays.filter(function (e) { return callingOf(e) === name; });
-      if (!items.length) return;
-      var box = document.createElement('div');
-      box.className = 'group' + (name === UNBOOKED ? ' unbooked' : '');
-      box.style.setProperty('--c', name === UNBOOKED ? 'var(--rust)' : colorFor(name));
-      var h = document.createElement('h3');
-      h.textContent = name;
-      box.appendChild(h);
-      var ul = document.createElement('ul');
-      items.forEach(function (e) {
-        var li = document.createElement('li');
-        var span = document.createElement('span');
-        span.className = 't';
-        span.textContent = e.text;
-        var del = document.createElement('button');
-        del.textContent = '✕';
-        del.title = 'Remove';
-        del.addEventListener('click', function () {
-          var i = state.log.indexOf(e);
-          if (i > -1) state.log.splice(i, 1);
-          save();
-          render();
-        });
-        li.appendChild(span);
-        li.appendChild(del);
-        ul.appendChild(li);
-      });
-      box.appendChild(ul);
-      if (name === UNBOOKED) {
-        var w = document.createElement('p');
-        w.className = 'warn';
-        w.textContent = 'These fall outside the vision. Was the Lord leading — or should they go?';
-        box.appendChild(w);
-      }
-      list.appendChild(box);
-    });
-  }
-
-  function renderWeek() {
-    var bars = document.getElementById('weekBars');
-    bars.innerHTML = '';
-    var cut = new Date();
-    cut.setDate(cut.getDate() - 6);
-    var cutStr = cut.toISOString().slice(0, 10);
-    var recent = state.log.filter(function (e) { return e.date >= cutStr; });
-    var counts = {};
-    recent.forEach(function (e) {
-      var c = callingOf(e);
-      counts[c] = (counts[c] || 0) + 1;
-    });
-    var names = CALLINGS.map(function (c) { return c.name; });
-    if (counts[UNBOOKED]) names = names.concat([UNBOOKED]);
-    var max = 1;
-    names.forEach(function (n) { if ((counts[n] || 0) > max) max = counts[n]; });
-
-    names.forEach(function (n) {
-      var row = document.createElement('div');
-      row.className = 'bar-row';
-      row.style.setProperty('--c', n === UNBOOKED ? 'var(--rust)' : colorFor(n));
-      var nm = document.createElement('span');
-      nm.className = 'nm';
-      nm.textContent = n;
-      var track = document.createElement('div');
-      track.className = 'bar-track';
-      var fill = document.createElement('div');
-      fill.className = 'bar-fill';
-      fill.style.width = Math.round(((counts[n] || 0) / max) * 100) + '%';
-      track.appendChild(fill);
-      var ct = document.createElement('span');
-      ct.className = 'ct';
-      ct.textContent = counts[n] || 0;
-      row.appendChild(nm);
-      row.appendChild(track);
-      row.appendChild(ct);
-      bars.appendChild(row);
-    });
-  }
-
-  function render() { renderDay(); renderWeek(); }
-
-  document.getElementById('what').addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') book(CALLINGS[0].name);
-  });
-
-  renderButtons();
-  render();
-})();
-</script>
 </body>
 </html>
