@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Walking a Decision Through</title>
+<style>
+  :root {
+    --bg: #0e1014; --panel: #171a20; --panel-2: #1d212a;
+    --ink: #ece8e1; --muted: #8f8a81; --gold: #c9a25e;
+    --blue: #7fa8c9; --green: #8fbf8f; --rust: #b0655a; --line: #262a33;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--ink); font-family: Georgia,'Times New Roman',serif; line-height: 1.5; }
+  .wrap { max-width: 660px; margin: 0 auto; padding: 2rem 1.1rem 4rem; }
+  .tag { font-size: 0.62rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--muted); font-family: 'Helvetica Neue',Arial,sans-serif; }
+  h1 { font-size: 1.5rem; font-weight: normal; color: var(--blue); margin-top: 0.4rem; }
+  .intro { margin-top: 0.7rem; color: var(--muted); font-style: italic; font-size: 0.92rem; }
+
+  .what { margin-top: 1.6rem; }
+  .what textarea {
+    width: 100%; background: var(--panel-2); border: 1px solid var(--line); border-radius: 10px;
+    color: var(--ink); padding: 0.8rem 1rem; font-family: inherit; font-size: 1rem; min-height: 3.2rem; resize: vertical;
+  }
+  .what textarea:focus { outline: 1px solid var(--blue); }
+
+  .gate {
+    margin-top: 1rem; border: 1px solid var(--line); border-left: 3px solid var(--c, var(--blue));
+    border-radius: 8px; background: var(--panel); padding: 0.9rem 1.05rem;
+  }
+  .gate h2 { font-size: 1.02rem; font-weight: normal; color: var(--c, var(--blue)); margin-top: 0.2rem; }
+  .gate .ask { margin-top: 0.4rem; font-size: 0.95rem; }
+  .gate .why { margin-top: 0.35rem; color: var(--muted); font-size: 0.83rem; font-style: italic; }
+  .gate .verse { margin-top: 0.45rem; color: var(--gold); font-size: 0.8rem; }
+  .gate textarea {
+    margin-top: 0.7rem; width: 100%; background: var(--panel-2); border: 1px solid var(--line);
+    border-radius: 6px; color: var(--ink); padding: 0.55rem 0.75rem; font-family: inherit;
+    font-size: 0.9rem; min-height: 2.4rem; resize: vertical;
+  }
+  .gate textarea:focus { outline: 1px solid var(--blue); }
+
+  .verdict {
+    margin-top: 1.4rem; border: 1px solid var(--gold); border-radius: 8px;
+    background: rgba(201,162,94,0.09); padding: 1rem 1.1rem;
+  }
+  .verdict p { margin-top: 0.45rem; font-size: 0.95rem; }
+  .verdict .push { color: var(--gold); font-style: italic; margin-top: 0.7rem; font-size: 0.9rem; }
+
+  .saved { margin-top: 2rem; }
+  .saved ul { list-style: none; margin-top: 0.7rem; display: grid; gap: 0.5rem; }
+  .saved li {
+    border-top: 1px solid var(--line); padding-top: 0.5rem; font-size: 0.9rem;
+    display: flex; gap: 0.7rem; align-items: baseline;
+  }
+  .saved .d { color: var(--muted); font-size: 0.7rem; font-family: 'Helvetica Neue',Arial,sans-serif; white-space: nowrap; }
+  .saved .x { flex: 1; }
+  .saved button { background: none; border: none; color: var(--muted); cursor: pointer; opacity: 0.35; font-size: 0.8rem; }
+  .saved li:hover button { opacity: 1; }
+
+  .row { margin-top: 1.2rem; display: flex; gap: 0.6rem; flex-wrap: wrap; }
+  .row button {
+    background: rgba(127,168,201,0.14); border: 1px solid var(--blue); color: var(--blue);
+    border-radius: 8px; padding: 0.5rem 1.1rem; font-family: inherit; font-size: 0.92rem; cursor: pointer;
+  }
+  .row button:hover { background: var(--blue); color: var(--bg); }
+  .row button.ghost { background: none; border-color: var(--line); color: var(--muted); }
+
+  .links { margin-top: 2.2rem; text-align: center; font-family: 'Helvetica Neue',Arial,sans-serif; font-size: 0.78rem; }
+  .links a { color: var(--gold); text-decoration: none; border-bottom: 1px dotted var(--gold); }
+  .links a + a { margin-left: 1.1rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <span class="tag">The growing edge</span>
+  <h1>Walking a decision through</h1>
+  <p class="intro">Five gates, in order. Most decisions are settled by gate 1 or 2 &mdash; and a feeling is never the first gate.</p>
+
+  <div class="what">
+    <textarea id="what" placeholder="What are you deciding?"></textarea>
+  </div>
+
+  <div class="gate" style="--c: var(--gold)">
+    <span class="tag">Gate 1</span>
+    <h2>Has God already spoken on this?</h2>
+    <p class="ask">Is it commanded, forbidden, or clearly addressed in Scripture?</p>
+    <p class="why">If yes, this isn&rsquo;t discernment &mdash; it&rsquo;s obedience, and the decision is already made.</p>
+    <p class="verse">&ldquo;Your word is a lamp to my feet and a light to my path.&rdquo; &mdash; Ps 119:105</p>
+    <textarea data-g="scripture" placeholder="What does Scripture say?"></textarea>
+  </div>
+
+  <div class="gate" style="--c: var(--blue)">
+    <span class="tag">Gate 2</span>
+    <h2>Is it wise?</h2>
+    <p class="ask">What would a wise man do here &mdash; given my season, my strength, my money, my time?</p>
+    <p class="why">Where Scripture is silent, God rules by wisdom, not by hidden messages.</p>
+    <p class="verse">&ldquo;If any of you lacks wisdom, let him ask God.&rdquo; &mdash; James 1:5</p>
+    <textarea data-g="wisdom" placeholder="The wise read of it&hellip;"></textarea>
+  </div>
+
+  <div class="gate" style="--c: var(--green)">
+    <span class="tag">Gate 3</span>
+    <h2>Does it serve the callings?</h2>
+    <p class="ask">Remaining in Jesus &middot; a husband like Christ &middot; disciples into His image. Which one does this build?</p>
+    <p class="why">If it builds none of them, a good opportunity is still a no.</p>
+    <textarea data-g="callings" placeholder="Which calling does this serve?"></textarea>
+  </div>
+
+  <div class="gate" style="--c: var(--blue)">
+    <span class="tag">Gate 4</span>
+    <h2>What do wise people around me say?</h2>
+    <p class="ask">Who have I actually asked &mdash; mentors, guy friends, people who know me and will tell me no?</p>
+    <p class="why">God most often speaks through counsel. Unasked counsel is the commonest reason for a wrong call.</p>
+    <p class="verse">&ldquo;In an abundance of counselors there is safety.&rdquo; &mdash; Prov 11:14</p>
+    <textarea data-g="counsel" placeholder="Who I asked, and what they said&hellip;"></textarea>
+  </div>
+
+  <div class="gate" style="--c: var(--rust)">
+    <span class="tag">Gate 5</span>
+    <h2>What is my heart doing?</h2>
+    <p class="ask">After prayer, is there peace or unrest? And honestly &mdash; is this people-pleasing, comparison, greed, or wanting my own honor?</p>
+    <p class="why">The heart comes last, not first. It confirms; it doesn&rsquo;t decide.</p>
+    <p class="verse">&ldquo;Let the peace of Christ rule in your hearts.&rdquo; &mdash; Col 3:15</p>
+    <textarea data-g="heart" placeholder="What I find in my heart&hellip;"></textarea>
+  </div>
+
+  <div class="verdict">
+    <span class="tag">Then decide</span>
+    <p id="call"></p>
+    <p class="push">God&rsquo;s will is more often walked into than figured out. Where the gates are clear, decide &mdash; and don&rsquo;t reopen it next week because the feeling moved.</p>
+    <textarea id="decision" style="margin-top:0.7rem;width:100%;background:var(--panel-2);border:1px solid var(--line);border-radius:6px;color:var(--ink);padding:0.55rem 0.75rem;font-family:inherit;font-size:0.9rem;min-height:2.4rem;" placeholder="So I am deciding to&hellip;"></textarea>
+  </div>
+
+  <div class="row">
+    <button id="save">Save this decision</button>
+    <button id="clear" class="ghost">Clear</button>
+  </div>
+
+  <div class="saved">
+    <span class="tag">Decisions I have walked through</span>
+    <ul id="list"></ul>
+  </div>
+
+  <p class="links">
+    <a href="index.html">The whole vision</a>
+    <a href="today.html">Today</a>
+  </p>
+
+</div>
+
+<script>
+(function () {
+  var KEY = 'vision-app-v2';
+  var state;
+  try { state = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { state = {}; }
+  state.decisions = state.decisions || [];
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+
+  var fields = ['scripture', 'wisdom', 'callings', 'counsel', 'heart'];
+  function gate(name) { return document.querySelector('[data-g="' + name + '"]'); }
+
+  function updateCall() {
+    var filled = fields.filter(function (f) { return gate(f).value.trim(); });
+    var el = document.getElementById('call');
+    if (!filled.length) { el.textContent = 'Work the gates above, in order.'; return; }
+    if (gate('scripture').value.trim() && filled.length === 1) {
+      el.textContent = 'Gate 1 answered. If Scripture settles it, stop here and obey — the rest is not needed.';
+      return;
+    }
+    if (!gate('counsel').value.trim()) {
+      el.textContent = filled.length + ' of 5 worked. The one most often skipped is counsel — who have you actually asked?';
+      return;
+    }
+    if (filled.length === 5) {
+      el.textContent = 'All five worked. That is enough light to move on. Decide, and commit to it for a set season before revisiting.';
+      return;
+    }
+    el.textContent = filled.length + ' of 5 worked.';
+  }
+
+  fields.forEach(function (f) { gate(f).addEventListener('input', updateCall); });
+
+  function render() {
+    var ul = document.getElementById('list');
+    ul.innerHTML = '';
+    state.decisions.slice().reverse().forEach(function (d) {
+      var li = document.createElement('li');
+      var dt = document.createElement('span');
+      dt.className = 'd';
+      dt.textContent = d.date;
+      var x = document.createElement('span');
+      x.className = 'x';
+      x.textContent = d.what + (d.decision ? ' — ' + d.decision : '');
+      var b = document.createElement('button');
+      b.textContent = '✕';
+      b.addEventListener('click', function () {
+        var i = state.decisions.indexOf(d);
+        if (i > -1) state.decisions.splice(i, 1);
+        save(); render();
+      });
+      li.appendChild(dt); li.appendChild(x); li.appendChild(b);
+      ul.appendChild(li);
+    });
+  }
+
+  document.getElementById('save').addEventListener('click', function () {
+    var what = document.getElementById('what').value.trim();
+    if (!what) { document.getElementById('what').focus(); return; }
+    var entry = { what: what, decision: document.getElementById('decision').value.trim(), date: new Date().toISOString().slice(0,10) };
+    fields.forEach(function (f) { entry[f] = gate(f).value.trim(); });
+    state.decisions.push(entry);
+    save(); clearAll(); render();
+  });
+
+  function clearAll() {
+    document.getElementById('what').value = '';
+    document.getElementById('decision').value = '';
+    fields.forEach(function (f) { gate(f).value = ''; });
+    updateCall();
+  }
+  document.getElementById('clear').addEventListener('click', clearAll);
+
+  updateCall();
+  render();
+})();
+</script>
+</body>
+</html>
