@@ -18,6 +18,10 @@ disciples made in Los Angeles who look more and more like Jesus, held in light o
 - **My Gifts** — name how God has wired you, so pursuits can be traced back to gifting
 - **Decision Filter** — write out a decision and test it against remaining in Jesus,
   each central pursuit, and your gifts; get an alignment read-out
+- **Growth Edges** (`grow.html`) — the areas I'm deliberately growing in (strength, passive
+  income, a disciple-making pathway, role clarity, deep friendships). Each one names the calling
+  it serves, a season objective, one next step, and a weekly measure ticked off day by day.
+  Today shows the week's progress and the area furthest behind.
 - Everything saves automatically to your browser (localStorage); no server, no build step
 
 ## Running it

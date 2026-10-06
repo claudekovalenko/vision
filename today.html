@@ -109,6 +109,11 @@
   .links a + a { margin-left: 1.2rem; }
   .links a:hover { border-bottom-style: solid; }
 
+  .growth .bar-row { grid-template-columns: 1fr 6rem 2.6rem; }
+  .growth .bar-row .nm { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .gnote { margin-top: 0.7rem; color: var(--muted); font-style: italic; font-size: 0.85rem; }
+  .gnote a { color: var(--gold); }
+
   @media (max-width: 420px) {
     .bar-row { grid-template-columns: 7rem 1fr 1.8rem; }
     .seal .statement { font-size: 1rem; }
@@ -143,7 +148,14 @@
     <div class="bars" id="weekBars"></div>
   </section>
 
+  <section class="week growth" id="growth">
+    <span class="label">Growth Edges This Week</span>
+    <div class="bars" id="growthBars"></div>
+    <p class="gnote" id="growthNote"></p>
+  </section>
+
   <p class="links">
+    <a href="grow.html">Where I&rsquo;m growing</a>
     <a href="plan.html">The full vision</a>
     <a href="share.html">Share page</a>
   </p>
@@ -315,7 +327,56 @@
     });
   }
 
-  function render() { renderDay(); renderWeek(); }
+  // Growth edges live on grow.html; this mirrors the week so the gap shows here too.
+  function renderGrowth() {
+    var g = state.growth;
+    if (!g || !g.areas || !g.areas.length) {
+      document.getElementById('growthBars').innerHTML = '';
+      document.getElementById('growthNote').innerHTML = 'No growth edges set yet. <a href="grow.html">Name them</a>, so each day has a step that leads somewhere.';
+      return;
+    }
+    function iso(d) {
+      return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    }
+    var now = new Date();
+    var mon = new Date(now);
+    mon.setDate(now.getDate() - ((now.getDay() + 6) % 7));
+    var from = iso(mon), to = iso(now);
+    var bars = document.getElementById('growthBars');
+    bars.innerHTML = '';
+    var furthest = null, gap = -1;
+    g.areas.forEach(function (a) {
+      var c = (g.marks || []).filter(function (m) { return m.area === a.id && m.date >= from && m.date <= to; }).length;
+      if (a.target - c > gap) { gap = a.target - c; furthest = a; }
+      var row = document.createElement('div');
+      row.className = 'bar-row';
+      row.style.setProperty('--c', a.color || 'var(--gold)');
+      var nm = document.createElement('span');
+      nm.className = 'nm';
+      nm.textContent = a.title;
+      var track = document.createElement('div');
+      track.className = 'bar-track';
+      var fill = document.createElement('div');
+      fill.className = 'bar-fill';
+      fill.style.width = Math.min(100, Math.round((c / a.target) * 100)) + '%';
+      track.appendChild(fill);
+      var ct = document.createElement('span');
+      ct.className = 'ct';
+      ct.textContent = c + '/' + a.target;
+      row.appendChild(nm); row.appendChild(track); row.appendChild(ct);
+      bars.appendChild(row);
+    });
+    var note = document.getElementById('growthNote');
+    note.textContent = '';
+    if (gap > 0 && furthest) {
+      note.appendChild(document.createTextNode('Furthest behind: ' + furthest.title.toLowerCase() + '. '));
+      if (furthest.next) note.appendChild(document.createTextNode('Next step: ' + furthest.next));
+    } else {
+      note.textContent = 'Every weekly measure met.';
+    }
+  }
+
+  function render() { renderDay(); renderWeek(); renderGrowth(); }
 
   document.getElementById('what').addEventListener('keydown', function (e) {
     if (e.key === 'Enter') book(CALLINGS[0].name);

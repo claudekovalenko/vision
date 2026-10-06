@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where I'm Growing</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --panel: #181b22;
+    --panel-2: #1e222b;
+    --ink: #e8e6e1;
+    --muted: #9a978f;
+    --gold: #c9a25e;
+    --gold-soft: rgba(201,162,94,0.14);
+    --line: #2a2e38;
+    --rose: #c98a9a;
+    --green: #8fbf8f;
+    --accent: #7fa8c9;
+    --rust: #b06557;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: Georgia, 'Times New Roman', serif;
+    line-height: 1.55;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 2rem 1.1rem 4rem; }
+  .label {
+    font-size: 0.66rem; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--muted); font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .sans { font-family: 'Helvetica Neue', Arial, sans-serif; }
+
+  .head { text-align: center; }
+  .head h1 { font-weight: normal; font-size: 1.5rem; color: var(--gold); margin-top: 0.4rem; }
+  .head p { color: var(--muted); font-style: italic; font-size: 0.92rem; margin-top: 0.5rem; }
+
+  /* The ladder: vision → calling → objective → this week → today */
+  .ladder {
+    margin-top: 1.4rem; display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+    gap: 0.35rem; font-size: 0.78rem; color: var(--muted);
+  }
+  .ladder span { border: 1px solid var(--line); border-radius: 999px; padding: 0.15rem 0.6rem; background: var(--panel); }
+  .ladder span.on { border-color: var(--gold); color: var(--gold); }
+
+  .week-head {
+    margin-top: 2rem; display: flex; align-items: baseline; justify-content: space-between;
+    border-bottom: 1px solid var(--line); padding-bottom: 0.6rem;
+  }
+  .week-head .r { color: var(--muted); font-size: 0.8rem; }
+
+  .areas { margin-top: 1rem; display: grid; gap: 1rem; }
+  .area {
+    border: 1px solid var(--line); border-left: 3px solid var(--c, var(--gold));
+    border-radius: 10px; background: var(--panel); padding: 1rem 1.1rem 1.05rem;
+  }
+  .area-top { display: flex; justify-content: space-between; align-items: baseline; gap: 0.8rem; }
+  .area h2 { font-weight: normal; font-size: 1.08rem; color: var(--c, var(--gold)); }
+  .serves { font-size: 0.72rem; color: var(--muted); white-space: nowrap; }
+  .why { margin-top: 0.25rem; color: var(--muted); font-style: italic; font-size: 0.86rem; }
+
+  .row { margin-top: 0.75rem; }
+  .row .label { font-size: 0.58rem; }
+  .ed {
+    margin-top: 0.15rem; padding: 0.2rem 0.35rem; margin-left: -0.35rem;
+    border-radius: 6px; outline: none; font-size: 0.95rem; min-height: 1.5em;
+  }
+  .ed:hover { background: var(--panel-2); }
+  .ed:focus { background: var(--panel-2); box-shadow: 0 0 0 1px var(--c, var(--gold)); }
+  .ed:empty::before { content: attr(data-ph); color: var(--muted); font-style: italic; }
+
+  .next { display: flex; gap: 0.5rem; align-items: flex-start; }
+  .next .ed { flex: 1; }
+  .btn {
+    background: var(--panel-2); border: 1px solid var(--line); color: var(--ink);
+    border-radius: 999px; padding: 0.3rem 0.8rem; cursor: pointer;
+    font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.74rem; white-space: nowrap;
+  }
+  .btn:hover { border-color: var(--c, var(--gold)); color: var(--c, var(--gold)); }
+  .btn.go { text-decoration: none; display: inline-block; }
+
+  .measure { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; }
+  .measure .ed { flex: 1 1 12rem; }
+  .target { display: flex; align-items: center; gap: 0.3rem; color: var(--muted); font-size: 0.8rem; }
+  .target input {
+    width: 2.6rem; background: var(--panel-2); border: 1px solid var(--line); border-radius: 6px;
+    color: var(--ink); padding: 0.15rem 0.3rem; font-size: 0.85rem; text-align: center;
+  }
+  .days { margin-top: 0.55rem; display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.3rem; }
+  .day {
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px;
+    color: var(--muted); padding: 0.35rem 0; cursor: pointer; text-align: center;
+    font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.7rem;
+  }
+  .day.today { border-color: var(--muted); color: var(--ink); }
+  .day.done { background: var(--c, var(--gold)); border-color: var(--c, var(--gold)); color: var(--bg); }
+  .day.future { opacity: 0.35; cursor: default; }
+  .tally { margin-top: 0.45rem; font-size: 0.8rem; color: var(--muted); }
+  .tally.met { color: var(--c, var(--gold)); }
+
+  .done-list { margin-top: 0.5rem; list-style: none; font-size: 0.8rem; color: var(--muted); }
+  .done-list li::before { content: '✓ '; color: var(--c, var(--gold)); }
+  details summary { cursor: pointer; color: var(--muted); font-size: 0.75rem; margin-top: 0.55rem; }
+
+  .question {
+    margin-top: 0.8rem; padding: 0.7rem 0.85rem; border: 1px dashed var(--accent);
+    border-radius: 8px; background: rgba(127,168,201,0.06);
+  }
+  .question p { font-size: 0.9rem; }
+  .question .btn { margin-top: 0.5rem; }
+
+  .check {
+    margin-top: 2rem; border: 1px solid var(--gold); border-radius: 12px;
+    background: var(--gold-soft); padding: 1.1rem 1.3rem;
+  }
+  .check p { margin-top: 0.4rem; font-size: 0.95rem; }
+  .check .rule { color: var(--muted); font-style: italic; font-size: 0.85rem; }
+
+  .links { margin-top: 2.5rem; text-align: center; font-size: 0.85rem; font-family: 'Helvetica Neue', Arial, sans-serif; }
+  .links a { color: var(--gold); text-decoration: none; border-bottom: 1px dotted var(--gold); }
+  .links a + a { margin-left: 1.2rem; }
+  .links a:hover { border-bottom-style: solid; }
+
+  @media (max-width: 480px) {
+    .area-top { flex-direction: column; gap: 0.1rem; }
+    .serves { white-space: normal; }
+    .day { font-size: 0.62rem; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="head">
+    <span class="label">Growth Edges</span>
+    <h1>Where I&rsquo;m growing, and the step that moves it</h1>
+    <p>No idle actions. Every area here serves a calling, has an objective for this season, and one step I can take this week.</p>
+  </header>
+
+  <div class="ladder sans">
+    <span>Vision</span>&rarr;<span>Calling</span>&rarr;<span class="on">Objective</span>&rarr;<span class="on">This week</span>&rarr;<span>Today</span>
+  </div>
+
+  <div class="week-head">
+    <span class="label">This Week</span>
+    <span class="r sans" id="weekRange"></span>
+  </div>
+
+  <div class="areas" id="areas"></div>
+
+  <section class="check" id="check">
+    <span class="label">The Dissonance Check</span>
+    <p id="checkText"></p>
+    <p class="rule">If an area has no next step written, it is a wish, not a pursuit. If a day has nothing booked toward any of these, ask what filled it.</p>
+  </section>
+
+  <p class="links">
+    <a href="today.html">Book today</a>
+    <a href="index.html">The whole thing</a>
+    <a href="discern.html">Walk a decision through</a>
+  </p>
+
+</div>
+
+<script>
+(function () {
+  var KEY = 'vision-app-v2';
+  var state;
+  try { state = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { state = {}; }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+
+  // Starting drafts. Every field is editable in place; edits are kept.
+  var DEFAULT_AREAS = [
+    {
+      id: 'strength', title: 'Physical strength', serves: 'Foundation', color: 'var(--green)',
+      why: 'A strong body to carry the callings for the long haul. Build now, while the window is open.',
+      objective: 'Train consistently for 12 weeks and get measurably stronger on a few main lifts.',
+      next: 'Write the weekly training plan: which days, which lifts, starting weights.',
+      measure: 'Strength sessions', target: 3
+    },
+    {
+      id: 'income', title: 'Passive income that frees me up', serves: 'Foundation', color: 'var(--green)',
+      why: 'Provision that buys back time for disciple-making, instead of time traded for money.',
+      objective: 'Ship one small income experiment (digital/AI) and learn whether people will pay for it.',
+      next: 'List three ideas that use my digital and AI gifting; pick one to test.',
+      measure: 'Focused build blocks (60+ min)', target: 3
+    },
+    {
+      id: 'pathway', title: 'A clear disciple-making pathway', serves: 'Raise up disciples', color: 'var(--gold)',
+      why: 'Knowing how a person moves from reached, to rooted in the Word, to leading, to sent, so I can walk people through it on purpose.',
+      objective: 'Write my pathway on one page, have a mentor critique it, and walk at least two people through its first stage.',
+      next: 'Draft the stages: reached, rooted, raised up, released. What happens at each?',
+      measure: 'Intentional discipleship meetings', target: 2
+    },
+    {
+      id: 'role', title: 'Clarity on my role', serves: 'Raise up disciples', color: 'var(--gold)',
+      why: 'Pastor, campus minister, teacher, builder: knowing which role the callings point to, so I stop carrying the question around.',
+      objective: 'Walk the pastor question through the five gates, with real counsel, and come to a decision for this season.',
+      next: 'Name three people to ask about the pastor question, including at least one pastor who knows me.',
+      measure: 'Counsel conversations about my role', target: 1,
+      question: 'Should I pursue becoming a pastor?'
+    },
+    {
+      id: 'friends', title: 'Deep friendships that move me forward', serves: 'Husband like Christ', color: 'var(--rose)',
+      why: 'Guy friends and mentors who sharpen me toward Christ and toward the callings, not just people to fill time with.',
+      objective: 'Have two or three men I meet with regularly, and one older mentor.',
+      next: 'Write the names of the men I want to go deeper with, and ask one of them to meet this week.',
+      measure: 'Intentional time with friends or mentors', target: 2
+    }
+  ];
+
+  if (!state.growth) state.growth = { areas: DEFAULT_AREAS, marks: [], doneSteps: [] };
+  var G = state.growth;
+  G.marks = G.marks || [];
+  G.doneSteps = G.doneSteps || [];
+  save();
+
+  function iso(d) {
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+  var now = new Date();
+  var todayIso = iso(now);
+  var monday = new Date(now);
+  monday.setDate(now.getDate() - ((now.getDay() + 6) % 7));
+  var week = [];
+  for (var i = 0; i < 7; i++) {
+    var d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    week.push(d);
+  }
+  var fmt = { month: 'short', day: 'numeric' };
+  document.getElementById('weekRange').textContent =
+    week[0].toLocaleDateString(undefined, fmt) + ' – ' + week[6].toLocaleDateString(undefined, fmt);
+
+  function marked(areaId, date) {
+    return G.marks.some(function (m) { return m.area === areaId && m.date === date; });
+  }
+  function weekCount(areaId) {
+    return week.filter(function (d) { return marked(areaId, iso(d)); }).length;
+  }
+
+  function editable(text, ph, onSave) {
+    var el = document.createElement('div');
+    el.className = 'ed';
+    el.contentEditable = 'true';
+    el.dataset.ph = ph;
+    el.textContent = text || '';
+    el.addEventListener('blur', function () {
+      onSave(el.textContent.trim());
+      save();
+      renderCheck();
+    });
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); el.blur(); }
+    });
+    return el;
+  }
+
+  function row(label, child) {
+    var r = document.createElement('div');
+    r.className = 'row';
+    var l = document.createElement('span');
+    l.className = 'label';
+    l.textContent = label;
+    r.appendChild(l);
+    r.appendChild(child);
+    return r;
+  }
+
+  function renderArea(a) {
+    var box = document.createElement('section');
+    box.className = 'area';
+    box.style.setProperty('--c', a.color);
+
+    var top = document.createElement('div');
+    top.className = 'area-top';
+    var h = document.createElement('h2');
+    h.textContent = a.title;
+    var s = document.createElement('span');
+    s.className = 'serves sans';
+    s.textContent = 'serves → ' + a.serves;
+    top.appendChild(h);
+    top.appendChild(s);
+    box.appendChild(top);
+
+    var why = editable(a.why, 'Why this matters to the callings…', function (v) { a.why = v; });
+    why.classList.add('why');
+    box.appendChild(why);
+
+    box.appendChild(row('Objective for this season',
+      editable(a.objective, 'What does done look like in about 90 days?', function (v) { a.objective = v; })));
+
+    // Next step, with a way to finish it and write the one after.
+    var next = document.createElement('div');
+    next.className = 'next';
+    var nextEd = editable(a.next, 'No next step written. What is the one concrete thing?', function (v) { a.next = v; });
+    var doneBtn = document.createElement('button');
+    doneBtn.className = 'btn';
+    doneBtn.textContent = 'Done';
+    doneBtn.title = 'Mark this step done and write the next one';
+    doneBtn.addEventListener('click', function () {
+      var t = nextEd.textContent.trim();
+      if (!t) { nextEd.focus(); return; }
+      G.doneSteps.push({ area: a.id, text: t, date: todayIso });
+      a.next = '';
+      save();
+      render();
+      var fresh = document.querySelector('[data-area="' + a.id + '"] .next .ed');
+      if (fresh) fresh.focus();
+    });
+    next.appendChild(nextEd);
+    next.appendChild(doneBtn);
+    box.appendChild(row('Next step', next));
+
+    var done = G.doneSteps.filter(function (d) { return d.area === a.id; });
+    if (done.length) {
+      var det = document.createElement('details');
+      var sum = document.createElement('summary');
+      sum.className = 'sans';
+      sum.textContent = done.length + ' step' + (done.length === 1 ? '' : 's') + ' taken';
+      det.appendChild(sum);
+      var ul = document.createElement('ul');
+      ul.className = 'done-list';
+      done.slice().reverse().forEach(function (d) {
+        var li = document.createElement('li');
+        li.textContent = d.text + ' (' + d.date + ')';
+        ul.appendChild(li);
+      });
+      det.appendChild(ul);
+      box.appendChild(det);
+    }
+
+    // Weekly measure: the thing that, done repeatedly, makes the objective happen.
+    var m = document.createElement('div');
+    m.className = 'measure';
+    m.appendChild(editable(a.measure, 'What do I do each week?', function (v) { a.measure = v; }));
+    var tg = document.createElement('label');
+    tg.className = 'target sans';
+    var inp = document.createElement('input');
+    inp.type = 'number';
+    inp.min = '1';
+    inp.max = '7';
+    inp.value = a.target;
+    inp.addEventListener('change', function () {
+      a.target = Math.max(1, Math.min(7, parseInt(inp.value, 10) || 1));
+      save();
+      render();
+    });
+    tg.appendChild(inp);
+    tg.appendChild(document.createTextNode('× / week'));
+    m.appendChild(tg);
+    box.appendChild(row('Weekly measure', m));
+
+    var days = document.createElement('div');
+    days.className = 'days';
+    week.forEach(function (d) {
+      var di = iso(d);
+      var b = document.createElement('button');
+      b.className = 'day';
+      b.textContent = d.toLocaleDateString(undefined, { weekday: 'short' });
+      if (di === todayIso) b.classList.add('today');
+      if (marked(a.id, di)) b.classList.add('done');
+      if (di > todayIso) { b.classList.add('future'); b.disabled = true; }
+      b.addEventListener('click', function () {
+        var idx = -1;
+        G.marks.forEach(function (mk, j) { if (mk.area === a.id && mk.date === di) idx = j; });
+        if (idx > -1) G.marks.splice(idx, 1);
+        else G.marks.push({ area: a.id, date: di });
+        save();
+        render();
+      });
+      days.appendChild(b);
+    });
+    box.appendChild(days);
+
+    var c = weekCount(a.id);
+    var tally = document.createElement('p');
+    tally.className = 'tally sans' + (c >= a.target ? ' met' : '');
+    tally.textContent = c + ' of ' + a.target + ' this week' + (c >= a.target ? ' ✓' : '');
+    box.appendChild(tally);
+
+    if (a.question) {
+      var q = document.createElement('div');
+      q.className = 'question';
+      var qp = document.createElement('p');
+      qp.textContent = 'The open question: ' + a.question;
+      var link = document.createElement('a');
+      link.className = 'btn go';
+      link.href = 'discern.html?what=' + encodeURIComponent(a.question);
+      link.textContent = 'Walk it through the five gates →';
+      q.appendChild(qp);
+      q.appendChild(link);
+      box.appendChild(q);
+    }
+
+    box.dataset.area = a.id;
+    return box;
+  }
+
+  function renderCheck() {
+    var noStep = G.areas.filter(function (a) { return !a.next; });
+    var behind = G.areas.filter(function (a) { return weekCount(a.id) < a.target; });
+    var dayIdx = (now.getDay() + 6) % 7; // 0 = Monday
+    var parts = [];
+    if (noStep.length) {
+      parts.push('No next step written for: ' + noStep.map(function (a) { return a.title.toLowerCase(); }).join(', ') + '.');
+    }
+    if (!behind.length) {
+      parts.push('Every weekly measure is met. That is a faithful week.');
+    } else if (dayIdx >= 4) {
+      parts.push('Still short this week on ' + behind.map(function (a) { return a.title.toLowerCase(); }).join(', ') + '. Pick one to move before Sunday.');
+    } else {
+      var met = G.areas.length - behind.length;
+      parts.push(met + ' of ' + G.areas.length + ' weekly measures met so far. Book today against the one furthest behind.');
+    }
+    document.getElementById('checkText').textContent = parts.join(' ');
+  }
+
+  function render() {
+    var wrap = document.getElementById('areas');
+    wrap.innerHTML = '';
+    G.areas.forEach(function (a) { wrap.appendChild(renderArea(a)); });
+    renderCheck();
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>

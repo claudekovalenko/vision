@@ -181,6 +181,10 @@
 
   fields.forEach(function (f) { gate(f).addEventListener('input', updateCall); });
 
+  // Arriving from the growth page with a question already named.
+  var preset = new URLSearchParams(location.search).get('what');
+  if (preset && !document.getElementById('what').value) document.getElementById('what').value = preset;
+
   function render() {
     var ul = document.getElementById('list');
     ul.innerHTML = '';
