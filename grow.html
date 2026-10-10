@@ -196,6 +196,13 @@
       measure: 'Intentional discipleship meetings', target: 2
     },
     {
+      id: 'preaching', title: 'Preaching that leads to discipleship', serves: 'Raise up disciples', color: 'var(--gold)',
+      why: 'Opening the Word with clarity and power, and never as an end in itself: every sermon or post should hand people a next step into real discipleship.',
+      objective: 'Preach or teach 12 times this season (pulpit, small group, or Instagram), get honest feedback on each, and have every message point to a concrete step or a relationship.',
+      next: 'Pick one passage, write a 10-minute message on it, and ask a pastor or mentor to critique it.',
+      measure: 'Messages prepared or preached', target: 1
+    },
+    {
       id: 'role', title: 'Clarity on my role', serves: 'Raise up disciples', color: 'var(--gold)',
       why: 'Pastor, campus minister, teacher, builder: knowing which role the callings point to, so I stop carrying the question around.',
       objective: 'Walk the pastor question through the five gates, with real counsel, and come to a decision for this season.',
@@ -216,6 +223,13 @@
   var G = state.growth;
   G.marks = G.marks || [];
   G.doneSteps = G.doneSteps || [];
+  // Areas added after a browser already saved its list get slotted in, without touching edits.
+  DEFAULT_AREAS.forEach(function (d, i) {
+    if (G.areas.some(function (a) { return a.id === d.id; })) return;
+    var prev = i > 0 ? DEFAULT_AREAS[i - 1].id : null;
+    var at = G.areas.findIndex(function (a) { return a.id === prev; });
+    G.areas.splice(at + 1, 0, JSON.parse(JSON.stringify(d)));
+  });
   save();
 
   function iso(d) {
