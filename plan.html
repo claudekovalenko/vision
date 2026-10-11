@@ -791,6 +791,11 @@
     });
     state.seededJoys = true;
   }
+  if (!state.seededGems) {
+    var g4 = state.gifts = state.gifts || [];
+    if (g4.indexOf('Finding gems in the Word') === -1) g4.push('Finding gems in the Word');
+    state.seededGems = true;
+  }
 
   // Tie in Good Ground, the commitment app where planting gets decided.
   if (!state.seededGoodGround) {
