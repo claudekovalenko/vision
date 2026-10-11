@@ -783,6 +783,15 @@
     state.seededDigital = true;
   }
 
+  // What lights me up: preaching, counseling people one-on-one, building my own apps.
+  if (!state.seededJoys) {
+    var g3 = state.gifts = state.gifts || [];
+    ['Preaching', 'Counseling', 'Building apps'].forEach(function (g) {
+      if (g3.indexOf(g) === -1) g3.push(g);
+    });
+    state.seededJoys = true;
+  }
+
   // Tie in Good Ground, the commitment app where planting gets decided.
   if (!state.seededGoodGround) {
     (state.vehicles || []).forEach(function (p) {
