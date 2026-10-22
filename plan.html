@@ -575,13 +575,15 @@
   var V2_TEXT = 'To live in light of eternity — living for a “Well done, good and faithful servant.” Becoming more like Jesus day by day, loving God and loving my neighbor as myself, and raising up people who look more and more like Jesus.';
   var V3_TEXT = 'To raise up healthy, godly, biblical disciples transformed into the image of Christ \u2014 and to be continually transformed into that image myself: deeply saturated in the Word, loving God, loving my wife, loving my neighbor as myself. All of it in light of eternity, for a \u201CWell done, good and faithful servant.\u201D';
 
+  var V4_TEXT = 'To raise up healthy disciples who look like Christ and love like the persecuted church: full of joy, zeal and a deep love for the lost. Focused on the university campus, the crossroads of the next generation and the nations, and carried further through social media. Disciples planted in healthy, biblical churches, grounded in sound doctrine, and set ablaze to share the gospel, with sharing in their DNA. They love even their enemies with Christ\u2019s love, seeking others\u2019 good with no thought of their own gain, because hell is real and Jesus is worth it. They build godly families and raise healthy children, and live so salty that the world is struck by their lives. And me with them: continually transformed into His image, deeply saturated in the Word, loving my wife well. Jesus, not ministry, is the end goal. All of it in light of eternity, for a \u201CWell done, good and faithful servant.\u201D';
   var defaults = {
     abide: null,
     vision: null,
     visionVersions: [
       { text: V1_TEXT, date: '2026-08-25' },
       { text: V2_TEXT, date: '2026-08-31' },
-      { text: V3_TEXT, date: '2026-09-24' }
+      { text: V3_TEXT, date: '2026-09-24' },
+      { text: V4_TEXT, date: '2026-10-22' }
     ],
     eternity: null,
     values: [
@@ -689,8 +691,8 @@
   // New iteration: the mission stated more clearly. Past iterations are kept.
   if (!state.seededV3) {
     state.visionVersions = state.visionVersions || [];
-    var lastV = state.visionVersions[state.visionVersions.length - 1];
-    if (!lastV || lastV.text !== V3_TEXT) {
+    var hasV3 = state.visionVersions.some(function (v) { return v.text === V3_TEXT; });
+    if (!hasV3) {
       state.visionVersions.push({ text: V3_TEXT, date: '2026-09-24' });
     }
     (state.rhythms || []).forEach(function (p) {
@@ -811,6 +813,42 @@
       }
     });
     state.seededGoodGround = true;
+  }
+
+  // V4: college ministry as the calling; disciples who love like the persecuted church.
+  if (!state.seededV4) {
+    var vv = state.visionVersions = state.visionVersions || [];
+    if (!vv.some(function (v) { return v.text === V4_TEXT; })) vv.push({ text: V4_TEXT, date: '2026-10-22' });
+    (state.central || []).forEach(function (p) {
+      if (p.title === 'Gen Z campuses') {
+        p.title = 'College ministry';
+        p.note = 'Reaching Gen Z on university and college campuses. More and more convinced this is my calling: the most strategic place, the crossroads of the next generation and the nations.';
+      }
+    });
+    var va = state.values = state.values || [];
+    [
+      { title: 'Planted in healthy churches', note: 'Disciples sent into healthy, godly, biblical churches, not floating on their own. Not my church necessarily; a healthy one.' },
+      { title: 'Sound doctrine', note: 'Grounded in the Word, holding to the historic faith.' },
+      { title: 'Sharing in their DNA', note: 'Set ablaze to share the gospel, because hell is real. Not a program they attend.' },
+      { title: 'Love like the persecuted church', note: 'Joy, zeal, passion, and a deep love for the lost, even for enemies, the way Richard Wurmbrand loved his communist torturers (Tortured for Christ). Seeking their good with no thought of my own gain.' },
+      { title: 'Salt and light', note: 'Living so distinctly that the world is struck by our lives (Matthew 5:13\u201316; 1 Peter 2:12).' },
+      { title: 'Healthy, godly families', note: 'Every disciple, not only my own home: godly marriages and healthy children.' }
+    ].forEach(function (item) {
+      if (!va.some(function (p) { return p.title === item.title; })) va.push(item);
+    });
+    var vh4 = state.vehicles = state.vehicles || [];
+    if (!vh4.some(function (p) { return p.title === 'Social media'; })) {
+      vh4.push({ title: 'Social media', note: 'A vital avenue that carries the gospel and teaching past what one person on one campus can reach. Serves the campus; never the point.' });
+    }
+    var br4 = state.barriers = state.barriers || [];
+    [
+      { title: 'Ministry as the end goal', note: 'Jesus is the end goal, not ministry, reach, or a platform.' },
+      { title: 'Fortress mentality', note: 'Building walls against the lost instead of loving them with Christ\u2019s love.' },
+      { title: 'Unsure on the church', note: 'Not yet confident in my own convictions about the church, so I can\u2019t yet send people with confidence. Worked on in Growth Edges.' }
+    ].forEach(function (item) {
+      if (!br4.some(function (p) { return p.title === item.title; })) br4.push(item);
+    });
+    state.seededV4 = true;
   }
 
   function save() {

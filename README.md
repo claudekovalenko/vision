@@ -3,7 +3,8 @@
 > "Where there is no vision, the people perish." — Proverbs 29:18
 
 A simple, personal vision app for keeping in view what God is putting ahead of me:
-disciples made in Los Angeles who look more and more like Jesus, held in light of eternity.
+disciples raised up through college ministry who look like Jesus and love like the persecuted church,
+held in light of eternity.
 
 ## Features
 
@@ -19,8 +20,8 @@ disciples made in Los Angeles who look more and more like Jesus, held in light o
 - **Decision Filter** — write out a decision and test it against remaining in Jesus,
   each central pursuit, and your gifts; get an alignment read-out
 - **Growth Edges** (`grow.html`) — the areas I'm deliberately growing in (strength, passive
-  income, a disciple-making pathway, preaching that leads to discipleship, role clarity, deep
-  friendships). Each one names the calling it serves, a season objective, one next step, and a
+  income, a disciple-making pathway, preaching that leads to discipleship, role clarity, confidence in
+  my convictions about the church, deep friendships). Each one names the calling it serves, a season objective, one next step, and a
   weekly measure ticked off day by day.
   Today shows the week's progress and the area furthest behind.
 - Everything saves automatically to your browser (localStorage); no server, no build step
