@@ -879,6 +879,15 @@
     state.seededLifelong = true;
   }
 
+  // A sense from the Lord, held open-handed.
+  if (!state.seededPodcast) {
+    var dr6 = state.dreams = state.dreams || [];
+    if (!dr6.some(function (p) { return p.title === 'Build out the podcast'; })) {
+      dr6.push({ title: 'Build out the podcast', note: 'A sense that this is what the Lord wants for me (Oct 2026). Open question: do I want to be someone who goes public?' });
+    }
+    state.seededPodcast = true;
+  }
+
   function save() {
     try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
   }
