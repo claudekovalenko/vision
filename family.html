@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Family and Place</title>
+<style>
+  :root {
+    --bg: #0e1014; --panel: #171a20; --panel-2: #1d212a;
+    --ink: #ece8e1; --muted: #8f8a81; --gold: #c9a25e; --rose: #cf8fa0;
+    --blue: #7fa8c9; --green: #8fbf8f; --rust: #b0655a; --line: #262a33;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--ink); font-family: Georgia,'Times New Roman',serif; line-height: 1.5; }
+  .wrap { max-width: 680px; margin: 0 auto; padding: 2rem 1.1rem 4rem; }
+  .tag { font-size: 0.62rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--muted); font-family: 'Helvetica Neue',Arial,sans-serif; }
+  h1 { font-size: 1.5rem; font-weight: normal; color: var(--rose); margin-top: 0.4rem; }
+  .intro { margin-top: 0.7rem; color: var(--muted); font-style: italic; font-size: 0.92rem; }
+
+  .key {
+    margin-top: 1.3rem; border: 1px solid var(--gold); border-radius: 8px;
+    background: rgba(201,162,94,0.09); padding: 0.9rem 1.05rem; font-size: 0.95rem;
+  }
+  .key b { color: var(--gold); font-weight: normal; }
+
+  .part {
+    margin-top: 1rem; border: 1px solid var(--line); border-left: 3px solid var(--c, var(--rose));
+    border-radius: 8px; background: var(--panel); padding: 0.9rem 1.05rem;
+  }
+  .part h2 { font-size: 1.05rem; font-weight: normal; color: var(--c, var(--rose)); margin-top: 0.2rem; }
+  .part ul { margin: 0.5rem 0 0 1.1rem; font-size: 0.92rem; }
+  .part li { margin-top: 0.25rem; }
+  .part li .m { color: var(--muted); font-style: italic; }
+  .part .verse { margin-top: 0.5rem; color: var(--gold); font-size: 0.8rem; }
+  .part .ask { margin-top: 0.6rem; font-size: 0.9rem; color: var(--muted); font-style: italic; }
+  .part textarea {
+    margin-top: 0.6rem; width: 100%; background: var(--panel-2); border: 1px solid var(--line);
+    border-radius: 6px; color: var(--ink); padding: 0.55rem 0.75rem; font-family: inherit;
+    font-size: 0.9rem; min-height: 2.6rem; resize: vertical;
+  }
+  .part textarea:focus { outline: 1px solid var(--c, var(--rose)); }
+
+  .places { margin-top: 0.6rem; display: grid; gap: 0.5rem; }
+  .place { background: var(--panel-2); border: 1px solid var(--line); border-radius: 6px; padding: 0.55rem 0.75rem; }
+  .place .nm { font-size: 0.95rem; }
+  .place .nt { color: var(--muted); font-size: 0.85rem; font-style: italic; }
+  .place .nm, .place .nt { outline: none; }
+  .place .x { float: right; background: none; border: none; color: var(--muted); cursor: pointer; opacity: 0.35; }
+  .place:hover .x { opacity: 1; }
+  .add { margin-top: 0.5rem; display: flex; gap: 0.5rem; }
+  .add input {
+    flex: 1; background: var(--panel-2); border: 1px solid var(--line); border-radius: 6px;
+    color: var(--ink); padding: 0.45rem 0.7rem; font-family: inherit; font-size: 0.9rem;
+  }
+  .add button {
+    background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 6px;
+    padding: 0.4rem 0.9rem; font-family: inherit; cursor: pointer;
+  }
+  .add button:hover { border-color: var(--rose); color: var(--rose); }
+
+  .links { margin-top: 2.2rem; text-align: center; font-family: 'Helvetica Neue',Arial,sans-serif; font-size: 0.78rem; }
+  .links a { color: var(--gold); text-decoration: none; border-bottom: 1px dotted var(--gold); }
+  .links a + a { margin-left: 1.1rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <span class="tag">Husband like Christ &middot; the home it builds</span>
+  <h1>Where do I want to raise a family, and with whom?</h1>
+  <p class="intro">A deep-down question. Thinking about my kids: where they can be raised up, and who they grow up around.</p>
+
+  <div class="key">
+    <b>The place question waits on the church question.</b> I don&rsquo;t feel settled on where to live mostly because I don&rsquo;t yet have a solid church community where I&rsquo;d be happy to see my children grow. Find the people first; the place tends to follow.
+  </div>
+
+  <div class="part" style="--c: var(--rose)">
+    <span class="tag">Preparing now</span>
+    <h2>An excellent father</h2>
+    <ul>
+      <li>Learn how to be an excellent father, ahead of time, not on the job.</li>
+      <li>Children who grow up well in the Lord.</li>
+      <li>Tracked weekly in <a href="grow.html" style="color:var(--rose)">Growth Edges</a>: fatherhood reading or conversations.</li>
+    </ul>
+    <p class="verse">&ldquo;You shall teach them diligently to your children, and shall talk of them when you sit in your house&hellip;&rdquo; &mdash; Deuteronomy 6:7</p>
+    <textarea data-f="father" placeholder="The father I want to be&hellip;"></textarea>
+  </div>
+
+  <div class="part" style="--c: var(--gold)">
+    <span class="tag">How they&rsquo;re raised</span>
+    <h2>Homeschool, and the kids they grow up around</h2>
+    <ul>
+      <li>Pretty set on homeschooling, maybe with some online classes.</li>
+      <li>Around other kids I&rsquo;d be happy for mine to be like and be influenced by.</li>
+      <li>Not outsourcing it all: the home comes first.</li>
+    </ul>
+    <p class="ask">How do I get kids that look like Leo&rsquo;s kids? Is it the kids around them, or the discipline and discipleship at home? Probably both, in that order: what children see in their parents and home forms them most, and good friends reinforce it. The best way to find out is to ask Leo&rsquo;s parents what they did.</p>
+    <p class="verse">&ldquo;Whoever walks with the wise becomes wise.&rdquo; &mdash; Proverbs 13:20</p>
+    <textarea data-f="raising" placeholder="What I learn from Leo&rsquo;s parents, and others whose kids walk with the Lord&hellip;"></textarea>
+  </div>
+
+  <div class="part" style="--c: var(--blue)">
+    <span class="tag">Weighing it, in order</span>
+    <h2>Where to live</h2>
+    <ul>
+      <li><b>1. A church community</b> where I&rsquo;d be glad to see my children grow. <span class="m">The only place I&rsquo;ve seen it done well: the church in Hawaii.</span></li>
+      <li><b>2. Families</b> whose kids I&rsquo;d want mine to be like.</li>
+      <li><b>3. Missional fit:</b> college ministry, campuses within reach.</li>
+      <li><b>4. What I love:</b> Orange County, next to Disneyland and Knott&rsquo;s Berry Farm. <span class="m">Practical and a little selfish, and that&rsquo;s okay to name.</span></li>
+      <li><b>5. The hard parts:</b> Southern California is not easy: cost, and how far left the culture is.</li>
+    </ul>
+    <div class="places" id="places"></div>
+    <div class="add">
+      <input id="newPlace" placeholder="Add a place to weigh&hellip;">
+      <button id="addPlace">Add</button>
+    </div>
+  </div>
+
+  <div class="part" style="--c: var(--green)">
+    <span class="tag">Five years out &mdash; held open-handed</span>
+    <h2>What I&rsquo;m doing in five years</h2>
+    <p class="ask">A longer-term picture, while staying sensitive to what the Lord is doing now and ready for Him to redirect.</p>
+    <textarea data-f="fiveYears" placeholder="By 2031: where I live, my church, my family, my ministry, my work&hellip;"></textarea>
+  </div>
+
+  <div class="part" style="--c: var(--gold)">
+    <span class="tag">Growing old</span>
+    <h2>The long picture</h2>
+    <ul>
+      <li>My kids living nearby as I grow old.</li>
+      <li>Maybe homes in more than one place, so we can travel and my wife can be with her grandkids, with the whole family together.</li>
+      <li>A setup like Leo&rsquo;s parents have.</li>
+      <li>Somewhere to settle more permanently. Not decided yet.</li>
+    </ul>
+    <textarea data-f="longTerm" placeholder="What I love about Leo&rsquo;s parents&rsquo; setup, and where I might settle&hellip;"></textarea>
+  </div>
+
+  <p class="links">
+    <a href="index.html">The whole vision</a>
+    <a href="grow.html">Where I&rsquo;m growing</a>
+    <a href="discern.html?what=Where%20should%20we%20raise%20our%20family%3F">Walk this decision through</a>
+  </p>
+
+</div>
+
+<script>
+(function () {
+  var KEY = 'vision-app-v2';
+  var state;
+  try { state = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { state = {}; }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+
+  var F = state.family = state.family || {};
+  F.places = F.places || [
+    { name: 'Orange County', note: 'What I love: Disneyland, Knott’s. Near campuses. Still looking for the church community.' },
+    { name: 'Hawaii', note: 'The one church where I’ve seen kids raised well. Missionally, I don’t see myself staying there.' }
+  ];
+  save();
+
+  document.querySelectorAll('textarea[data-f]').forEach(function (t) {
+    var f = t.getAttribute('data-f');
+    t.value = F[f] || '';
+    t.addEventListener('input', function () { F[f] = t.value; save(); });
+  });
+
+  function editable(el, text, set) {
+    el.textContent = text;
+    el.contentEditable = 'true';
+    el.spellcheck = false;
+    el.addEventListener('input', function () { set(el.textContent); save(); });
+  }
+
+  function render() {
+    var wrap = document.getElementById('places');
+    wrap.innerHTML = '';
+    F.places.forEach(function (p) {
+      var d = document.createElement('div');
+      d.className = 'place';
+      var x = document.createElement('button');
+      x.className = 'x';
+      x.textContent = '✕';
+      x.addEventListener('click', function () {
+        F.places.splice(F.places.indexOf(p), 1);
+        save(); render();
+      });
+      var nm = document.createElement('div');
+      nm.className = 'nm';
+      editable(nm, p.name, function (v) { p.name = v; });
+      var nt = document.createElement('div');
+      nt.className = 'nt';
+      editable(nt, p.note || 'Church? Families? Mission? Cost?', function (v) { p.note = v; });
+      d.appendChild(x); d.appendChild(nm); d.appendChild(nt);
+      wrap.appendChild(d);
+    });
+  }
+
+  function addPlace() {
+    var input = document.getElementById('newPlace');
+    var v = input.value.trim();
+    if (!v) return;
+    F.places.push({ name: v, note: '' });
+    input.value = '';
+    save(); render();
+  }
+  document.getElementById('addPlace').addEventListener('click', addPlace);
+  document.getElementById('newPlace').addEventListener('keydown', function (e) { if (e.key === 'Enter') addPlace(); });
+
+  render();
+})();
+</script>
+</body>
+</html>

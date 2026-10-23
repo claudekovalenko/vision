@@ -19,6 +19,8 @@ held in light of eternity.
 - **My Gifts** — name how God has wired you, so pursuits can be traced back to gifting
 - **Decision Filter** — write out a decision and test it against remaining in Jesus,
   each central pursuit, and your gifts; get an alignment read-out
+- **Family & where to live** (`family.html`) — fatherhood, homeschooling, the kids mine grow up around,
+  where to live (church first), five years out, and the long picture
 - **Growth Edges** (`grow.html`) — the areas I'm deliberately growing in (strength, passive
   income, a disciple-making pathway, preaching that leads to discipleship, role clarity, confidence in
   my convictions about the church, deep friendships). Each one names the calling it serves, a season objective, one next step, and a
