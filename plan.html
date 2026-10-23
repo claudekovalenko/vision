@@ -658,6 +658,10 @@
       }
     }
   } catch (e) { state = JSON.parse(JSON.stringify(defaults)); }
+  // Another page may have saved first (e.g. Growth Edges); fill in anything missing.
+  Object.keys(defaults).forEach(function (k) {
+    if (state[k] === undefined) state[k] = JSON.parse(JSON.stringify(defaults[k]));
+  });
   state.gifts = state.gifts || [];
   state.values = state.values || JSON.parse(JSON.stringify(defaults.values));
   state.barriers = state.barriers || JSON.parse(JSON.stringify(defaults.barriers));
@@ -849,6 +853,30 @@
       if (!br4.some(function (p) { return p.title === item.title; })) br4.push(item);
     });
     state.seededV4 = true;
+  }
+
+  // Lifelong rhythms, fatherhood, and plans held open-handed.
+  if (!state.seededLifelong) {
+    var rh5 = state.rhythms = state.rhythms || [];
+    [
+      { title: 'Deeper love for the Lord', note: 'For the rest of my life. God Himself is the end goal, not theology, ministry, or learning.' },
+      { title: 'Growing in theology', note: 'Careful, lifelong learning: depth in Scripture and sound doctrine. Commentary-style study lives in Deep Study.' },
+      { title: 'Church history & the greats', note: 'Learning from the saints who went before: church history and biographies. Kept in The Library.' }
+    ].forEach(function (item) {
+      if (!rh5.some(function (p) { return p.title === item.title; })) rh5.push(item);
+    });
+    var mp5 = state.marriagePrep = state.marriagePrep || [];
+    if (!mp5.some(function (p) { return p.title === 'An excellent father'; })) {
+      mp5.push({ title: 'An excellent father', note: 'Preparing now, ahead of time, to raise children who grow up well in the Lord.' });
+    }
+    var dr5 = state.dreams = state.dreams || [];
+    [
+      { title: 'Where we will live', note: 'Not yet known. Held open-handed; worked out in the five-year plan.' },
+      { title: 'A five-year picture', note: 'A longer-term vision of what I am doing in five years, held loosely: sensitive to what the Lord is doing now and ready for Him to redirect. Lives in the Planning app.' }
+    ].forEach(function (item) {
+      if (!dr5.some(function (p) { return p.title === item.title; })) dr5.push(item);
+    });
+    state.seededLifelong = true;
   }
 
   function save() {
