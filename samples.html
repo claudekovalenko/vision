@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Layout Samples</title>
+<style>
+  :root {
+    --bg: #0e1014; --panel: #171a20; --panel-2: #1d212a;
+    --ink: #ece8e1; --muted: #8f8a81; --gold: #c9a25e; --gold-dim: rgba(201,162,94,0.10);
+    --rose: #cf8fa0; --blue: #7fa8c9; --green: #8fbf8f; --rust: #b0655a; --line: #262a33;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--ink); font-family: Georgia,'Times New Roman',serif; line-height: 1.45; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+  .tag { font-size: 0.6rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--muted); font-family: 'Helvetica Neue',Arial,sans-serif; }
+  h1 { font-size: 1.5rem; font-weight: normal; color: var(--gold); margin-top: 0.4rem; }
+  .intro { margin-top: 0.6rem; color: var(--muted); font-style: italic; font-size: 0.92rem; }
+
+  .tabs { margin-top: 1.4rem; display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .tabs button {
+    background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 999px;
+    padding: 0.4rem 1rem; font-family: inherit; font-size: 0.9rem; cursor: pointer;
+  }
+  .tabs button.on { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+
+  .opt { display: none; margin-top: 1.2rem; }
+  .opt.on { display: block; }
+  .opt > h2 { font-size: 1.15rem; font-weight: normal; }
+  .opt > .sum { margin-top: 0.3rem; color: var(--muted); font-size: 0.9rem; }
+  .pick { margin-top: 0.4rem; color: var(--gold); font-size: 0.85rem; font-style: italic; }
+
+  /* A phone-ish frame that holds a sample screen */
+  .screen {
+    margin-top: 1rem; border: 1px solid #333846; border-radius: 14px; background: #0b0d11;
+    padding: 1rem 0.9rem 1.1rem;
+  }
+  .screen > .tag { display: block; text-align: center; margin-bottom: 0.7rem; color: #6c6860; }
+
+  .roof { text-align: center; border: 1px solid var(--gold); background: var(--gold-dim); border-radius: 10px 10px 4px 4px; padding: 0.8rem 1rem; }
+  .roof .aim { margin-top: 0.3rem; color: var(--gold); font-size: 1.05rem; }
+  .roof small { display: block; color: var(--muted); font-style: italic; font-size: 0.78rem; margin-top: 0.25rem; }
+  .flow { text-align: center; color: var(--muted); padding: 0.25rem 0; font-size: 0.9rem; }
+
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+  .col { border: 1px solid var(--line); border-top: 3px solid var(--c); border-radius: 6px; background: var(--panel); padding: 0.7rem 0.75rem; }
+  .col h3 { font-size: 0.98rem; font-weight: normal; color: var(--c); margin-top: 0.2rem; }
+  .col .s { color: var(--muted); font-style: italic; font-size: 0.75rem; margin-top: 0.15rem; }
+  .chips { margin-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.25rem; }
+  .chip { border: 1px solid var(--line); border-radius: 999px; padding: 0.1rem 0.5rem; font-size: 0.72rem; background: var(--panel-2); }
+  .chip.go { border-color: var(--c); color: var(--c); font-family: 'Helvetica Neue',Arial,sans-serif; }
+  .chip.out { border-style: dashed; color: var(--muted); }
+
+  .base { margin-top: 0.1rem; border: 1px solid var(--gold); border-radius: 4px 4px 10px 10px; background: var(--gold-dim); padding: 0.65rem 0.9rem; text-align: center; }
+  .base h3 { font-size: 0.98rem; font-weight: normal; color: var(--gold); margin-top: 0.15rem; }
+  .base .chips { justify-content: center; }
+
+  .page h3 { font-size: 1.15rem; font-weight: normal; color: var(--c); margin-top: 0.2rem; }
+  .row { margin-top: 0.7rem; border-left: 2px solid var(--line); padding-left: 0.7rem; }
+  .row .t { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); font-family: 'Helvetica Neue',Arial,sans-serif; }
+  .row p { font-size: 0.86rem; margin-top: 0.15rem; }
+  .row .m { color: var(--muted); font-style: italic; }
+  .row.new { border-left-color: var(--c); }
+  .badge { font-size: 0.58rem; font-family: 'Helvetica Neue',Arial,sans-serif; letter-spacing: 0.12em; text-transform: uppercase; color: var(--c); margin-left: 0.4rem; }
+
+  .apps { margin-top: 1rem; display: grid; gap: 0.35rem; font-size: 0.85rem; }
+  .apps div { display: flex; justify-content: space-between; gap: 0.6rem; border-top: 1px solid var(--line); padding-top: 0.35rem; }
+  .apps .k { color: var(--muted); font-family: 'Helvetica Neue',Arial,sans-serif; font-size: 0.75rem; }
+  .apps .stay { color: var(--green); }
+  .apps .in { color: var(--gold); }
+  .apps .gone { color: var(--rust); }
+
+  .proscons { margin-top: 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; font-size: 0.85rem; }
+  .proscons div { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 0.6rem 0.75rem; }
+  .proscons ul { margin: 0.3rem 0 0 1rem; }
+
+  .links { margin-top: 2.2rem; text-align: center; font-family: 'Helvetica Neue',Arial,sans-serif; font-size: 0.78rem; }
+  .links a { color: var(--gold); text-decoration: none; border-bottom: 1px dotted var(--gold); }
+
+  @media (max-width: 560px) {
+    .cols, .proscons { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <span class="tag">Samples only &mdash; nothing has changed yet</span>
+  <h1>Three ways the app could go</h1>
+  <p class="intro">All three put your two main things in front: raising your children, and raising disciples. Tap through them. There&rsquo;s no rush to pick.</p>
+
+  <div class="tabs">
+    <button data-o="a" class="on">A &middot; Reframe</button>
+    <button data-o="b">B &middot; Two pages</button>
+    <button data-o="c">C &middot; Full merge</button>
+  </div>
+
+  <!-- OPTION A -->
+  <section class="opt on" id="opt-a">
+    <h2>A &middot; Just reframe</h2>
+    <p class="sum">Same app, same pages. Only the main page&rsquo;s headline and the two callings are renamed around &ldquo;raised up.&rdquo;</p>
+
+    <div class="screen">
+      <span class="tag">Sample &middot; main page</span>
+      <div class="roof">
+        <span class="tag">What it is all for</span>
+        <p class="aim">People raised up to look like Jesus</p>
+        <small>Sent, not sheltered. Unshaken in the world, salt in it.</small>
+      </div>
+      <p class="flow">&#9650;</p>
+      <div class="cols">
+        <div class="col" style="--c: var(--rose)">
+          <span class="tag">Calling</span>
+          <h3>Raising my children</h3>
+          <p class="s">A husband and father who looks like Christ.</p>
+          <div class="chips">
+            <span class="chip">An excellent father</span>
+            <span class="chip">Homeschool</span>
+            <span class="chip">Good kids around them</span>
+            <span class="chip">My wife flourishing</span>
+            <span class="chip go">Where &amp; with whom? &rarr;</span>
+          </div>
+        </div>
+        <div class="col" style="--c: var(--gold)">
+          <span class="tag">Calling</span>
+          <h3>Raising disciples</h3>
+          <p class="s">College ministry. Love like the persecuted church.</p>
+          <div class="chips">
+            <span class="chip">Gen Z campuses</span>
+            <span class="chip">Sharing in their DNA</span>
+            <span class="chip">Planted in healthy churches</span>
+            <span class="chip">Send to the nations</span>
+          </div>
+        </div>
+      </div>
+      <p class="flow">&#9650;</p>
+      <div class="base">
+        <span class="tag">Everything rests here</span>
+        <h3>Remain in Jesus &mdash; me raised up first</h3>
+        <div class="chips">
+          <span class="chip">Word</span><span class="chip">Prayer</span><span class="chip">Theology</span><span class="chip">Church history</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="apps">
+      <div><span>Vision</span><span class="k stay">renamed only</span></div>
+      <div><span>Marriage apps, church-finder, college-vision, planning</span><span class="k stay">stay as they are</span></div>
+    </div>
+    <div class="proscons">
+      <div><span class="tag">Good</span><ul><li>Smallest change</li><li>Main idea is clearer right away</li></ul></div>
+      <div><span class="tag">Less good</span><ul><li>Each calling is still spread over chips and several pages</li></ul></div>
+    </div>
+  </section>
+
+  <!-- OPTION B -->
+  <section class="opt" id="opt-b">
+    <h2>B &middot; Two pages, one for each calling</h2>
+    <p class="sum">The main page from A, plus one page per calling that holds everything about it. Tapping a calling opens its page.</p>
+    <p class="pick">The one I&rsquo;d lean toward.</p>
+
+    <div class="screen page" style="--c: var(--rose)">
+      <span class="tag">Sample &middot; Raising my children page</span>
+      <h3>Raising my children</h3>
+      <div class="row"><span class="t">The aim</span><p>Kids who love Jesus and are sent into the world, unshaken. Not just protected from it.</p></div>
+      <div class="row"><span class="t">The father I&rsquo;m becoming</span><p>Preparing now. <span class="m">Weekly: fatherhood reading or a conversation.</span></p></div>
+      <div class="row new"><span class="t">Our marriage first<span class="badge">from marriage-values</span></span><p>The values we hold as a couple. A healthy marriage is the first thing kids grow up inside.</p></div>
+      <div class="row"><span class="t">How they&rsquo;re raised</span><p>Homeschool. Around kids I&rsquo;d want them to be like. <span class="m">Ask Leo&rsquo;s parents what they did.</span></p></div>
+      <div class="row"><span class="t">Where &amp; with whom</span><p>Church community first, then families, mission, what I love, the hard parts.</p></div>
+      <div class="row"><span class="t">The long picture</span><p>Kids nearby as I grow old. Homes in more than one place.</p></div>
+    </div>
+
+    <div class="screen page" style="--c: var(--gold)">
+      <span class="tag">Sample &middot; Raising disciples page</span>
+      <h3>Raising disciples</h3>
+      <div class="row"><span class="t">The aim</span><p>Disciples who look like Jesus and love like the persecuted church.</p></div>
+      <div class="row"><span class="t">What they look like</span><p>Planted &middot; sound doctrine &middot; sharing in their DNA &middot; love even enemies &middot; salt and light &middot; healthy families</p></div>
+      <div class="row"><span class="t">Where</span><p>College campuses, the most strategic place. Carried further by social media.</p></div>
+      <div class="row new"><span class="t">Where I send them<span class="badge">new</span></span><p>Healthy churches. My convictions <span class="m">(being worked on)</span> &middot; churches I&rsquo;ve checked: ready to send / send with care / don&rsquo;t send.</p></div>
+      <div class="row"><span class="t">The campus plan</span><p><span class="chip out">Cypress College vision &rarr;</span> <span class="m">stays its own app; linked here</span></p></div>
+    </div>
+
+    <div class="apps">
+      <div><span>Vision</span><span class="k in">gains two pages</span></div>
+      <div><span>marriage-values</span><span class="k in">values copied in</span></div>
+      <div><span>marriage-rythems, marrige-prep</span><span class="k stay">stay as they are</span></div>
+      <div><span>college-vision</span><span class="k stay">stays; linked</span></div>
+      <div><span>church-finder, planning</span><span class="k stay">stay as they are</span></div>
+    </div>
+    <div class="proscons">
+      <div><span class="tag">Good</span><ul><li>Each calling is one page you can see whole</li><li>Your other apps keep doing their own job</li></ul></div>
+      <div><span class="tag">Less good</span><ul><li>Marriage values would live in two places unless that app is retired</li></ul></div>
+    </div>
+  </section>
+
+  <!-- OPTION C -->
+  <section class="opt" id="opt-c">
+    <h2>C &middot; Full merge</h2>
+    <p class="sum">The same two pages as B, but the other apps move in completely and are retired.</p>
+
+    <div class="screen page" style="--c: var(--blue)">
+      <span class="tag">Sample &middot; Vision app menu</span>
+      <div class="row new"><span class="t">Main</span><p>The whole vision</p></div>
+      <div class="row new"><span class="t">Raising my children</span><p>Father &middot; marriage values &middot; marriage rhythms &middot; marriage prep &middot; where to live &middot; five years</p></div>
+      <div class="row new"><span class="t">Raising disciples</span><p>Marks &middot; campuses &middot; Cypress plan &amp; Discovery Bible Study &middot; social media</p></div>
+      <div class="row new"><span class="t">Church</span><p>My convictions &middot; church finder &middot; health checks</p></div>
+      <div class="row"><span class="t">Me</span><p>Today &middot; growth edges &middot; decisions</p></div>
+    </div>
+
+    <div class="apps">
+      <div><span>Vision</span><span class="k in">holds everything</span></div>
+      <div><span>marriage-values, marriage-rythems, marrige-prep</span><span class="k gone">retired</span></div>
+      <div><span>church-finder, college-vision, planning (family parts)</span><span class="k gone">retired</span></div>
+    </div>
+    <div class="proscons">
+      <div><span class="tag">Good</span><ul><li>One app, one place for everything</li></ul></div>
+      <div><span class="tag">Less good</span><ul><li>Much bigger and heavier</li><li>Loses apps that work well alone, like the Cypress one other leaders use</li></ul></div>
+    </div>
+  </section>
+
+  <p class="links"><a href="index.html">Back to the vision</a></p>
+
+</div>
+<script>
+  document.querySelectorAll('.tabs button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('.tabs button').forEach(function (x) { x.classList.toggle('on', x === b); });
+      document.querySelectorAll('.opt').forEach(function (s) { s.classList.toggle('on', s.id === 'opt-' + b.getAttribute('data-o')); });
+    });
+  });
+</script>
+</body>
+</html>
