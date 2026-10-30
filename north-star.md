@@ -1,4 +1,6 @@
-# North Star
+# North Star — October 2026
+
+> Raw journal entry, now woven into the [main vision](index.html) under the ministry calling.
 
 Hosting worship nights with the Word — that's what I want to do. I absolutely love that.
 
